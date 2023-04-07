@@ -1,0 +1,84 @@
+{% extends 'basefront.html.twig' %}
+
+{%block css%}
+<link href="css/style.css" rel="stylesheet" />
+<link href="css/table.css" rel="stylesheet" />
+{%endblock%}
+
+{%block bodysection%}
+<h1> Candidatures </h1>
+{# <table border="1">
+    <tr>
+ 
+    </tr>
+        {%for l in list %}
+
+    <tr class='card'>
+
+        <td>{{l.id}}</td>
+
+        <td>{{l.cv}}</td>
+        
+        <td>{{l.lettre}}</td>
+
+        <td>{{l.idcandidat.id}}</td>
+        <td>{{l.idcandidat.prenom ~ ' ' ~ l.idcandidat.nom}}</td>
+        <td>{{l.idoffre.idoffre}}</td>
+        <td>{{l.idoffre.description}}</td>
+        </td>
+
+
+    </tr>
+
+    {%endfor%}
+
+</table>
+#}
+
+	<style>
+		.example-wrapper {
+			margin: 1em auto;
+			max-width: 800px;
+			width: 95%;
+			font: 18px / 1.5 sans-serif;
+		}
+		.example-wrapper code {
+			background: #F5F5F5;
+			padding: 2px 6px;
+		}
+	</style>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4">
+             '{# <a href="{{ path('addCandidature') }}"> Add Candidature</a> #}
+			</div>
+		</div>
+		<div class="row">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Candidature</th>
+					</tr>
+				</thead>
+				<tbody>
+					{%for l in list %}
+						<tr>
+							<td>{{l.idoffre.poste}}</td>
+
+							<td>
+								<a class="btn btn-danger" href="{{path('deleteCandidature',{'id':l.id})}}">Delete</a>
+							</td>
+							<td>
+								<a class="btn btn-primary" href="{{path('updateCandidature',{'id':l.id})}}">Update</a>
+							</td>
+
+
+						</tr>
+						{%endfor%}</tbody>
+				</tbody>
+			</table>
+		</div>
+	</div>
+{% endblock %}
+
