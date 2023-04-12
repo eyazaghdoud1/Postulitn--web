@@ -1,9 +1,5 @@
 {% extends 'basefront.html.twig' %}
 
-{%block css%}
-<link href="css/style.css" rel="stylesheet"/>
-<link href="css/table.css" rel="stylesheet"/>
-{%endblock%}
 
 {%block bodysection%}
 <div class="container" style="width:100% !important;">
@@ -60,7 +56,7 @@
 		<!-- Testimonial 1-->
 		<div class="card mb-4">
 			<div class="card-body p-4">
-			 <h4>Recruteur: Foulen Fouleni </h4>
+			 <h4>Candidat: Foulen Fouleni </h4>
 			 <h6> Total des entretiens à venir: {{count}} </h6>
 			</div>
 		</div>
@@ -74,32 +70,27 @@
 			<table class="table table-striped">
 				<thead>
 					<tr>
+                    <th>Type de l'entretien</th>
 						<th>Date</th>
 						<th>Horaire</th>
-						<th>Type d'entretien</th>
-						<th>Candidat</th>
+                        <th>Lieu</th>
 						<th>Offre</th>
+                        <th>Résultat</th>
 						<th>Candidature</th>
-						<th>Update</th>
-						<th>Delete</th>
+						
 					</tr>
 				</thead>
 				<tbody>
 					{%for l in list %}
 						<tr>
+                        <td>{{l.type}}</td>
 							<td>{{l.date|date('Y-m-d')}}</td>
 							<td>{{l.heure}}</td>
-							<td>{{l.type}}</td>
-							<td>{{l.idcandidature.idcandidat.nom ~ ' '~ l.idcandidature.idcandidat.prenom}}</td>
+							<td>{{l.lieu}}</td>
 							<td>{{l.idcandidature.idoffre.poste}}</td>
+                            <td></td>
 							<td>
 								<a class="btn btn-primary" href="#">Details</a>
-							</td>
-							<td>
-								<a class="btn btn-primary" href="{{path('updateEntretien', {'id':l.id})}}">Update</a>
-							</td>
-							<td>
-								<a class="btn btn-danger" href="{{path('deleteEntretien', {'id':l.id})}}">Delete</a>
 							</td>
 
 

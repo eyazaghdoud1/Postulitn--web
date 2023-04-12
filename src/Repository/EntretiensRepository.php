@@ -63,4 +63,142 @@ class EntretiensRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+/**
+     * 
+     * entretiens par candidature
+     */
+    public function findByOffre($idcandidature)
+    {
+        $querybuilder = $this -> createQueryBuilder('e')
+        ->join('e.idcandidature', 'c') // champ de jointure & alias de l'entité offre
+        ->addSelect('c') // select de l'entité jointe classroom
+        ->where('c.id= :id')
+        ->setParameter('id',$idcandidature);
+        return $query = $querybuilder->getQuery()->getResult();
+    }
+
+    /**
+     * 
+     * nombre d'entretiens à venir par candidature
+     */
+    public function numberOfEntretiensPerCandidature($idcandidature) {
+        $em=$this->getEntityManager();
+        $query=$em->createQuery('SELECT count(e) FROM App\Entity\Entretiens e WHERE  e.idcandidature = :id')
+        ->setParameter('id',$idcandidature);
+        return $query->getSingleScalarResult();
+
+    }
+    /** 
+    * 
+    * entretiens par recruteur
+    */
+   public function findByRecruteur($id)
+   {
+       $querybuilder = $this -> createQueryBuilder('e')
+       ->join('e.idcandidature', 'c') 
+       ->join('c.idoffre', 'o') 
+       ->join('o.idrecruteur', 'u') 
+       ->where('u.id= :id')
+       ->setParameter('id',$id);
+       return $query = $querybuilder->getQuery()->getResult();
+   }
+    /**
+     * 
+     * nombre total des entretiens  par recruteur
+     */
+    public function numberOfEntretiensPerRecruteur($id) {
+        $querybuilder = $this -> createQueryBuilder('e');
+        $querybuilder->select('COUNT(e.id)')
+        ->join('e.idcandidature', 'c') 
+        ->join('c.idoffre', 'o') 
+        ->join('o.idrecruteur', 'u') 
+        ->where('u.id= :id')
+        ->setParameter('id',$id);
+        return $query = $querybuilder->getQuery()->getSingleScalarResult();
+
+    }
+    /**
+     * 
+     * nombre des entretiens à venir par recruteur
+     */
+    public function numberOfPlannedEntretiens($id) {
+        $querybuilder = $this -> createQueryBuilder('e');
+        $querybuilder->select('COUNT(e.id)')
+        ->join('e.idcandidature', 'c') 
+        ->join('c.idoffre', 'o') 
+        ->join('o.idrecruteur', 'u') 
+        ->where('u.id= :id')
+        ->AndWhere('e.date > :date')
+        ->setParameter('id',$id)
+        ->setParameter('date', new \DateTime());
+        return $query = $querybuilder->getQuery()->getSingleScalarResult();
+
+    }
+    /**
+     * 
+     * liste des entretiens  à venir par recruteur
+     */
+    public function plannedEntretiens($id) {
+        $querybuilder = $this -> createQueryBuilder('e')
+        
+        ->join('e.idcandidature', 'c') 
+        ->join('c.idoffre', 'o') 
+        ->join('o.idrecruteur', 'u') 
+        ->where('u.id= :id')
+        ->AndWhere('e.date > :date')
+        ->setParameter('id',$id)
+        ->setParameter('date', new \DateTime());
+        return $query = $querybuilder->getQuery()->getResult();
+
+    }
+    /**
+     * 
+     * filtre pour recruteur par date
+     */
+    public function filterByDateForRecruteur($id, $date) {
+        $querybuilder = $this -> createQueryBuilder('e')
+        
+        ->join('e.idcandidature', 'c') 
+        ->join('c.idoffre', 'o') 
+        ->join('o.idrecruteur', 'u') 
+        ->where('u.id= :id')
+        ->andWhere('e.date = :date')
+        ->orderBy('e.heure', 'DESC')
+        ->setParameter('id',$id)
+        ->setParameter('date', $date);
+        return $query = $querybuilder->getQuery()->getResult();
+
+    }
+    /**
+     * 
+     * filtre pour candidat par date
+     */
+    public function filterByDateForCandidat($id, $date) {
+        $querybuilder = $this -> createQueryBuilder('e')
+        
+        ->join('e.idcandidature', 'c') 
+        ->where('c.idcandidat= :id')
+        ->andWhere('e.date = :date')
+        ->orderBy('e.heure', 'DESC')
+        ->setParameter('id',$id)
+        ->setParameter('date', $date);
+        
+        return $query = $querybuilder->getQuery()->getResult();
+
+    }
+    /**
+     * 
+     * filtre pour candidat par candidature
+     */
+    public function filterByCandidature($id) {
+        $querybuilder = $this -> createQueryBuilder('e')
+        ->where('e.idcandidature= :id')
+        ->setParameter('id',$id)
+        ;
+        
+        return $query = $querybuilder->getQuery()->getResult();
+
+    }
+
 }

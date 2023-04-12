@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 use App\Repository\CandidaturesRepository;
 use DateTime;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: CandidaturesRepository::class)]
 class Candidatures
@@ -31,6 +33,7 @@ class Candidatures
      * @ORM\Column(name="cv", type="string", length=100, nullable=false)
      */
     #[ORM\Column(length:100, nullable:false)]
+    #[Assert\NotBlank(message:"Vous devez insérer votre CV.")]
     private ?string $cv = null;
 
     /*
@@ -40,6 +43,7 @@ class Candidatures
      * @ORM\Column(name="lettre", type="string", length=100, nullable=false)
      */
     #[ORM\Column(length:100, nullable:false)]
+    #[Assert\NotBlank(message:"Vous devez insérer votre lettre de motivation.")]
     private ?string $lettre = null;
 
     /*

@@ -30,8 +30,10 @@ class EntretiensController extends AbstractController
     #[Route('/entretiens', name: 'readEntretiens')]
     public function readEntretiens(EntretiensRepository $Rep):Response
     {
-        $list = $Rep->findAll();
-        return $this->render('entretiens/readEntretiens.html.twig', ['list' => $list
+       // $list = $Rep->findAll();
+       $list = $Rep->findByRecruteur(69);
+       $count = $Rep->numberOfEntretiensPerRecruteur(69);
+        return $this->render('entretiens/readEntretiens.html.twig', ['list' => $list, 'count'=>$count
         ]);
 
     }
@@ -54,21 +56,24 @@ class EntretiensController extends AbstractController
      * add entretien method
      */
 
-    #[Route('/addEntretien/{id}', name: 'addEntretien')]
-    public function addEntretien(ManagerRegistry $doctrine, Request $request, EntretiensRepository $candRepo, $id): Response
+    #[Route('/addEntretien', name: 'addEntretien')]
+    public function addEntretien(ManagerRegistry $doctrine, Request $request, CandidaturesRepository $candRepo): Response
     {
         $entretien = new Entretiens();
-        //$entretien->setIdcandidat($userRepo->find(55));
-        $entretien->setIdcandidature($candRepo->find($id));
+       
+        $entretien->setIdcandidature($candRepo->find(29));
+        //$entretien->setIdcandidature($candRepo->find($id));
         $form = $this->createForm(EntretiensType::class, $entretien);
-        $form->handleRequest($request); //permet de gerer le traitement
+        $form->handleRequest($request); 
         if ($form->isSubmitted() && $form->isValid()) {
+            //formatting the time to only save the hours and minutes
+            $entretien->setHeure(substr($form->get('heure')->getData(),0,5));
             $em = $doctrine->getManager();
-            $em->persist($entretien); //insert info
-            $em->flush(); //update
+            $em->persist($entretien); 
+            $em->flush(); 
             return $this->redirectToRoute('readEntretiens');
         } else
-            return $this->renderForm('entretiens/addEntretien.html.twig', ['form' => $form->createView()]);
+            return $this->render('entretiens/add.html.twig', ['form' => $form->createView()]);
     }
 
     /**
@@ -77,15 +82,17 @@ class EntretiensController extends AbstractController
      */
     
     #[Route('/updateEntretien/{id}', name: 'updateEntretien')]
-    public function updateCandidature(ManagerRegistry $doctrine, Request $request, $id, EntretiensRepository $repo): Response
+    public function updateEntretien(ManagerRegistry $doctrine, Request $request, $id, EntretiensRepository $repo): Response
     {
 
         $entretien = $repo->find($id);
 
+        $entretien->setHeure($entretien->getHeure().':00');
         $form = $this->createForm(EntretiensType::class, $entretien);
         //$form->add('Modifier', SubmitType::class);
 
         $form->handleRequest($request);
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $en = $doctrine->getManager();
             $en->flush();
@@ -93,7 +100,7 @@ class EntretiensController extends AbstractController
             return $this->redirectToRoute('readEntretiens');
         }
 
-        return $this->render('entretiens/updateEntretiens.html.twig', ['form' => $form->createView()]);
+        return $this->render('entretiens/add.html.twig', ['form' => $form->createView()]);
     }
 
     /**
@@ -101,7 +108,7 @@ class EntretiensController extends AbstractController
      * delete entretien method 
      */
     #[Route('/deleteEntretien/{id}', name: 'deleteEntretien')]
-    public function delete(EntretiensRepository $repo, ManagerRegistry $doctrine, $id): Response
+    public function deleteEntretien(EntretiensRepository $repo, ManagerRegistry $doctrine, $id): Response
     {
 
         $objet=$repo->find($id);

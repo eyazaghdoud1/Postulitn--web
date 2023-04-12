@@ -1,11 +1,8 @@
 
 {% extends 'basefront.html.twig' %}
-{%block css%}
-<link href="css/style.css" rel="stylesheet" />
-<link href="css/table.css" rel="stylesheet" />
-{%endblock%}
+
 {%block bodysection%}
-<div style="margin-bottom:100px; margin-left:100px;">
+{#<div style="margin-bottom:100px; margin-left:100px;">
 <h1> Ajout candidature </h1>
 <div >
 {{ form_start(form,{'attr': {'novalidate': 'novalidate', 'id': 'contactForm'}} ) }}
@@ -25,4 +22,19 @@
  <div class="d-grid"><button class="btn btn-primary btn-lg>{{ form_widget (form.save)  }} </button></div>
 </div>
 {{ form_end (form)  }}
+#}
+
+{#
+{% set cvPath = "http://localhost/postulitn/cv/" ~ cv %}
+
+<object data={{cvPath}}  type="application/pdf" width="20%" height="30%">
+        </object>
+#}
+<form method="post" enctype="multipart/form-data">
+    <label >Cv :</label>
+    <input type="file" name="cv" id="cv" ><br><br>
+    <label >Lettre de motivation :</label>
+    <input type="file" name="lettre" id="lettre" ><br><br>
+    <input type="submit" value="Save">
+</form>
 {%endblock%}

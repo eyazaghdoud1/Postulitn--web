@@ -30,6 +30,7 @@ class CandidaturesRepository extends ServiceEntityRepository
         }
     }
 
+    
     public function remove(Candidatures $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
@@ -38,6 +39,43 @@ class CandidaturesRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    /**
+     * 
+     * candidatures par offre
+     */
+    public function findByOffre($idoffre)
+    {
+        $querybuilder = $this -> createQueryBuilder('c')
+        ->join('c.idoffre', 'o') // champ de jointure & alias de l'entité offre
+        ->addSelect('o') // select de l'entité jointe classroom
+        ->where('c.idoffre= :id')
+        ->setParameter('id',$idoffre);
+        return $query = $querybuilder->getQuery()->getResult();
+    }
+
+    /**
+     * 
+     * nombre de candidatures par candidat
+     */
+    public function numberOfCandidaturePerCandidat($idcandidat) {
+        $em=$this->getEntityManager();
+        $query=$em->createQuery('SELECT count(c) FROM App\Entity\Candidatures c WHERE  c.idcandidat = :id')->setParameter('id',$idcandidat);;
+        return $query->getSingleScalarResult();
+
+    }
+
+    /**
+     * 
+     * nombre de candidatures par offre
+     */
+    public function numberOfCandidaturePerOffre($idoffre) {
+        $em=$this->getEntityManager();
+        $query=$em->createQuery('SELECT count(c) FROM App\Entity\Candidatures c WHERE  c.idoffre = :id')->setParameter('id',$idoffre);;
+        return $query->getSingleScalarResult();
+
+    }
+    
 
 //    /**
 //     * @return Candidatures[] Returns an array of Candidatures objects

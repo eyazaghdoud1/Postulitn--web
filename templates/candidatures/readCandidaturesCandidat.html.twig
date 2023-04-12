@@ -48,6 +48,18 @@
 		}
 	</style>
 
+<div class="row gx-5 justify-content-center">
+	<div
+		class="col-lg-6" style="width:100% !important;">
+		<!-- Testimonial 1-->
+		<div class="card mb-4">
+			<div class="card-body p-4">
+			 <h4>Candidat: Foulen Fouleni </h4>
+			 <h6> Total des candidatures: {{count}} </h6>
+			</div>
+		</div>
+	</div>
+</div>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-4">
@@ -58,20 +70,32 @@
 			<table class="table table-striped">
 				<thead>
 					<tr>
+						<th>Offre</th>
+						<th>Entreprise</th>
+						<th>Type de l'offre</th>
 						<th>Candidature</th>
+						<th>Etat</th>
+						<th>Modifier</th>
+						<th>Supprimer</th>
 					</tr>
 				</thead>
 				<tbody>
 					{%for l in list %}
 						<tr>
 							<td>{{l.idoffre.poste}}</td>
-
+							<td>{{l.idoffre.entreprise}}</td>
+							<td>{{l.idoffre.idtype.description}}</td>
+							<td>
+								<a class="btn btn-primary" href="{{path('detailsCandidatureCandidat', {'id': l.id})}}">Détails</a>
+							</td>
+							<td>{{l.etat}}</td>
+							<td>
+								<a class="btn btn-primary" href="{{path('updateCand',{'id':l.id})}}">Update</a>
+							</td>
 							<td>
 								<a class="btn btn-danger" href="{{path('deleteCandidature',{'id':l.id})}}">Delete</a>
 							</td>
-							<td>
-								<a class="btn btn-primary" href="{{path('updateCandidature',{'id':l.id})}}">Update</a>
-							</td>
+							
 
 
 						</tr>

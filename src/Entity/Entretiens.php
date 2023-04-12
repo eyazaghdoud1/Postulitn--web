@@ -4,10 +4,9 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
-
 use App\Repository\EntretiensRepository;
 use DateTime;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EntretiensRepository::class)]
 class Entretiens
@@ -41,6 +40,8 @@ class Entretiens
      * @ORM\Column(name="date", type="date", nullable=true)
      */
     #[ORM\Column(nullable:true)]
+    #[Assert\NotBlank(message:"Vous devez spécifier la date de l'entretien.")]
+    #[Assert\GreaterThan('today', message:"La date de l'entretien doit succéder la date d'aujourd'hui.")]
     private ?DateTime $date = null ;
 
     /*
@@ -50,6 +51,7 @@ class Entretiens
      * @ORM\Column(name="heure", type="string", length=10, nullable=false)
      */
     #[ORM\Column(length:10, nullable:false)]
+    #[Assert\NotBlank(message:"Vous devez spécifier l'horaire' de l'entretien.")]
     private ?String $heure = null;
 
     /*

@@ -4,6 +4,25 @@
 <h1>
 	Candidatures
 </h1>
+<div class="row gx-5 justify-content-center">
+	<div
+		class="col-lg-6" style="width:100% !important;">
+		<!-- Testimonial 1-->
+		<div class="card mb-4">
+			<div class="card-body p-4">
+				<h2>
+					Offre: Développeur junior
+				</h2>
+				<h4>
+					Date d'expiration: 15-04-2023
+				</h4>
+				<h4>
+					Nombre de candidatures reçues: {{count}}
+				</h4>
+			</div>
+		</div>
+	</div>
+</div>
 <style>
 	.example-wrapper {
 		margin: 1em auto;
@@ -25,24 +44,31 @@
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th>Cv</th>
-					<th>Lettre</th>
-					<th>Candidat</th>
-					<th>Offre</th>
+					<th>Nom et prénom</th>
+
+					<th>Candidature</th>
+					<th>Date de candidature</th>
+					<th>Etat</th>
+					<th>Valider</th>
+					<th>Entretiens</th>
 				</tr>
 			</thead>
 			<tbody>
 				{%for l in list %}
 					<tr>
-						<td>{{l.cv}}</td>
 
-						<td>{{l.lettre}}</td>
 						<td>{{l.idcandidat.prenom ~ ' ' ~ l.idcandidat.nom}}</td>
-						<td>{{l.idoffre.poste}}</td>
-
 						<td>
-							<a class="btn btn-primary" href="#">Details</a>
+							<a class="btn btn-primary" href="{{path('detailsCandidatureRecruteur', {'id': l.id})}}">Détails</a>
 						</td>
+						<td>{{l.date|date('d-m-Y')}}</td>
+						<td>{{l.etat}}</td>
+						<td>
+							<a class="btn btn-primary" href="{{path('validerCandidature',{'id': l.id})}}">Valider</a>
+						</td>
+						<td>
+							Pas d'entretiens</td>
+						{# <td>{{l.idoffre.poste}}</td>#}
 
 
 					</tr>
@@ -83,4 +109,9 @@
 	Add candidature
 </a>
 
+{# to display the pdf 
+<object data="http://localhost/postulitn/cv/CV_ZAGHDOUD_Eya.pdf"  type="application/pdf" width="50%" height="50%">
+        </object>
+
+#}
 {%endblock%}
