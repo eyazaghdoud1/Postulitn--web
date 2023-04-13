@@ -1,0 +1,96 @@
+{% extends 'basefront.html.twig' %}
+
+{% block title %}Comptes index{% endblock %}
+
+{% block bodysection %}
+    <h1>Comptes index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Idcompte</th>
+                <th>Photo</th>
+                <th>Diplome</th>
+                <th>Datediplome</th>
+                <th>Entreprise</th>
+                <th>Experience</th>
+                <th>Domaine</th>
+                <th>Poste</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for compte in comptes %}
+                <tr>
+                    <td>{{ compte.idcompte }}</td>
+                    <td>{{ compte.photo }}</td>
+                    <td>{{ compte.diplome }}</td>
+                    <td>{{ compte.datediplome ? compte.datediplome|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ compte.entreprise }}</td>
+                    <td>{{ compte.experience }}</td>
+                    <td>{{ compte.domaine }}</td>
+                    <td>{{ compte.poste }}</td>
+                    <td>
+                        <div style="display: flex;">
+                            <a href="{{ path('app_comptes_show', {'idcompte': compte.idcompte}) }}" class="btn btn-primary">Show</a>
+                            <a href="{{ path('app_comptes_edit', {'idcompte': compte.idcompte}) }}" class="btn btn-success" style="margin-left: 1em;">Edit</a>
+                            {{ include('comptes/_delete_form.html.twig', {'idcompte': compte.idcompte}) }}
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="9">No records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_comptes_new') }}" class="btn btn-primary" style="margin-top: 1em;">Create new</a>
+
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            text-align: left;
+            padding: 8px;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        th {
+            background-color: #4CAF50;
+            color: black;
+        }
+        .btn {
+            display: inline-block;
+            margin-bottom: 0;
+            font-weight: 400;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            cursor: pointer;
+            background-image: none;
+            border: 1px solid transparent;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            border-radius: 4px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        .btn-primary {
+            color: #fff;
+            background-color: #337ab7;
+            border-color: #2e6da4;
+        }
+        .btn-primary:hover,
+        .btn-primary:focus
+ </style>
+{% endblock %}

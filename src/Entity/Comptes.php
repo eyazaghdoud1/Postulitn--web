@@ -6,6 +6,10 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ComptesRepository;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: ComptesRepository::class)]
 class Comptes
@@ -28,6 +32,7 @@ class Comptes
      * @var string|null
      *
      * @ORM\Column(name="photo", type="string", length=200, nullable=true)
+     * @Assert\NotBlank
      */
     
     #[ORM\Column(length:200, nullable:true)]
@@ -38,6 +43,7 @@ class Comptes
      * @var string|null
      *
      * @ORM\Column(name="diplome", type="string", length=50, nullable=true)
+     * @Assert\NotBlank
      */
     #[ORM\Column(length:50, nullable:true)]
     private ?string $diplome = null;
@@ -47,6 +53,7 @@ class Comptes
      * @var \DateTime|null
      *
      * @ORM\Column(name="dateDiplome", type="date", nullable=true)
+     * @Assert\NotBlank
      */
     #[ORM\Column(nullable:true)]
     private ?DateTime $datediplome = null;
@@ -56,6 +63,7 @@ class Comptes
      * @var string|null
      *
      * @ORM\Column(name="entreprise", type="string", length=50, nullable=true)
+     * @Assert\NotBlank
      */
     #[ORM\Column(length:50, nullable:true)]
     private ?string $entreprise = null;
@@ -65,6 +73,7 @@ class Comptes
      * @var string|null
      *
      * @ORM\Column(name="experience", type="string", length=50, nullable=true)
+     * @Assert\NotBlank
      */
     #[ORM\Column(length:50, nullable:true)]
     private ?string $experience = null;
@@ -74,6 +83,7 @@ class Comptes
      * @var string
      *
      * @ORM\Column(name="domaine", type="string", length=200, nullable=false)
+     * @Assert\NotBlank
      */
     #[ORM\Column(length:200, nullable:false)]
     private ?string $domaine = null;
@@ -83,6 +93,7 @@ class Comptes
      * @var string|null
      *
      * @ORM\Column(name="poste", type="string", length=200, nullable=true)
+     * @Assert\NotBlank
      */
     #[ORM\Column(length:200, nullable:true)]
     private ?string $poste = null;
@@ -200,6 +211,8 @@ class Comptes
 
         return $this;
     }
+
+
 
 
 }

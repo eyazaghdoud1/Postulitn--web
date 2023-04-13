@@ -1,0 +1,103 @@
+{% extends 'basefront.html.twig' %}
+
+{% block title %}Comptes{% endblock %}
+
+{% block bodysection %}
+    <h1>Comptes</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Idcompte</th>
+                <td>{{ compte.idcompte }}</td>
+            </tr>
+            <tr>
+                <th>Photo</th>
+                <td>{{ compte.photo }}</td>
+            </tr>
+            <tr>
+                <th>Diplome</th>
+                <td>{{ compte.diplome }}</td>
+            </tr>
+            <tr>
+                <th>Datediplome</th>
+                <td>{{ compte.datediplome ? compte.datediplome|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Entreprise</th>
+                <td>{{ compte.entreprise }}</td>
+            </tr>
+            <tr>
+                <th>Experience</th>
+                <td>{{ compte.experience }}</td>
+            </tr>
+            <tr>
+                <th>Domaine</th>
+                <td>{{ compte.domaine }}</td>
+            </tr>
+            <tr>
+                <th>Poste</th>
+                <td>{{ compte.poste }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div style="display: flex; justify-content: space-between; margin-top: 1em;">
+        <a href="{{ path('app_comptes_index') }}" class="btn btn-primary">Back to list</a>
+
+        <div>
+            <a href="{{ path('app_comptes_edit', {'idcompte': compte.idcompte}) }}" class="btn btn-success">Edit</a>
+
+            {{ include('comptes/_delete_form.html.twig') }}
+        </div>
+    </div>
+
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            text-align: left;
+            padding: 8px;
+        }
+        tr:nth-child(even){background-color: #f2f2f2}
+        th {
+            background-color: #4CAF50;
+            color: black;
+        }
+        .btn {
+            display: inline-block;
+            margin-bottom: 0;
+            font-weight: 400;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            cursor: pointer;
+            background-image: none;
+            border: 1px solid transparent;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            border-radius: 4px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        .btn-primary {
+            color: #fff;
+            background-color: #337ab7;
+            border-color: #2e6da4;
+        }
+        .btn-primary:hover,
+        .btn-primary:focus,
+        .btn-primary:active,
+        .btn-primary.active,
+        .open > .dropdown-toggle.btn {
+            /* CSS rules for the primary button */
+        }
+    </style>
+{% endblock %}
