@@ -1,0 +1,65 @@
+{% extends 'baseback.html.twig' %}
+
+{% block title %}Hello UtilisateurController!
+{% endblock %}
+
+{% block content %}
+	<style>
+		.example-wrapper {
+			margin: 1em auto;
+			max-width: 800px;
+			width: 95%;
+			font: 18px / 1.5 sans-serif;
+		}
+		.example-wrapper code {
+			background: #F5F5F5;
+			padding: 2px 6px;
+
+		}
+	</style>
+
+	<div class="container">
+
+		<div class="row">
+			<table class="table table-striped">
+				<thead>
+					<h2>
+						Utilisateurs
+					</h2>
+					<tr>
+						<th>Nom</th>
+						<th>Prénom</th>
+						<th>Email</th>
+						<th>Telephone</th>
+						<th>Adresse</th>
+						<th>Role</th>
+						<th>mdp</th>
+						<th>salt</th>
+					</tr>
+				</thead>
+				<tbody>
+					{%for u in users%}
+						<tr>
+							<td>{{u.nom}}</td>
+							<td>{{u.prenom}}</td>
+							<td>{{u.email}}</td>
+							<td>{{u.tel}}</td>
+							<td>{{u.adresse}}</td>
+							<td>{{u.idRole.description}}</td>
+
+							<td>
+								<a class="btn btn-danger" href="{{path('deleteUser',{'id':u.id})}}">Delete</a>
+							</td>
+							<td>
+								<a class="btn btn-primary" href="{{path('updateUser',{'id':u.id})}}">Update</a>
+							</td>
+
+
+						</tr>
+						{%endfor%}</tbody>
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+{% endblock %}

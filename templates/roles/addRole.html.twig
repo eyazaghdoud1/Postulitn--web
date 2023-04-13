@@ -1,0 +1,13 @@
+{% extends 'baseback.html.twig' %}
+
+{% block content %}
+<div style="height:75%">
+	<h2 class="fw-bolder" style="padding:20px">Ajouter un rôle</h2>
+	{{form_start(form,{'attr':{'novalidate': 'novalidate'}})}}
+	{{form_label(form.description, "Description")}}
+	{{form_widget(form.description)}}
+	{{form_errors(form.description)}}
+
+	{{ form_widget(form.save) }}
+	{{ form_end(form) }}</div>
+{%endblock%}

@@ -1,0 +1,54 @@
+{% extends 'baseback.html.twig' %}
+
+{% block title %}Roles
+{% endblock %}
+
+{% block content %}
+	<style>
+		.example-wrapper {
+			margin: 1em auto;
+			max-width: 800px;
+			width: 95%;
+			font: 18px / 1.5 sans-serif;
+		}
+		.example-wrapper code {
+			background: #F5F5F5;
+			padding: 2px 6px;
+		}
+	</style>
+
+	<div class="container">
+
+		<div class="row">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Role</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for r in roles %}
+						<tr>
+							<td>{{r.description}}</td>
+
+							<td>
+								<a class="btn btn-danger" href="{{path('deleteRole',{'idRole':r.idRole})}}">Delete</a>
+							</td>
+							<td>
+								<a class="btn btn-primary" href="{{path('updateRole',{'idRole':r.idRole})}}">Update</a>
+							</td>
+
+
+						</tr>
+						{%endfor%}</tbody>
+				</tbody>
+			</table>
+		</div>
+		<div class="row">
+			<div class="col-md-4">
+				<a class="btn btn-primary" href="{{path('addRole')}}">Add new role</a>
+
+			</div>
+		</div>
+	</div>
+{% endblock %}

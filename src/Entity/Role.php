@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\RoleRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: RoleRepository::class)]
 class Role
@@ -18,7 +19,7 @@ class Role
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(name:'idRole', type:'integer',nullable:false)]
+    #[ORM\Column(name: 'idRole', type: 'integer', nullable: false)]
     private ?int $idrole = null;
 
     /*
@@ -27,7 +28,8 @@ class Role
      *
      * @ORM\Column(name="description", type="string", length=200, nullable=false)
      */
-    #[ORM\Column(length:200, nullable:false)]
+    #[ORM\Column(length: 200, nullable: false)]
+    #[Assert\NotBlank(message: "Il faut insérer un rôle")]
     private ?string $description = null;
 
     public function getIdrole(): ?int
@@ -46,6 +48,4 @@ class Role
 
         return $this;
     }
-
-
 }

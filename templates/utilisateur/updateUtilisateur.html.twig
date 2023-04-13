@@ -1,0 +1,13 @@
+{% extends 'baseback.html.twig' %}
+
+{% block content %}
+<div style="height:75%">
+	<h1>
+		Modifier Utilisateur
+	</h1>
+	{{ form_start(form) }}
+	{{ include('utilisateur/_formuser.html.twig') }}
+	{{ form_rest(form) }}
+	{{ form_end(form) }}
+</div>
+{%endblock%}

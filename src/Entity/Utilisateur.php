@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UtilisateurRepository;
+use DateTime;
+use Symfony\Component\Validator\Constraints as Assert;
+#use Symfony\Component\Validator\Constraints\DateTime;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 class Utilisateur
@@ -19,7 +21,7 @@ class Utilisateur
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(name:'id', type:'integer',nullable:false)]
+    #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
     private ?int $id = null;
 
     /*
@@ -28,7 +30,8 @@ class Utilisateur
      *
      * @ORM\Column(name="nom", type="string", length=30, nullable=false)
      */
-    #[ORM\Column(length:30,nullable:false)]
+    #[ORM\Column(length: 30, nullable: false)]
+    #[Assert\NotBlank(message: "Il faut insérer un nom")]
     private ?string $nom = null;
 
     /*
@@ -37,7 +40,8 @@ class Utilisateur
      *
      * @ORM\Column(name="prenom", type="string", length=30, nullable=false)
      */
-    #[ORM\Column(length:30, nullable:false)]
+    #[ORM\Column(length: 30, nullable: false)]
+    #[Assert\NotBlank(message: "Il faut insérer un prénom")]
     private ?string $prenom = null;
 
     /*
@@ -46,7 +50,9 @@ class Utilisateur
      *
      * @ORM\Column(name="email", type="string", length=50, nullable=false)
      */
-    #[ORM\Column(length:50, nullable:false)]
+    #[ORM\Column(length: 50, nullable: false)]
+    #[Assert\NotBlank(message: "Il faut insérer un email")]
+    #[Assert\Email(message: "L'email '{{ value }}' n'est pas valide ")]
     private ?string $email = null;
 
     /*
@@ -55,7 +61,10 @@ class Utilisateur
      *
      * @ORM\Column(name="tel", type="string", length=50, nullable=false)
      */
-    #[ORM\Column(length:50, nullable:false)]
+    #[ORM\Column(length: 50, nullable: false)]
+    #[Assert\NotBlank(message: "Il faut insérer un numéro de téléphone")]
+    #[Assert\Length(min: 8, minMessage: "Le numéro de téléphone doit contenir 8 chiffres")]
+    #[Assert\Length(max: 8, maxMessage: "Le numéro de téléphone doit contenir 8 chiffres")]
     private ?string $tel = null;
 
     /*
@@ -64,7 +73,8 @@ class Utilisateur
      *
      * @ORM\Column(name="adresse", type="string", length=50, nullable=false)
      */
-    #[ORM\Column(length:50, nullable:false)]
+    #[ORM\Column(length: 50, nullable: false)]
+    #[Assert\NotBlank(message: "Il faut insérer une adresse")]
     private ?string $adresse = null;
 
     /*
@@ -73,7 +83,7 @@ class Utilisateur
      *
      * @ORM\Column(name="mdp", type="string", length=100, nullable=false)
      */
-    #[ORM\Column(length:100, nullable:false)]
+    #[ORM\Column(length: 100, nullable: false)]
     private ?string $mdp = null;
 
     /*
@@ -82,8 +92,9 @@ class Utilisateur
      *
      * @ORM\Column(name="dateNaissance", type="date", nullable=false)
      */
-    #[ORM\Column(nullable:false)]
-    private ?string $datenaissance = null;
+    #[ORM\Column(nullable: false)]
+    //#[Assert\DateTime(message: "Il faut insérer une date de naissance")]
+    private ?DateTime $datenaissance = null;
 
     /*
     /**
@@ -91,7 +102,7 @@ class Utilisateur
      *
      * @ORM\Column(name="salt", type="string", length=1000, nullable=false)
      */
-    #[ORM\Column(length:1000, nullable:false)]
+    #[ORM\Column(length: 1000, nullable: false)]
     private ?string $salt = null;
 
     /*
@@ -219,6 +230,4 @@ class Utilisateur
 
         return $this;
     }
-
-
 }
