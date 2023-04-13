@@ -1,0 +1,36 @@
+{% extends 'basefront.html.twig' %}
+
+
+{%block bodysection%}
+
+
+{% block title %}{% endblock %}
+
+
+
+<h1>modifier votre offre</h1>
+
+{{ form_start(form) }}
+<div class="mb-3">
+    {{ form_row(form.poste) }}
+</div>
+<div class="mb-3">
+    {{ form_row(form.description) }}
+</div>
+<div class="mb-3">
+    {{ form_row(form.lieu) }}
+</div>
+<div class="mb-3">
+    {{ form_row(form.entreprise) }}
+</div>
+<div class="mb-3">
+    {{ form_row(form.specialite) }}
+</div>
+<div class="mb-3">
+    {{ form_row(form.dateexpiration) }}
+</div>
+
+
+
+{{ form_end(form) }}
+{% endblock %}

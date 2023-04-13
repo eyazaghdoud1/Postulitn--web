@@ -1,0 +1,24 @@
+/* Ajout d'un espace entre chaque champ */
+.mb-3 {
+    margin-bottom: 1rem;
+}
+
+/* Modification de la couleur de fond des champs et de la police */
+.form-control {
+    background-color: #f8f8f8;
+    color: #555;
+    border-color: #ccc;
+    font-size: 16px;
+}
+
+/* Modification de la couleur du bouton */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+/* Modification de la couleur de survol du bouton */
+.btn-primary:hover {
+    background-color: #0069d9;
+    border-color: #0062cc;
+}
