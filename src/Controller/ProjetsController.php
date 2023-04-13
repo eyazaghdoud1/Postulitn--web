@@ -17,13 +17,13 @@ class ProjetsController extends AbstractController
     #[Route('/projets', name: 'app_projets')]
     public function index(): Response
     {
-        return $this->render('/projets/index.html.twig', [
+        return $this->render('/projets/Jobdetails.html.twig', [
             'controller_name' => 'ProjetsController',
         ]);
     }
 
     
-    #[Route('/ListeProjetsBack', name: 'app_projets2')]
+    #[Route('/ListeProjetsRecruteur', name: 'app_projets2')]
     public function ListeProjets(ProjetsRepository $repo): Response
     {   $projets = $repo->findAll();
         return $this->render('/projets/index.html.twig', [
@@ -32,7 +32,7 @@ class ProjetsController extends AbstractController
         ]);
     }
 
-    #[Route('/listeProjets', name: 'app_projets1')]
+    #[Route('/ListeProjetsCandidat', name: 'app_projets1')]
     public function ListeProjets1(ProjetsRepository $repo): Response
     {   $projets = $repo->findAll();
         return $this->render('/projets/ListingProjets.html.twig', [
@@ -40,7 +40,7 @@ class ProjetsController extends AbstractController
         ]);
     }
 
-
+/*
     #[Route('/DetailsProjetsCandidat', name: 'app_projets5')]
     public function DetailsProjetsCandidat(ProjetsRepository $repo): Response
     {   $projets = $repo->findAll();
@@ -57,7 +57,7 @@ class ProjetsController extends AbstractController
             'controller_name' => 'ProjetsController',
             'projets'=>$projets
         ]);
-    }
+    }*/
 
     #[Route('/addProjets', name: 'addProjets')]
     public function addProjets(Request $req,ManagerRegistry $doctrine){
@@ -67,11 +67,11 @@ class ProjetsController extends AbstractController
         $form->handleRequest($req);
         if($form->isSubmitted() && $form->isValid()){
             $em=$doctrine->getManager();
-            $idResponsable = $em->getRepository(Utilisateur::class)->find(69); // Remplacer Utilisateur::class par la classe correspondante à la table utilisateur dans votre code
+            $idResponsable = $em->getRepository(Utilisateur::class)->find(69); 
             $projets->setIdResponsable($idResponsable);
             $em->persist($projets);
             $em->flush();
-            return $this->redirectToRoute('app_projets1');
+            return $this->redirectToRoute('app_projets2');
         }
         return $this->render('/projets/addProjet.html.twig', [
             'form' => $form->createView()
@@ -107,6 +107,7 @@ class ProjetsController extends AbstractController
 /**
  * @Route("/projets/{idProjet}", name="projets_detail")
  */
+/*
 public function details($idProjet): Response
 {
     $projet = $this->getDoctrine()->getRepository(Projet::class)->find($idProjet);
@@ -118,12 +119,12 @@ public function details($idProjet): Response
         'projet' => $projet, // Pass the project/job details to the template
         // Add other variables for the template as needed
     ]);
-}
+}*/
 
  /**
      * 
      * details projets pour recruteur
-     */
+     *//*
     #[Route('/detailsProjetRecruteur/{id}', name: 'detailsProjetRecruteur')]
     public function readDetailsRecruteur(ProjetsRepository $Rep, $id): Response
     {
@@ -132,6 +133,7 @@ public function details($idProjet): Response
             'p' => $p, 
         ]);
     }
+    */
 
     /**
      * 
@@ -145,6 +147,14 @@ public function details($idProjet): Response
             'p' => $p, 
         ]);
     }
-
+    #[Route('/detailsProjetRecruteur/{id}', name: 'detailsProjetRecruteur')]
+    public function readDetailsRecruteur(ProjetsRepository $Rep, $id): Response
+    {
+        $p = $Rep->find($id);
+        return $this->render('projets/ProjetsDetailsRecruteur.html.twig', [
+            'p' => $p, 
+        ]);
+    }
 
 }
+

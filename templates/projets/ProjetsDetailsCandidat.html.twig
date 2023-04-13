@@ -1,6 +1,36 @@
-       {% extends 'basefrontanimation.html.twig' %}
-       {% block title %}Project details{% endblock %}
-       {% block content %}
+   {% extends 'basefrontCandidat.html.twig' %}
+       {% block title %}Project details{% endblock %}    
+            {% block content %}
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="manifest" href="site.webmanifest">
+		<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+        <link href="{{asset('assets/assetsListing/css/style.css')}}" rel="stylesheet" />
+            <link rel="stylesheet" href="assets/assetsListing/css/bootstrap.min.css">
+            <link rel="stylesheet" href="assets/assetsListing/css/css/owl.carousel.min.css">
+            <link rel="stylesheet" href="assets/assetsListing/css/price_rangs.css">
+            <link rel="stylesheet" href="assets/assetsListing/css/flaticon.css">
+            <link rel="stylesheet" href="assets/assetsListing/css/slicknav.css">
+            <link rel="stylesheet" href="assets/assetsListing/css/animate.min.css">
+            <link rel="stylesheet" href="assets/assetsListing/css/magnific-popup.css">
+            <link rel="stylesheet" href="assets/assetsListing/css/fontawesome-all.min.css">
+            <link rel="stylesheet" href="assets/assetsListing/css/themify-icons.css">
+            <link rel="stylesheet" href="assets/assetsListing/css/slick.css">
+            <link rel="stylesheet" href="assets/assetsListing/css/nice-select.css">
+            <link rel="stylesheet" href="css/style.css">
+            <!-- Logoicon-->
+        <link rel="icon" type="image/x-icon" href="{{asset('assets/logo.ico')}}" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+       
+   </head>
+     
+       <main>
         <!-- job post company Start -->
         <div class="job-post-company pt-50 pb-120">
             <div class="container">
@@ -47,11 +77,11 @@
                                <h4>Job Overview</h4>
                            </div>
                           <ul>
-                              <li>Date debut : <span>12 Aug 2019</span></li>
-                              <li>Date de fin : <span>18 Aug 2019</span></li>
-                              <li>Durée : <span>02</span></li>
-                              <li>Théme : <span>BI </span></li>
-                              <li>Secteur :  <span>informatique</span></li>
+                            <li>Date debut : <span>{{p.datedebut | date('d-m-Y')}}</span></li>
+                              <li>Date de fin : <span>{{p.datefin | date('d-m-Y')}}</span></li>
+                              <li>Durée : <span>{{p.duree}} Mois</span></li>
+                              <li>Théme : <span>{{p.theme}}</span></li>
+                              <li>Secteur :  <span>{{p.idsecteur.description}}</span></li>
                           </ul>
                          <div class="apply-btn2">
                             <!--<a href="#" class="btn">Apply Now</a>-->
@@ -69,6 +99,9 @@
 
           <!-- Comment section -->
 <div class="container mt-5">
+<div class="small-section-tittle" style = "position:relative; left:60px;">
+                               <h4>Commentaires :</h4>
+                           </div>
     <div class="d-flex justify-content-center row">
         <div class="col-md-8">
             <div class="d-flex flex-column comment-section">
@@ -99,5 +132,5 @@
     </div>
 </div>
  </div>
-  
+         </main>
    {% endblock %}

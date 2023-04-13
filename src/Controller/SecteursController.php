@@ -40,7 +40,7 @@ class SecteursController extends AbstractController
         $secteur = new Secteurs();
         $form = $this->createForm(SecteursType::class,$secteur);
         $form->handleRequest($req);
-        if($form->isSubmitted()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $em=$doctrine->getManager();
             $em->persist($secteur);
             $em->flush();

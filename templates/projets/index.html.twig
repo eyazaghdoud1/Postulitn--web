@@ -1,4 +1,4 @@
-{% extends 'basefront.html.twig' %}
+{% extends 'basefrontRecruteur.html.twig' %}
 {% block title %}liste projets{% endblock %}
 {% block content %}
 <style>
@@ -37,7 +37,9 @@
 							<td>
 								<a class="btn btn-primary" href="{{path('update_Projets',{'id':p.idProjet})}}">Update</a>
 							</td>
-
+							<td>
+							 <a class="btn btn-primary" href="{{path('detailsProjetRecruteur', {'id': p.idProjet})}}">Détails</a>
+                             </td>
 
 						</tr>
 					{%endfor%}
