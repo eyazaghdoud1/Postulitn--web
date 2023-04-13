@@ -1,0 +1,35 @@
+
+{% extends 'basefront.html.twig' %}
+
+{%block bodysection%}
+<div class="container">
+        <!-- Example row of columns -->
+        <div class="row">
+        {%for l in list %}
+  
+          <div class="col-md-4">
+            <h2>{{l.poste}}</h2>
+            <p> {{l.description}} </p>
+            <p> {{l.lieu}} </p>
+            
+
+            <p><a class="btn btn-secondary" href="{{ path('app_offre_show', {'id': l.idOffre}) }}" role="button">View details &raquo;</a></p>
+            
+                    <td><a href="{{path('delete',{'id' : l.idOffre})}}"class="btn btn-danger btn-sm">supprimer </a>
+
+          </div>
+           {%endfor%}
+
+          
+        </div>
+
+        <hr>
+
+      </div> <!-- /container -->
+
+    </main>
+                    {%endblock%}
+
+    
+
+

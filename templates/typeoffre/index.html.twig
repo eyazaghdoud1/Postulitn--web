@@ -1,0 +1,34 @@
+{% extends 'baseback.html.twig' %}
+
+{% block title %}Typeoffre - Liste des types d'offres{% endblock %}
+                {%  block content%}
+<h1 style="text-align:center;">liste des types d'offre d'offres</h1>    
+
+   <table class="table">
+    <thead>
+        <tr>
+            <th>Idtype</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for typeoffre in typeoffres %}
+        <tr>
+            <td>{{ typeoffre.idtype }}</td>
+            <td>{{ typeoffre.description }}</td>
+            <td>
+                <button class="btn btn-primary btn-sm" onclick="window.location='{{ path('app_typeoffre_show', {'idtype': typeoffre.idtype}) }}'">Voir</button>
+<button class="btn btn-primary btn-sm" onclick="window.location='{{ path('app_typeoffre_edit', {'idtype': typeoffre.idtype}) }}'">Modifier</button>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="3">Aucun enregistrement trouvé</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+    <a href="{{ path('app_typeoffre_new') }}">Create new</a>
+{% endblock %}

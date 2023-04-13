@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Postuli.tn</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/logo.ico"" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/style.css" rel="stylesheet" />
+    </head>
+    <body>
+        <!-- Responsive navbar-->
+        <nav class="navbar" >
+            <div class="container px-">
+                <a href="index.html"><img class="logocss" src="assets/img/logowhite.png"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link " aria-current="page" href="#!">Home</a></li>
+                         <li class="nav-item"><a class="nav-link btn btn-outline-light btn-lg px-4" style="margin-left: 70% !important; margin-right: 10px" href="#!">Sign up</a></li>
+                        <li class="nav-item"><a class="nav-link btn btn-outline-light btn-lg px-4"  href="#!" >Sign in</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Header-->
+        {% block headerBlock%}
+        <header class="bg-dark py-5">
+            <div class="container px-5">
+                <div class="row gx-5 justify-content-center">
+                    <div class="col-lg-6">
+                        <div class="text-center my-5">
+                            <h1 class="display-5 fw-bolder text-white mb-2">Postuli.tn</h1>
+                            <h3 class=" text-white mb-1">Site de recrutement 100% tunisien </h3>
+                            <p class="lead text-white-50 mb-4">Ce site a pour but de guider et d'aider les tunisiens afin de trouver des offres d'emploi relatifs à leurs domaines. 
+Inscrivez-vous et profitez de différentes opportunités afin de booster votre carrière !</p>
+                            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                                <a class="btn btn-primary btn-lg px-4 me-sm-3" href="#features">Sign up</a>
+                                <a class="btn btn-outline-light btn-lg px-4" href="#!">Voir plus</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        {%endblock%}
+        <!-- Features section-->
+        {%block feauturesBlock%}
+        <section class="py-5 border-bottom" id="features">
+            <div class="container px-5 my-5">
+                <div class="row gx-5">
+                <h2 class="fw-bolder text-dark" style="margin-top:-50px; margin-bottom:50px; text-align:center; ">Disponible en 3 versions</h2>
+                  
+                    <div class="col-lg-4 mb-5 mb-lg-0">
+                        <div ><img src='assets/img/webapp.png' class="servicesimg"></div>
+                        <h2 class="h4 fw-bolder text-dark">Version web</h2>
+                        <p>
+                           Cette version est disponible en tout temps, permet d'accéder à l'application à partir d'un navigateur et comporte plusieurs fonctionnalités.
+                        </p>
+
+                    </div>
+
+                      <div class="col-lg-4 mb-5 mb-lg-0">
+                        <div ><img src='assets/img/mobileapp.png' class="servicesimg"></div>
+                        <h2 class="h4 fw-bolder text-dark">Version mobile</h2>
+                        <p>Cette version vous permet d'accéder depuis n'importe où à partir de votre smartphone, ce qui facilitera votre recherche d'emplois.</p>
+
+                    </div>
+
+
+                    <div class="col-lg-4">
+                        <div ><img src='assets/img/desktopapp.png' class="servicesimg"></div>
+                        <h2 class="h4 fw-bolder text-dark">Version desktop</h2>
+                        <p>
+                          Cette version peut être téléchargée sur votre pc et a une meilleure intéraction avec l'utilisateur, et fournit des performances élevées.
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        {%endblock%}
+        <!-- Pricing section-->
+        <section class="gx-5 justify-content-center bg-light py-3 border-bottom" style="text-align:center; height:500px !important;">
+        <h2 class="fw-bolder text-dark "> Solution de recrutement tunisienne </h2>
+        <p class="lead mb-0 mb-4"> By Codev </p>
+         
+                <iframe style="width:60% !important; height:80% !important;" src="https://www.youtube.com/embed/FfvxsmWrWak" allowfullscreen></iframe>
+            </div>
+        </section>
+        <!-- Testimonials section-->
+        <section class="py-5 border-bottom">
+            <div class="container px-5 my-5 px-5">
+                <div class="text-center mb-5">
+                    <h2 class="fw-bolder text-dark">Services divers et disponibles pour tout le monde</h2>
+                    <p class="lead mb-0">Recruteur ou candidat, Postuli.tn est votre compagnon de recrutement!</p>
+                </div>
+                <div class="row gx-5 justify-content-center">
+                    <div class="col-lg-6" style="width:100% !important;">
+                        <!-- Testimonial 1-->
+                        <div class="card mb-4" >
+                            <div class="card-body p-4">
+                                <div class="d-flex"  >
+                                    <div class="flex-shrink-0"><img src='assets/img/candidatservices.png' class="servicesimg"></div>
+                                    <div class="ms-4">
+                                        <h4 class="text-lighter" style="font-weight:bold;"> Services pour candidats </h4>
+                                        <p class="mb-1">
+                                        Postuli.tn vous offre l'opportunité de chercher des opportunités d'embauche, 
+                                        de travail à mi-temps et de stages disponibles en Tunisie et dans les différents domaines.
+                                        </p>
+                                        <p class="mb-1">
+                                        Disponibilté de quizzs pour tester vos acquis et de guides pour vous 
+                                        orienter lors de vos entretiens.
+                                        </p>
+                                        <p class="mb-1">
+                                        Possibilité de consulter l'état de vos candidatures et de trouver des projets
+                                        en freelance qui peuvent vous intéresser.
+                                        </p>
+
+                                        <a class="btn btn-primary" style="text-weight:100 !important; margin-left:80% !important; " href="#features">Chercher des offres</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Testimonial 2-->
+                        <div class="card">
+                            <div class="card-body p-4">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0"><img src='assets/img/recruteurservices.png' class="servicesimg"></div>
+                                    <div class="ms-4">
+                                         <h4 class="text-lighter" style="font-weight:bold;"> Services pour recruteurs </h4>
+                                        <p class="mb-1">
+                                        Postuli.tn vous offre la possibilité de partager les offres de votre entreprise, de rechercher des profils potentiels
+                                        et d'améliorer votre processus de recrutement. 
+                                        </p>
+                                         <p class="mb-1">
+                                        Service de suivi des candidatures et planification d'entretiens pour vous garantir la meilleure expérience.
+                                        </p>
+                                        <a class="btn btn-primary" style="text-weight:100 !important; margin-left:77% !important;" href="#features">Commencer à recruter</a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Contact section-->
+        <section class="bg-light py-5">
+            <div class="container px-5 my-5 px-5">
+                <div class="text-center mb-5">
+                    <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-envelope"></i></div>
+                    <h2 class="fw-bolder">Get in touch</h2>
+                    <p class="lead mb-0">We'd love to hear from you</p>
+                </div>
+                <div class="row gx-5 justify-content-center">
+                    <div class="col-lg-6">
+                        <!-- * * * * * * * * * * * * * * *-->
+                        <!-- * * SB Forms Contact Form * *-->
+                        <!-- * * * * * * * * * * * * * * *-->
+                        <!-- This form is pre-integrated with SB Forms.-->
+                        <!-- To make this form functional, sign up at-->
+                        <!-- https://startbootstrap.com/solution/contact-forms-->
+                        <!-- to get an API token!-->
+                        <form id="contactForm" data-sb-form-api-token="API_TOKEN">
+                            <!-- Name input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="name" type="text" placeholder="Enter your name..." data-sb-validations="required" />
+                                <label for="name">Full name</label>
+                                <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
+                            </div>
+                            <!-- Email address input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="email" type="email" placeholder="name@example.com" data-sb-validations="required,email" />
+                                <label for="email">Email address</label>
+                                <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
+                                <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
+                            </div>
+                            <!-- Phone number input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="phone" type="tel" placeholder="(123) 456-7890" data-sb-validations="required" />
+                                <label for="phone">Phone number</label>
+                                <div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is required.</div>
+                            </div>
+                            <!-- Message input-->
+                            <div class="form-floating mb-3">
+                                <textarea class="form-control" id="message" type="text" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required"></textarea>
+                                <label for="message">Message</label>
+                                <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
+                            </div>
+                            <!-- Submit success message-->
+                            <!---->
+                            <!-- This is what your users will see when the form-->
+                            <!-- has successfully submitted-->
+                            <div class="d-none" id="submitSuccessMessage">
+                                <div class="text-center mb-3">
+                                    <div class="fw-bolder">Form submission successful!</div>
+                                    To activate this form, sign up at
+                                    <br />
+                                    <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+                                </div>
+                            </div>
+                            <!-- Submit error message-->
+                            <!---->
+                            <!-- This is what your users will see when there is-->
+                            <!-- an error submitting the form-->
+                            <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
+                            <!-- Submit Button-->
+                            <div class="d-grid"><button class="btn btn-primary btn-lg disabled" id="submitButton" type="submit">Submit</button></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Footer-->
+        <footer class="py-5 bg-dark">
+            <div class="container px-5"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <!-- * *                               SB Forms JS                               * *-->
+        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+    </body>
+</html>
+

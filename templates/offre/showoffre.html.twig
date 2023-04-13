@@ -1,0 +1,29 @@
+{% extends 'basefront.html.twig' %}
+
+{% block bodysection %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h2>{{ offre.poste }}</h2>
+                <p>description: {{ offre.description }}</p>
+                <p>lieu: {{ offre.lieu }}</p>
+                <p>entreprise: {{ offre.entreprise }}</p>
+                <p>specialite: {{ offre.specialite }}</p>
+                <p>date d'expiration: {{ offre.dateExpiration|date('Y-m-d') }}</p>
+
+
+
+                <a href="{{ path('delete', {'id': offre.idOffre}) }}" class="btn btn-danger btn-sm">Supprimer</a>
+                <a href="{{ path('update', {'id': offre.idOffre}) }}" class="btn btn-danger btn-sm">modifier</a>
+
+            </div>
+        </div>
+    </div>
+
+      </div> <!-- /container -->
+
+    </main>
+                    {%endblock%}
+
+
+
