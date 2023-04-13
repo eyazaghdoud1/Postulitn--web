@@ -65,8 +65,12 @@
 							<p class="mb-0" style="margin-right:400px !important;">Détails candidature</p>
 							<div>
 								{#add control#}
+								{% if c.etat|lower == "enregistrée" %}
 								<a href="{{path('updateCandidature', {'id': c.id})}}" class="custom-btn btn mt-2">Modifier</a>
-
+								{% else %}
+								<a  class="custom-btn btn mt-2">Validée</a>
+								{% endif %}
+								
 								<a href="#" class="custom-btn custom-border-btn btn mt-2 ms-lg-4 ms-3">Entretiens</a>
 							</div>
 
@@ -106,14 +110,14 @@
 							</a>
 						</p>
 						{#  displaying the pdf files #}
-						<div>
+						<div class="row">
 
 							<h6 class="mt-4 mb-3">Documents</h6>
-
+							<div class="col-lg-4" style="margin-left:100px;">
 							<object id="cv-object" data="http://localhost/postulitn/cv/{{c.cv}}" type="application/pdf" width="200px" height="250px"></object>
 
 							<button id="zoom-cv" class="badge badge-level" >Ouvrir le CV</button>
-
+							</div>
 							<script>
 								var cvObject = document.getElementById("cv-object");
                                 var zoomButton = document.getElementById("zoom-cv");
@@ -129,7 +133,7 @@
 							</script>
 
 
-							<span style="margin-left:100px;">
+							<span class="col-lg-4" style="margin-left:100px;">
 								<object id="lettre-object" data="http://localhost/postulitn/lettres/{{c.lettre}}" type="application/pdf" width="200px" height="250px"></object>
 
 								<button class="badge badge-level" id="zoom-lettre">Ouvrir la lettre de motivation</button>
@@ -158,6 +162,7 @@
 
 
 						<p class="mb-0">Détails entretiens</p>
+						<a href="#" class="custom-btn custom-border-btn btn mt-2 ms-lg-4 ms-3">Guide d'entretien</a>
 
 
 					</div>
@@ -173,6 +178,13 @@
 						{% if entretiens[0].type|lower == "présentiel" %}
 							<div class="row">
 								<div class="col-lg-4">
+								
+									<h6 class="mt-4 mb-3">Entretien par téléphone</h6>
+									<a class="custom-btn btn mt-2">Pas d'entretien programmé</a>
+								
+
+								</div>
+								<span class="col-lg-4">
 									<h6 class="mt-4 mb-3">Entretien en présentiel</h6>
 									<p>
 										<i class="custom-icon bi-calendar me-1"></i>
@@ -187,13 +199,6 @@
 										<i class="custom-icon bi-geo-alt me-1"></i>
 										{{entretiens[0].lieu}}
 									</p>
-
-								</div>
-								<span class="col-lg-4">
-
-									<h6 class="mt-4 mb-3">Entretien par téléphone</h6>
-									<a class="custom-btn btn mt-2">Pas d'entretien programmé</a>
-
 								</span>
 							</div>
 						{%else %}
@@ -223,6 +228,20 @@
 						{% else %}
 							<div class="row">
 								<div class="col-lg-4">
+								<h6 class="mt-4 mb-3">Entretien par téléphone</h6>
+									<p>
+										<i class="custom-icon bi-calendar me-1"></i>
+										{{entretiens[0].date|date('d-m-Y')}}
+									</p>
+
+									<p>
+										<i class="custom-icon bi-clock me-1"></i>
+										{{entretiens[0].heure}}
+									</p>
+									
+
+								</div>
+								<span class="col-lg-4">
 									<h6 class="mt-4 mb-3">Entretien en présentiel</h6>
 									<p>
 										<i class="custom-icon bi-calendar me-1"></i>
@@ -239,24 +258,27 @@
 									</p>
 
 
-								</div>
-								<span class="col-lg-4">
-									<h6 class="mt-4 mb-3">Entretien par téléphone</h6>
-									<p>
-										<i class="custom-icon bi-calendar me-1"></i>
-										{{entretiens[0].date|date('d-m-Y')}}
-									</p>
-
-									<p>
-										<i class="custom-icon bi-clock me-1"></i>
-										{{entretiens[0].heure}}
-									</p>
-
 								</span>
 
 							</div>
 
 						{% endif %}
+						<div class="row">
+					
+
+									<h6 class="mt-4 mb-3">Résultat</h6>
+									
+									{% if c.etat|lower == "acceptée" %}
+									<a href="#" class="btn btn-primary">Félicitations! votre candidature a été acceptée. Vous serez contacté pour la signature du contrat.</a>
+									{% elseif c.etat|lower == "refusée" %}
+									<a href="#" class="btn btn-primary">Nous sommes désolés! votre candidature a été refusée. Bon courage.</a>
+									{% else %}
+									<a href="#" class="btn btn-primary">En attente</a>
+
+									{% endif %}
+									
+								
+					</div>
 
 						{#<p class="mb-2">
 																									<i class="custom-icon bi-globe me-1"></i>

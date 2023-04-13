@@ -198,8 +198,9 @@ class CandidaturesController extends AbstractController
      * accepter la candidature
      */
     #[Route('/accepterCandidature/{id}', name: 'accepterCandidature')]
-    public function accepter(Candidatures $c, ManagerRegistry $doctrine)
+    public function accepter($id, CandidaturesRepository $candRepo, ManagerRegistry $doctrine)
     {
+        $c = $candRepo->find($id);
         $c->setEtat('Acceptée');
         $em = $doctrine->getManager();
         $em->persist($c);
@@ -211,8 +212,9 @@ class CandidaturesController extends AbstractController
      * accepter la candidature
      */
     #[Route('/refuserCandidature/{id}', name: 'refuserCandidature')]
-    public function refuser(Candidatures $c, ManagerRegistry $doctrine)
+    public function refuser(CandidaturesRepository $candRepo, $id,  ManagerRegistry $doctrine)
     {
+        $c = $candRepo->find($id);
         $c->setEtat('Refusée');
         $em = $doctrine->getManager();
         $em->persist($c);

@@ -1,0 +1,46 @@
+
+{% extends 'basefront.html.twig' %}
+
+
+
+{%block bodysection%}
+
+<div style="margin-bottom:100px; margin-left:100px;">
+<h1> Modification d'entretien </h1>
+<div >
+
+{{ form_start(form,{'attr': {'novalidate': 'novalidate', 'id': 'contactForm'}} ) }}
+ <div class="form-floating mb-3">
+<div> {{ form_label (form.type)  }} </div>
+ <div>{{ form_widget (form.type)  }} </div>
+ <li class='invalid-form-field'>{{ form_errors (form.type)  }}</li>
+ 
+</div>
+ <div class="form-floating mb-3">
+ <div>{{ form_label (form.date, "Date")  }} </div>
+ <div>{{ form_widget (form.date)  }} </div>
+ <li class='invalid-form-field'>{{ form_errors (form.date)  }}</li>
+ 
+</div>
+<div class="form-floating mb-3">
+ <div>{{ form_label (form.heure, "Horaire")  }} </div>
+ <div> {{ form_widget (form.heure)  }} </div>
+ <p class="invalid-form-field">{{ form_errors (form.heure)  }} </p>
+</div>
+
+<div class="form-floating mb-3">
+ <div>{{ form_label (form.lieu, "Lieu")  }} </div>
+ <div> {{ form_widget (form.lieu)  }} </div>
+ <p class="invalid-form-field">{{ form_errors (form.lieu)  }} </p>
+</div>
+
+<div class="form-floating mb-3">
+ <div>{{ form_label (form.idguide, 'Guide d\'entretien')  }} </div>
+ <div> {{ form_widget (form.idguide)  }} </div>
+ <p class="invalid-form-field">{{ form_errors (form.idguide)  }} </p>
+</div>
+
+ <div class="d-grid"><button class="btn btn-primary btn-lg>{{ form_widget (form.save)  }} </button></div>
+</div>
+{{ form_end (form)  }}
+{%endblock%}
