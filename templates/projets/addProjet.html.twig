@@ -1,0 +1,52 @@
+
+{% extends 'basefront.html.twig' %}
+{%block css%}
+<link href="{{asset('css/style.css')}}" rel="stylesheet" />
+{%endblock%}
+{% block content %}
+<div style="margin-bottom:100px; margin-left:100px;">
+    <h1> Ajout de projet freelance </h1>
+    <div >
+        {{ form_start(form,{'attr': {'novalidate': 'novalidate', 'id': 'contactForm'}} ) }}
+        <div class="form-floating mb-3">
+            <div> {{ form_label (form.nom) }} </div>
+            <div>{{ form_widget (form.nom) }} </div>
+            <li class='invalid-form-field'>{{ form_errors (form.nom) }}</li>
+        </div>
+        <div class="form-floating mb-3">
+            <div>{{ form_label (form.theme) }} </div>
+            <div>{{ form_widget (form.theme) }} </div>
+            <li class='invalid-form-field'>{{ form_errors (form.theme) }}</li>
+        </div>
+        <div class="form-floating mb-3">
+            <div>{{ form_label (form.description) }} </div>
+            <div>{{ form_widget (form.description) }} </div>
+            <li class='invalid-form-field'>{{ form_errors (form.description) }}</li>
+        </div>
+        <div class="form-floating mb-3">
+            <div>{{ form_label (form.duree) }} </div>
+            <div>{{ form_widget (form.duree) }} </div>
+            <li class='invalid-form-field'>{{ form_errors (form.duree) }}</li>
+        </div>
+        <div class="form-floating mb-3">
+            <div>{{ form_label (form.datedebut, "Date de début") }} </div>
+            <div>{{ form_widget (form.datedebut) }} </div>
+            <li class='invalid-form-field'>{{ form_errors (form.datedebut) }}</li>
+        </div>
+        <div class="form-floating mb-3">
+            <div>{{ form_label (form.datefin, "Date de fin") }} </div>
+            <div>{{ form_widget (form.datefin) }} </div>
+            <li class='invalid-form-field'>{{ form_errors (form.datefin) }}</li>
+        </div>
+        <div class="form-floating mb-3">
+            <div>{{ form_label (form.idsecteur, 'Secteur') }} </div>
+            <div>{{ form_widget (form.idsecteur) }} </div>
+            <li class='invalid-form-field'>{{ form_errors (form.idsecteur) }}</li>
+        </div>
+        <div class="d-grid">
+            <button class="btn btn-primary btn-lg">{{ form_widget (form.save) }}</button>
+        </div>
+    </div>
+    {{ form_end (form) }}
+</div>
+{% endblock %}

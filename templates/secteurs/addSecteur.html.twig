@@ -1,0 +1,16 @@
+{% extends 'baseback.html.twig' %}
+
+{% block content %}
+<div style="margin-bottom:100px; margin-left:20px;">
+    <h1> Ajout de secteurs </h1>
+    <div>
+        {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'id': 'contactForm'}}) }}
+        <div class="form-floating mb-3">
+            <div>{{ form_label(form.description) }}</div>
+            <div>{{ form_widget(form.description) }}</div>
+            <li class='invalid-form-field'>{{ form_errors(form.description) }}</li>
+        </div>
+        <div class="d-grid"><button class="btn btn-primary btn-lg">{{ form_widget(form.save) }}</button></div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

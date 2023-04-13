@@ -4,7 +4,11 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\SecteursRepository;
-
+use Symfony\Component\Form\FormTypeInterface;
+use App\Form\SecteursType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 #[ORM\Entity(repositoryClass: SecteursRepository::class)]
 class Secteurs
 {
@@ -28,6 +32,7 @@ class Secteurs
      * @ORM\Column(name="description", type="string", length=254, nullable=false)
      */
     #[ORM\Column(length:254, nullable:false)]
+    #[Assert\NotBlank(message:"Vous devez insérer le nom du nouveau secteur.")]
     private ?string $description = null;
 
     public function getIdsecteur(): ?int
