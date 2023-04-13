@@ -31,6 +31,25 @@ class UtilisateurController extends AbstractController
         ]);
     }
 
+    #[Route('/addUser', name: 'signup')]
+    public function addUtilisateur(ManagerRegistry $doctrine, Request $req)
+    {
+        $user = new Utilisateur();
+        $form = $this->createForm(UtilisateurType::class, $user);
+        $form->handleRequest($req);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $doctrine->getManager();
+            $em->persist($user);
+            $em->flush();
+            return $this->redirectToRoute('postuli.tn');
+        }
+
+        return $this->render('utilisateur/signup.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
     /*#[Route('/addAdmin', name: 'addAdmin')]
     public function addUser(Request $req, ManagerRegistry $doctrine)
     {

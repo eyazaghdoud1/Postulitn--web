@@ -21,6 +21,7 @@ class UtilisateurType extends AbstractType
             ->add('tel')
             ->add('adresse')
             ->add('datenaissance')
+            ->add('mdp')
             ->add('idrole', EntityType::class, [
                 'class' => Role::class,
                 'choice_label' => 'description',
