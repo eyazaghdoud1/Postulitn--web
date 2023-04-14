@@ -3,27 +3,27 @@
 {% block bodysection %}
     <div class="container">
         <div class="row">
-            <div class="col-md-4">
-                <h2>{{ offre.poste }}</h2>
-                <p>description: {{ offre.description }}</p>
-                <p>lieu: {{ offre.lieu }}</p>
-                <p>entreprise: {{ offre.entreprise }}</p>
-                <p>specialite: {{ offre.specialite }}</p>
-                <p>date d'expiration: {{ offre.dateExpiration|date('Y-m-d') }}</p>
-
-
-
-                <a href="{{ path('delete', {'id': offre.idOffre}) }}" class="btn btn-danger btn-sm">Supprimer</a>
-                <a href="{{ path('update', {'id': offre.idOffre}) }}" class="btn btn-danger btn-sm">modifier</a>
-
+            <div class="col-md-8 mx-auto">
+                <div class="card my-5">
+                    <div class="card-header">
+                        <h2 class="text-center">{{ offre.poste }}</h2>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">{{ offre.description }}</p>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><strong>Lieu: </strong>{{ offre.lieu }}</li>
+                            <li class="list-group-item"><strong>Entreprise: </strong>{{ offre.entreprise }}</li>
+                            <li class="list-group-item"><strong>Spécialité: </strong>{{ offre.specialite }}</li>
+                            <li class="list-group-item"><strong>Date d'expiration: </strong>{{ offre.dateExpiration|date('Y-m-d') }}</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer text-right">
+                        <a href="{{ path('delete', {'id': offre.idOffre}) }}" class="btn btn-danger btn-sm mr-2">Supprimer</a>
+                        <a href="{{ path('update', {'id': offre.idOffre}) }}" class="btn btn-primary btn-sm">Modifier</a>
+                        <a href="{{ path('app_offre') }}" class="btn btn-secondary btn-sm ml-2">Retour</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
-      </div> <!-- /container -->
-
-    </main>
-                    {%endblock%}
-
-
-
+{% endblock %}

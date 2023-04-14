@@ -1,9 +1,7 @@
 {% extends 'baseback.html.twig' %}
-{% block title %} Edit Typeoffre {% endblock %}
+{% block title %}Modifier un type d'offre{% endblock %}
 
 {% block content %}
-    
-
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
@@ -15,7 +13,7 @@
                         {{ include('typeoffre/_form.html.twig', {'button_label': 'Update'}) }}
                     </div>
                     <div class="card-footer text-right">
-                        <button class="btn btn-primary btn-sm" onclick="window.location='{{ path('app_typeoffre_index') }}'">Retour à la liste</button>
+                        <a class="btn btn-success btn-sm" href="{{ path('app_typeoffre_index') }}">Retour à la liste</a>
                         {{ include('typeoffre/_delete_form.html.twig') }}
                     </div>
                 </div>
@@ -23,4 +21,9 @@
         </div>
     </div>
 {% endblock %}
+
+
+
+
+
 

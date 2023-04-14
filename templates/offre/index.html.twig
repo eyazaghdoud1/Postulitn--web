@@ -1,35 +1,26 @@
-
 {% extends 'basefront.html.twig' %}
 
-{%block bodysection%}
-<div class="container">
-        <!-- Example row of columns -->
-        <div class="row">
-        {%for l in list %}
-  
-          <div class="col-md-4">
-            <h2>{{l.poste}}</h2>
-            <p> {{l.description}} </p>
-            <p> {{l.lieu}} </p>
-            
-
-            <p><a class="btn btn-secondary" href="{{ path('app_offre_show', {'id': l.idOffre}) }}" role="button">View details &raquo;</a></p>
-            
-                    <td><a href="{{path('delete',{'id' : l.idOffre})}}"class="btn btn-danger btn-sm">supprimer </a>
+{% block bodysection %}
+  <div class="container">
+    <div class="row">
+      {% for offre in list %}
+        <div class="col-md-4">
+          <div class="card mb-4 box-shadow">
+            <div class="card-body">
+              <h2 class="card-title">{{ offre.poste }}</h2>
+              <p class="card-text">{{ offre.description }}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <p class="card-text">{{ offre.lieu }}</p>
+                <div class="btn-group">
+                  <a href="{{ path('app_offre_show', {'id': offre.idOffre}) }}" class="btn btn-sm btn-outline-secondary">View details</a>
+                  <a href="{{ path('delete', {'id': offre.idOffre}) }}" class="btn btn-sm btn-outline-danger">Delete</a>
+                </div>
+              </div>
+            </div>
 
           </div>
-           {%endfor%}
-
-          
         </div>
-
-        <hr>
-
-      </div> <!-- /container -->
-
-    </main>
-                    {%endblock%}
-
-    
-
-
+      {% endfor %}
+    </div>
+  </div>
+<button class="btn btn-primary" onclick="location.href='{{ path('createOffre') }}'">Create new</button>{% endblock %}

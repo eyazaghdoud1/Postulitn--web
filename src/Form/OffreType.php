@@ -27,7 +27,7 @@ class OffreType extends AbstractType
                 'constraints' => [
                     new Length([
                         'min' => 3,
-                        'max' => 10,
+                        'max' => 20,
                         'minMessage' => 'Le champ poste doit contenir au moins {{ limit }} caractères.',
                         'maxMessage' => 'Le champ poste ne peut pas contenir plus de {{ limit }} caractères.',
                     ]),
