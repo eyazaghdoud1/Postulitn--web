@@ -1,20 +1,19 @@
 {% extends 'basefront.html.twig' %}
 
 {%block bodysection%}
-<h1>
-	Candidatures
-</h1>
-<div class="row gx-5 justify-content-center">
+
+{#<div class="row gx-5 justify-content-center">
 	<div
 		class="col-lg-6" style="width:100% !important;">
 		<!-- Testimonial 1-->
 		<div class="card mb-4">
+		
 			<div class="card-body p-4">
 				<h2>
-					Offre: Développeur junior
+					Candidatures de l'offre: {{offre.poste}}
 				</h2>
 				<h4>
-					Date d'expiration: 15-04-2023
+					Date d'expiration: {{offre.dateexpiration|date('d-m-Y')}}
 				</h4>
 				<h4>
 					Nombre de candidatures reçues: {{count}}
@@ -22,7 +21,30 @@
 			</div>
 		</div>
 	</div>
+</div>#}
+<div class="row card mb-4" >
+	<div class="col-lg-6" style="width:100% !important;">
+				<div>
+					<h3 class="job-title mb-0">Candidatures pour le poste:
+					 {{offre.poste}}</h3>
+					 <h4>
+					Nombre de candidatures reçues: {{count}}
+				</h4>
+					<div class="job-thumb job-thumb-detail">
+						<div class="d-flex flex-wrap align-items-center border-bottom pt-lg-3 pt-2 pb-3 mb-4" style="margin-left:200px !important;">
+
+							<p class="job-date mb-0" style="margin-left: 200px !important;">
+								<i class="custom-icon bi-clock me-1"></i>
+								Expire le:
+								{{offre.dateexpiration|date('d-m-Y')}}
+							</p>
+							
+				</div>
+						</div>
+		</div>
+	</div>
 </div>
+						
 <style>
 	.example-wrapper {
 		margin: 1em auto;
@@ -49,8 +71,8 @@
 					<th>Candidature</th>
 					<th>Date de candidature</th>
 					<th>Etat</th>
-					<th>Valider</th>
-					<th>Entretiens</th>
+					{#<th>Valider</th>#}
+					
 				</tr>
 			</thead>
 			<tbody>
@@ -59,16 +81,21 @@
 
 						<td>{{l.idcandidat.prenom ~ ' ' ~ l.idcandidat.nom}}</td>
 						<td>
-							<a class="btn btn-primary" href="{{path('detailsCandidatureRecruteur', {'id': l.id})}}">Détails</a>
+							<a class="btn" style="background-color:#353D62 !important; color: white !important;" href="{{path('detailsCandidatureRecruteur', {'id': l.id})}}">Détails</a>
 						</td>
 						<td>{{l.date|date('d-m-Y')}}</td>
-						<td>{{l.etat}}</td>
-						<td>
+						{% if l.etat|lower == "refusée"%}
+						<td><div class="badge" style="background-color:red !important;">{{l.etat}}</div></td>
+						{% elseif l.etat|lower == "acceptée" %}
+						<td><div class="badge" style="background-color:green !important;">{{l.etat}}</div></td>
+						{% else %}
+						<td><div class="badge" style="background-color:#0E1947 !important;">{{l.etat}}</div></td>
+						{% endif %}
+						{#<td>
 							<a class="btn btn-primary" href="{{path('validerCandidature',{'id': l.id})}}">Valider</a>
-						</td>
-						<td>
-							Pas d'entretiens</td>
-						{# <td>{{l.idoffre.poste}}</td>#}
+						</td>#}
+						
+						
 
 
 					</tr>
@@ -105,9 +132,7 @@
 
 </table>
 #}
-<a href="{{ path ('addCandidature') }}">
-	Add candidature
-</a>
+
 
 {# to display the pdf 
 <object data="http://localhost/postulitn/cv/CV_ZAGHDOUD_Eya.pdf"  type="application/pdf" width="50%" height="50%">

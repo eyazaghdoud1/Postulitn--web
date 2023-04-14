@@ -3,15 +3,14 @@
 {%block css%}
 <link href="css/style.css" rel="stylesheet"/>
 <link href="css/table.css" rel="stylesheet"/>
+
 {%endblock%}
 
 {%block bodysection%}
-<div class="container" style="width:100% !important;">
 
-<div class="card" >
-	<h1>
-		Entretiens
-	</h1>
+
+<div class="row" >
+	
 	{#<ul class="responsive-table">
 	    <li class="table-header">
 	      <div class="col col-1"> Type </div>
@@ -56,16 +55,22 @@
 	</style>
 <div class="row gx-5 justify-content-center">
 	<div
-		class="col-lg-6" style="width:100% !important;">
+		class="card" style="width:100%; margin-bottom: 20px !important;">
 		<!-- Testimonial 1-->
-		<div class="card mb-4">
+		<div>
+		<h1>
+		Entretiens
+	</h1>
 			<div class="card-body p-4">
-			 <h4>Recruteur: Foulen Fouleni </h4>
+			 <h4>Recruteur: {{recruteur.nom ~ ' ' ~ recruteur.prenom}} </h4>
 			 <h6> Total des entretiens à venir: {{count}} </h6>
+			 <a href="{{path('readCandidatures')}}" class="btn" style="background-color:#353D62 !important; color: white !important;">Planifier un nouvel entretien</a>
 			</div>
 		</div>
 	</div>
 </div>
+
+
 	<div class="container">
 		<div class="row">
 			<div class="col-md-4"></div>
@@ -80,26 +85,26 @@
 						<th>Candidat</th>
 						<th>Offre</th>
 						<th>Candidature</th>
-						<th>Update</th>
-						<th>Delete</th>
+						<th>Modifier</th>
+						<th>Supprimer</th>
 					</tr>
 				</thead>
 				<tbody>
 					{%for l in list %}
 						<tr>
-							<td>{{l.date|date('Y-m-d')}}</td>
+							<td>{{l.date|date('d-m-Y')}}</td>
 							<td>{{l.heure}}</td>
 							<td>{{l.type}}</td>
 							<td>{{l.idcandidature.idcandidat.nom ~ ' '~ l.idcandidature.idcandidat.prenom}}</td>
 							<td>{{l.idcandidature.idoffre.poste}}</td>
 							<td>
-								<a class="btn btn-primary" href="#">Details</a>
+								<a class="btn" style="background-color:#353D62 !important; color: white !important;" href="{{path('detailsCandidatureRecruteur', {'id': l.idcandidature.id})}}">Ouvrir</a>
 							</td>
 							<td>
-								<a class="btn btn-primary" href="{{path('updateEntretien', {'id':l.id})}}">Update</a>
+								<a class="btn btn-primary"  href="{{path('updateEntretien', {'id':l.id})}}">Modifier</a>
 							</td>
 							<td>
-								<a class="btn btn-danger" href="{{path('deleteEntretien', {'id':l.id})}}">Delete</a>
+								<a class="btn btn-danger"  href="{{path('deleteEntretien', {'id':l.id})}}">Supprimer</a>
 							</td>
 
 
@@ -120,5 +125,5 @@
 
 </div>
 
-</div>
+
 {%endblock%}

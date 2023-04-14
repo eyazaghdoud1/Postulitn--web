@@ -8,6 +8,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
+
 
 class CandidaturesType extends AbstractType
 {
@@ -21,20 +23,32 @@ class CandidaturesType extends AbstractType
             ->add('idcandidat')
             ->add('idoffre')*/
             ->add('cv', FileType::class, [
-                /*'attr' => array(
-                    'placeholder' => 'Veuillez indiquer votre cv'
-                )*/
-                // make it optional so you don't have to re-upload the PDF file
-                // every time you edit the details
-               // 'label' => 'Brochure (PDF file)',
+                
                 'required' => false,
+                'constraints' => [
+                    new File([
+                        
+                        'mimeTypes' => [
+                            'application/pdf',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez choisir un fichier PDF',
+                    ])
+                ],
             ])
             ->add('lettre' , FileType::class, [
-                /*'attr' => array(
-                    'placeholder' => 'Veuillez indiquer votre lettre de motivation') */
+                
                     'required' => false,
-                    ]
-                )
+                    'constraints' => [
+                        new File([
+                            
+                            'mimeTypes' => [
+                                'application/pdf',
+                                
+                            ],
+                            'mimeTypesMessage' => 'Veuillez choisir un fichier PDF',
+                        ])
+                    ],
+                ])
             ->add('save',SubmitType::class);
         ;
     }

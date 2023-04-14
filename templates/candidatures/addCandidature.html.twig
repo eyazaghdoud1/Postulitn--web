@@ -5,24 +5,37 @@
 <link href="css/table.css" rel="stylesheet" />
 {%endblock%}
 {%block bodysection%}
-<div style="margin-bottom:100px; margin-left:100px;">
-<h1> Ajout candidature </h1>
-<div >
+
+	<div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
+		<img class="logocss" src="{{asset('assets/img/logowhite.png')}}" style="width: 70px; height:80px"></i>
+</div>
+
+<h2 class="fw-bolder">Postuler !</h2>
+<p class="lead mb-0">Veuillez remplir ces champs</p></div>
+<div class="row gx-5 justify-content-center">
+<div class="col-lg-6">
+
 {{ form_start(form,{'attr': {'novalidate': 'novalidate', 'id': 'contactForm'}} ) }}
- <div class="form-floating mb-3">
- {{ form_label (form.cv, "Votre cv")  }} 
- {{ form_widget (form.cv)  }} 
 
- <li class='invalid-form-field'>{{ form_errors (form.cv, {'attr' : {'class': 'invalid-form-field'}})  }}</li>
+ <label class="fw-bolder">{{ form_label (form.cv, "Curriculum vitæ")  }} </label>
+ <div class="form-control" style="margin-bottom: 20px !important;">
+{{ form_widget (form.cv)  }} 
+<p >{{ form_errors (form.cv) }}</p>
+ </div>
  
-</div>
-<div class="form-floating mb-3">
- <div>{{ form_label (form.lettre, "Votre lettre de motivation")  }} </div>
- <div> {{ form_widget (form.lettre)  }} </div>
+
+ <label class="fw-bolder">{{ form_label (form.lettre, "Lettre de motivation")  }} </label>
+
+<div class="form-control">
+ {{ form_widget (form.lettre)  }} 
  <p class="invalid-form-field">{{ form_errors (form.lettre)  }} </p>
+ </div >
+
+
+ <div class="d-grid" style="margin-top:20px !important;"><button class="btn btn-primary btn-lg"  {{ form_widget (form.save)  }} </button></div>
+ {{ form_end (form)  }}
+</div>
 </div>
 
- <div class="d-grid"><button class="btn btn-primary btn-lg>{{ form_widget (form.save)  }} </button></div>
-</div>
-{{ form_end (form)  }}
+
 {%endblock%}

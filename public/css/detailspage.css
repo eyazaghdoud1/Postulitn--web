@@ -689,10 +689,6 @@ https://www.tooplate.com/view/2134-gotto-job
     color: var(--white-color);
   }
   
-  .hero-section .badge:hover {
-    background: var(--white-color);
-    color: #0E1947;
-  }
   
   .badge {
     background: var(--section-bg-color);
@@ -712,10 +708,7 @@ https://www.tooplate.com/view/2134-gotto-job
     color: var(--white-color);
   }
   
-  .badge:hover {
-    background: #939AB0 ;
-    color: var(--white-color);
-  }
+
   
   
   /*---------------------------------------
@@ -986,7 +979,7 @@ https://www.tooplate.com/view/2134-gotto-job
     padding: 25px 50px;
   }
   
-  .job-listings-page .hero-form .badge:hover {
+  .job-listings-page .hero-form  {
     background: var(--primary-color);
   }
   
@@ -1059,8 +1052,8 @@ https://www.tooplate.com/view/2134-gotto-job
     border-color: transparent;
   }
   
-  .job-image-box-wrap .badge-level:hover,
-  .job-image-box-wrap .badge:hover {
+  .job-image-box-wrap ,
+  .job-image-box-wrap{
     background: #353D62;
     border-color: transparent;
   }

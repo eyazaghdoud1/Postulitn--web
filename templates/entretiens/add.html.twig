@@ -1,44 +1,55 @@
-
 {% extends 'basefront.html.twig' %}
 
 
-
 {%block bodysection%}
+<div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
+		<img class="logocss" src="{{asset('assets/img/logowhite.png')}}" style="width: 70px; height:80px"></i>
+</div>
+<h2 class="fw-bolder">Planifier un entretien</h2>
+<p class="lead mb-0">Veuillez remplir ces champs</p></div>
+<div class="row gx-5 justify-content-center">
+<div class="col-lg-6">
 
-<div style="margin-bottom:100px; margin-left:100px;">
-<h1> Ajout d'entretien </h1>
 <div >
 
 {{ form_start(form,{'attr': {'novalidate': 'novalidate', 'id': 'contactForm'}} ) }}
- <div class="form-floating mb-3">
-<div> {{ form_label (form.type)  }} </div>
- <div>{{ form_widget (form.type)  }} </div>
- <li class='invalid-form-field'>{{ form_errors (form.type)  }}</li>
+
  
+<label class="fw-bolder"> {{ form_label (form.type)  }} </label>
+<div class="form-control mb-3" >
+ {{ form_widget (form.type)  }} 
+ <p class="lead mb-0">{{ form_errors (form.type)  }}</p>
 </div>
- <div class="form-floating mb-3">
- <div>{{ form_label (form.date, "Date")  }} </div>
- <div>{{ form_widget (form.date)  }} </div>
- <li class='invalid-form-field'>{{ form_errors (form.date)  }}</li>
  
+
+ <label class="fw-bolder">{{ form_label (form.date, "Date")  }} </label>
+ <div class="form-control mb-3" >
+{{ form_widget (form.date)  }} 
+ <p class='invalid-form-field'>{{ form_errors (form.date)  }}</p>
 </div>
-<div class="form-floating mb-3">
- <div>{{ form_label (form.heure, "Horaire")  }} </div>
- <div> {{ form_widget (form.heure)  }} </div>
+
+ <label class="fw-bolder">{{ form_label (form.heure, "Horaire")  }} </label>
+  <div class="form-control mb-3" >
+ {{ form_widget (form.heure)  }}
  <p class="invalid-form-field">{{ form_errors (form.heure)  }} </p>
 </div>
-<div class="form-floating mb-3">
- <div>{{ form_label (form.lieu, "Lieu")  }} </div>
+
+ <label class="fw-bolder" style=" margin-bottom: -100px !important;">{{ form_label (form.lieu, "Lieu")  }} </label>
+ <div class="form-control mb-3" >
  <div> {{ form_widget (form.lieu)  }} </div>
  <p class="invalid-form-field">{{ form_errors (form.lieu)  }} </p>
 </div>
-<div class="form-floating mb-3">
- <div>{{ form_label (form.idguide, 'Guide d\'entretien')  }} </div>
+
+
+ <label class="fw-bolder">{{ form_label (form.idguide, 'Guide d\'entretien')  }} </label>
+<div class="form-control mb-3" >
  <div> {{ form_widget (form.idguide)  }} </div>
  <p class="invalid-form-field">{{ form_errors (form.idguide)  }} </p>
 </div>
 
  <div class="d-grid"><button class="btn btn-primary btn-lg>{{ form_widget (form.save)  }} </button></div>
-</div>
+
 {{ form_end (form)  }}
+</div>
+</div>
 {%endblock%}

@@ -2,7 +2,7 @@
 
 {% block css %}
 	<link href="{{asset('css/style.css')}}" rel="stylesheet"/>
-	<link href="{{asset('css/details.css')}}" rel="stylesheet"/>
+	<link href="{{asset('css/detailspage.css')}}" rel="stylesheet"/>
 {% endblock %}
 {%block bodysection%}
 
@@ -35,7 +35,7 @@
 
 							<div class="d-flex">
 
-								<a class="badge badge-level">{{c.idoffre.idtype.description}}</a>
+								<div class="badge badge-level">{{c.idoffre.idtype.description}}</div>
 								<div class="badge">{{c.idoffre.specialite}}</div>
 
 
@@ -67,11 +67,14 @@
 								{#add control#}
 								{% if c.etat|lower == "enregistrée" %}
 								<a href="{{path('updateCandidature', {'id': c.id})}}" class="custom-btn btn mt-2">Modifier</a>
+								<a class="custom-btn btn mt-2" style="background-color: red !important;" href="{{path('deleteCandidature',{'id':c.id})}}">Annuler</a>
 								{% else %}
-								<a  class="custom-btn btn mt-2">Validée</a>
+								<div class="badge" style="font-size:18px !important; margin-left:200px !important;">Validée</div>
 								{% endif %}
 								
-								<a href="#" class="custom-btn custom-border-btn btn mt-2 ms-lg-4 ms-3">Entretiens</a>
+								
+						
+								{#<a href="#" class="custom-btn custom-border-btn btn mt-2 ms-lg-4 ms-3">Entretiens</a>#}
 							</div>
 
 						</div>
@@ -173,14 +176,14 @@
 																														<p>Lorem ipsum dolor sit amet, consectetur elit sed do eiusmod tempor incididunt labore.</p>
 																									#}
 					{% if ( entretiens is empty)%}
-						<a class="custom-btn btn mt-2">Pas d'entretiens programmés</a>
+						<div class="badge badge-level" style="font-size: 18px !important;">Pas d'entretiens programmés</div>
 					{% elseif entretiens|length ==1 %}
 						{% if entretiens[0].type|lower == "présentiel" %}
 							<div class="row">
 								<div class="col-lg-4">
 								
 									<h6 class="mt-4 mb-3">Entretien par téléphone</h6>
-									<a class="custom-btn btn mt-2">Pas d'entretien programmé</a>
+									<div class="badge badge-level">Pas d'entretien programmé</div>
 								
 
 								</div>
@@ -220,7 +223,7 @@
 								<span class="col-lg-4">
 
 									<h6 class="mt-4 mb-3">Entretien en présentiel</h6>
-									<a class="custom-btn btn mt-2">Pas d'entretien programmé</a>
+									<div class="badge" style="font-size:15px !important;">Pas d'entretien programmé</div>
 
 								</span>
 							</div>
@@ -269,11 +272,11 @@
 									<h6 class="mt-4 mb-3">Résultat</h6>
 									
 									{% if c.etat|lower == "acceptée" %}
-									<a href="#" class="btn btn-primary">Félicitations! votre candidature a été acceptée. Vous serez contacté pour la signature du contrat.</a>
+									<div class="badge" style="font-size:14px !important; background-color:#0E1947 !important; color:white !important;">Félicitations! votre candidature a été acceptée. Vous serez contacté pour la signature du contrat.</div>
 									{% elseif c.etat|lower == "refusée" %}
-									<a href="#" class="btn btn-primary">Nous sommes désolés! votre candidature a été refusée. Bon courage.</a>
+									<div class="badge" style="font-size:14px !important; background-color:#0E1947 !important; color:white !important;">Nous sommes désolés! votre candidature a été refusée. Bon courage.</a>
 									{% else %}
-									<a href="#" class="btn btn-primary">En attente</a>
+									<div class="badge" style="font-size:14px !important; background-color:#0E1947 !important; color:white !important;">En attente</div>
 
 									{% endif %}
 									

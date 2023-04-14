@@ -32,7 +32,7 @@ class CandidaturesController extends AbstractController
      * add candidature method
      */
 
-    #[Route('/addCandidature', name: 'addCandidature')]
+    #[Route('/postuler', name: 'addCandidature')]
     public function addCandidature(
         ManagerRegistry $doctrine,
         Request $request,
@@ -67,14 +67,14 @@ class CandidaturesController extends AbstractController
      */
 
     #[Route('/candidatures', name: 'readCandidatures')]
-    public function read(CandidaturesRepository $Rep): Response
+    public function read(CandidaturesRepository $Rep, OffreRepository $offreRepo): Response
     {
         //$list = $Rep->findAll();
         $list = $Rep->findByOffre(53);
         $count = $Rep->numberOfCandidaturePerOffre(53);
         //$cvImg= $this->displayPdfAsImage('C:\Users\HP I5\Downloads\CV de graphiste.pdf');
         return $this->render('candidatures/readCandidatures.html.twig', [
-            'list' => $list, 'count' => $count
+            'list' => $list, 'count' => $count, 'offre'=> $offreRepo->find(53)
         ]);
     }
 
@@ -84,61 +84,22 @@ class CandidaturesController extends AbstractController
      */
 
     #[Route('/candidaturesCand', name: 'candidaturesCand')]
-    public function readC(CandidaturesRepository $Rep): Response
+    public function readC(CandidaturesRepository $Rep, UtilisateurRepository $userRepo): Response
     {
-        $list = $Rep->findAll();
-        $count = $Rep->numberOfCandidaturePerCandidat(55);
+       // $list = $Rep->findAll();
+       $list = $Rep->findByCandidat(68);
+        $count = $Rep->numberOfCandidaturePerCandidat(68);
+        
         //$cvImg= $this->displayPdfAsImage('C:\Users\HP I5\Downloads\CV de graphiste.pdf');
         return $this->render('candidatures/readCandidaturesCandidat.html.twig', [
             'list' => $list,
-            'count' => $count
+            'count' => $count,
+            'candidat' => $userRepo->find(68)
         ]);
     }
     /**
      * 
      * update candidature method
-     */
-
-    #[Route('/updateCand/{id}', name: 'updateCand')]
-    public function updateCand(ManagerRegistry $doctrine, Request $request, $id, CandidaturesRepository $repo): Response
-    {
-
-
-        $candidature = $repo->find($id);
-        /*$candidature->setCv(
-            new File($this->getParameter('cv_directory').'\\'.$candidature->getCv())
-        );
-        $candidature->setLettre(
-            new File($this->getParameter('lettres_directory').'\\'.$candidature->getLettre())
-        );*/
-
-        $form = $this->createForm(CandidaturesType::class, $candidature);
-        //$form->add('Modifier', SubmitType::class);
-
-        // $candidature->setCv(
-        /* var_dump( new File($this->getParameter('cv_directory'))) ; 
-           die(); */
-        // );
-        // $form->get('cv')->setData( new File($this->getParameter('cv_directory').'\\'.$candidature->getCv()));
-        /* $candidature->setLettre(
-            new File($this->getParameter('lettres_directory').'\\'.$candidature->getLettre())
-        );*/
-        // );
-        //$form->get('lettre')->setData( new File($this->getParameter('lettres_directory').'\\'.$candidature->getLettre()));
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $en = $doctrine->getManager();
-            $en->flush();
-
-            return $this->redirectToRoute('candidaturesCand');
-        }
-
-        return $this->render('candidatures/updateCandidature.html.twig', ['form' => $form->createView()]);
-    }
-
-    /**
-     * 
-     * update 2
      */
 
     #[Route('/updateCandidature/{id}', name: 'updateCandidature')]
@@ -149,10 +110,10 @@ class CandidaturesController extends AbstractController
             $filecv = $request->files->get('cv');
             
 
-            //$filecv->move("C:\\xampp\\htdocs\\postulitn\\cv", $filecv->getClientOriginalName());
+            $filecv->move("C:\\xampp\\htdocs\\postulitn\\cv", $filecv->getClientOriginalName());
             $candidature->setCv( $request->files->get('cv')->getClientOriginalName());
             $filelettre = $request->files->get('lettre');
-            // $filelettre->move("C:\\xampp\\htdocs\\postulitn\\lettres", $filelettre->getClientOriginalName());
+            $filelettre->move("C:\\xampp\\htdocs\\postulitn\\lettres", $filelettre->getClientOriginalName());
             $candidature->setLettre($request->files->get('lettre')->getClientOriginalName());
             $em = $doctrine->getManager();
             $em->persist($candidature);

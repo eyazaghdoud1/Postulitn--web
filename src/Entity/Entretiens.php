@@ -61,7 +61,7 @@ class Entretiens
      * @ORM\Column(name="lieu", type="string", length=50, nullable=false)
      */
     #[ORM\Column(length:50, nullable:false)]
-    //#[Assert\NotBlank(message:"Si l'entretien est par téléphone, veuillez indiquer none")]
+    #[Assert\NotBlank(message:"Si l'entretien est par téléphone, veuillez indiquer 'none'.")]
     private ?string $lieu = null;
 
     /*

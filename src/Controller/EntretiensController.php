@@ -12,6 +12,7 @@ use App\Repository\CandidaturesRepository;
 use App\Repository\OffreRepository;
 use App\Entity\Entretiens;
 use App\Form\EntretiensType;
+use App\Repository\UtilisateurRepository;
 
 use function PHPSTORM_META\type;
 
@@ -30,12 +31,31 @@ class EntretiensController extends AbstractController
      * read entretiens method
      */
     #[Route('/entretiens', name: 'readEntretiens')]
-    public function readEntretiens(EntretiensRepository $Rep):Response
+    public function readEntretiens(EntretiensRepository $Rep, UtilisateurRepository $userRepo):Response
     {
        // $list = $Rep->findAll();
        $list = $Rep->findByRecruteur(69);
        $count = $Rep->numberOfEntretiensPerRecruteur(69);
-        return $this->render('entretiens/readEntretiens.html.twig', ['list' => $list, 'count'=>$count
+        return $this->render('entretiens/readEntretiens.html.twig', ['list' => $list, 
+        'count'=>$count,
+        'recruteur'=> $userRepo->find(69)
+        ]);
+
+    }
+
+    /**
+     * 
+     * read entretiens method for candidat
+     */
+    #[Route('/entretiensCandidat', name: 'entretiensCandidat')]
+    public function readEntretiensCandidat(EntretiensRepository $Rep, UtilisateurRepository $userRepo):Response
+    {
+       // $list = $Rep->findAll();
+       $list = $Rep->findByCandidat(68);
+       $count = $Rep->numberOfEntretiensPerCandidat(68);
+        return $this->render('entretiens/readEntretiensCandidat.html.twig', ['list' => $list, 
+        'count'=>$count,
+        'candidat'=> $userRepo->find(68)
         ]);
 
     }
@@ -67,12 +87,14 @@ class EntretiensController extends AbstractController
         $entretien->setIdcandidature($candRepo->find($id));
         $form = $this->createForm(EntretiensType::class, $entretien);
         $form->handleRequest($request); 
+       
         if ($form->isSubmitted() && $form->isValid()) {
             //formatting the time to only save the hours and minutes
             $entretien->setHeure(substr($form->get('heure')->getData(),0,5));
             
             if ($form->get('type')->getData() == "En présentiel")
-             { $candRepo->find($id)->setEtat("EntretienPres"); 
+             { $candRepo->find($id)->setEtat("EntretienPres");
+
             } else {
                 $candRepo->find($id)->setEtat("EntretienTel");
                

@@ -2,39 +2,35 @@
 {% extends 'basefront.html.twig' %}
 
 {%block bodysection%}
-{#<div style="margin-bottom:100px; margin-left:100px;">
-<h1> Ajout candidature </h1>
-<div >
-{{ form_start(form,{'attr': {'novalidate': 'novalidate', 'id': 'contactForm'}} ) }}
- <div class="form-floating mb-3">
- {{ form_label (form.cv, "Votre cv")  }} 
- {{ form_widget (form.cv)  }} 
-
- <li class='invalid-form-field'>{{ form_errors (form.cv, {'attr' : {'class': 'invalid-form-field'}})  }}</li>
- 
+<div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
+<img class="logocss" src="{{asset('assets/img/logowhite.png')}}" style="width: 70px; height:80px"></i>
 </div>
-<div class="form-floating mb-3">
- <div>{{ form_label (form.lettre, "Votre lettre de motivation")  }} </div>
- <div> {{ form_widget (form.lettre)  }} </div>
- <p class="invalid-form-field">{{ form_errors (form.lettre)  }} </p>
-</div>
+<h2 class="fw-bolder">Modifier votre candidature</h2>
+<p class="lead mb-0">Veuillez remplir ces champs</p></div>
 
- <div class="d-grid"><button class="btn btn-primary btn-lg>{{ form_widget (form.save)  }} </button></div>
-</div>
-{{ form_end (form)  }}
-#}
+<div class="row gx-5 justify-content-center">
+<div class="col-lg-6">
 
-{#
-{% set cvPath = "http://localhost/postulitn/cv/" ~ cv %}
+<form id="contactForm" method="post" enctype="multipart/form-data">
+<label class="fw-bolder" >Curriculum vitæ</label>
 
-<object data={{cvPath}}  type="application/pdf" width="20%" height="30%">
-        </object>
-#}
-<form method="post" enctype="multipart/form-data">
-    <label >Cv :</label>
-    <input type="file" name="cv" id="cv" ><br><br>
-    <label >Lettre de motivation :</label>
-    <input type="file" name="lettre" id="lettre" ><br><br>
-    <input type="submit" value="Save">
+    
+    <input class="form-control" type="file" name="cv" id="cv"  accept="application/pdf" oninvalid="this.setCustomValidity('Veuillez sélectionner votre CV.')" oninput="this.setCustomValidity('')"><br><br>
+    
+
+
+ <label class="fw-bolder" >Lettre de motivation </label>
+
+   
+    <input  class="form-control" type="file" name="lettre" id="lettre" required accept="application/pdf" oninvalid="this.setCustomValidity('Veuillez sélectionner votre CV.')" oninput="this.setCustomValidity('')"><br><br>
+
+    {#<input type="submit" value="Save">#}
+    <div class="d-grid"><button class="btn btn-primary btn-lg" type="submit">Enregistrer</button></div>
 </form>
+
+</div>
+</div>
 {%endblock%}
+
+
+

@@ -47,10 +47,24 @@ class CandidaturesRepository extends ServiceEntityRepository
     public function findByOffre($idoffre)
     {
         $querybuilder = $this -> createQueryBuilder('c')
-        ->join('c.idoffre', 'o') // champ de jointure & alias de l'entité offre
-        ->addSelect('o') // select de l'entité jointe classroom
+        ->join('c.idoffre', 'o') 
+        ->addSelect('o') 
         ->where('c.idoffre= :id')
         ->setParameter('id',$idoffre);
+        return $query = $querybuilder->getQuery()->getResult();
+    }
+
+     /**
+     * 
+     * candidatures par candidat
+     */
+    public function findByCandidat($idcandidat)
+    {
+        $querybuilder = $this -> createQueryBuilder('c')
+        ->join('c.idcandidat', 'u') 
+        ->addSelect('u') 
+        ->where('u.id= :id')
+        ->setParameter('id',$idcandidat);
         return $query = $querybuilder->getQuery()->getResult();
     }
 

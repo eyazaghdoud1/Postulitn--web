@@ -66,13 +66,13 @@ class EntretiensRepository extends ServiceEntityRepository
 
 /**
      * 
-     * entretiens par candidature
+     * entretiens par offre
      */
     public function findByOffre($idcandidature)
     {
         $querybuilder = $this -> createQueryBuilder('e')
-        ->join('e.idcandidature', 'c') // champ de jointure & alias de l'entité offre
-        ->addSelect('c') // select de l'entité jointe classroom
+        ->join('e.idcandidature', 'c') 
+        ->addSelect('c') 
         ->where('c.id= :id')
         ->setParameter('id',$idcandidature);
         return $query = $querybuilder->getQuery()->getResult();
@@ -89,6 +89,7 @@ class EntretiensRepository extends ServiceEntityRepository
         return $query->getSingleScalarResult();
 
     }
+    
     /** 
     * 
     * entretiens par recruteur
@@ -103,6 +104,33 @@ class EntretiensRepository extends ServiceEntityRepository
        ->setParameter('id',$id);
        return $query = $querybuilder->getQuery()->getResult();
    }
+   /**
+     * 
+     * nombre total des entretiens  par recruteur
+     */
+    public function numberOfEntretiensPerCandidat($id) {
+        $querybuilder = $this -> createQueryBuilder('e');
+        $querybuilder->select('COUNT(e.id)')
+        ->join('e.idcandidature', 'c') 
+        ->join('c.idcandidat', 'u') 
+        ->where('u.id= :id')
+        ->setParameter('id',$id);
+        return $query = $querybuilder->getQuery()->getSingleScalarResult();
+
+    }
+   /** 
+    * 
+    * entretiens par recruteur
+    */
+    public function findByCandidat($id)
+    {
+        $querybuilder = $this -> createQueryBuilder('e')
+        ->join('e.idcandidature', 'c') 
+        ->join('c.idcandidat', 'u') 
+        ->where('u.id= :id')
+        ->setParameter('id',$id);
+        return $query = $querybuilder->getQuery()->getResult();
+    }
     /**
      * 
      * nombre total des entretiens  par recruteur

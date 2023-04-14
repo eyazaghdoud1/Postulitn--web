@@ -2,7 +2,7 @@
 
 {% block css %}
 	<link href="{{asset('css/style.css')}}" rel="stylesheet"/>
-	<link href="{{asset('css/details.css')}}" rel="stylesheet"/>
+	<link href="{{asset('css/detailspage.css')}}" rel="stylesheet"/>
 {% endblock %}
 {%block bodysection%}
 	<section class="job-section section-padding pb-0">
@@ -33,7 +33,7 @@
 
 							<div class="d-flex">
 
-								<a class="badge badge-level">{{c.idoffre.idtype.description}}</a>
+								<div class="badge badge-level">{{c.idoffre.idtype.description}}</div>
 								<div class="badge">{{c.idoffre.specialite}}</div>
 
 
@@ -73,11 +73,11 @@
 							<div>
 								{#should be disabled if candidature etat != enregistrée #}
 								{% if c.etat|lower != "enregistrée" %}
-									<a href="#" class="custom-btn btn mt-2">Validée</a>
+									<div class="badge" style="font-size:18px !important; margin-left:200px !important;">Validée</div>
 								{% else %}
 									<a href="{{path('validerCandidature', {'id': c.id})}}" class="custom-btn btn mt-2">Valider la candidature</a>
 								{% endif %}
-								<a href="#" class="custom-btn custom-border-btn btn mt-2 ms-lg-4 ms-3">Entretiens</a>
+								
 							</div>
 
 						</div>
@@ -128,7 +128,7 @@
 							<script>
 								var cvObject = document.getElementById("cv-object");
 var zoomButton = document.getElementById("zoom-cv");
-var pdfUrlCV = "http://localhost/postulitn/cv/ {{ c.cv }}";
+var pdfUrlCV = "http://localhost/postulitn/cv/{{ c.cv }}";
 
 
 zoomButton.addEventListener("click", function () {
@@ -148,7 +148,7 @@ window.open(pdfUrlCV, '_blank');
 							<script>
 								var lettreObject = document.getElementById("lettre-object");
 var zoomButton = document.getElementById("zoom-lettre");
-var pdfUrlLettre = "http://localhost/postulitn/lettres/ {{ c.lettre }}";
+var pdfUrlLettre = "http://localhost/postulitn/lettres/{{ c.lettre }}";
 
 zoomButton.addEventListener("click", function () {
 window.open(pdfUrlLettre, '_blank');
@@ -282,20 +282,36 @@ window.open(pdfUrlLettre, '_blank');
 
 						{% endif %}
 
-					</div>
-					<div >
+						<div >
 
 						<h6 class="mt-4 mb-3">Résultat</h6>
+						 {% set accept='no' %}
 						{% if entretiens|length == 2%}
-						{% for e in entretiens %}
-							{% if e.date < date('now') %}
-								<a href="{{path('refuserCandidature', {'id': c.id})}}" class="btn btn-primary">Accepter</a>
-								<a href="{{path('accpeterCandidature', {'id': c.id})}}" class="btn btn-danger">Refuser</a>
+						
+							{% if entretiens[0].date < date('now') and entretiens[1].date < date('now') %}
+								{% set accept='yes' %}
 							{% endif %}
-						{% endfor %}
+						
+						{% endif %}
+						{% if accept=='yes' %}
+						<a href="{{path('accepterCandidature', {'id': c.id})}}" class="btn btn-primary">Accepter</a>
+						<a href="{{path('refuserCandidature', {'id': c.id})}}" class="btn btn-danger">Refuser</a>
+						{% else %}
+						<div class="badge" style="font-size:14px !important; background-color:#0E1947 !important; color:white !important;">En attente du passage des entretiens.</div>
+
 						{% endif %}
 
+				
+					
+					
 					</div>
+
+					</div>
+			
+			
+				
+					
+
 					
 				</div>
 			</div>

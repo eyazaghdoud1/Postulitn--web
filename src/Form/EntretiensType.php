@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class EntretiensType extends AbstractType
 {
@@ -46,9 +47,13 @@ class EntretiensType extends AbstractType
             ->add('heure', TimeType::class, [
                 'input' => 'string',
                 'widget' => 'choice',
-                'hours' => range(0, 23),
-                'minutes' => range(0, 59, 5) // limit minutes to multiples of 5]
+                'hours' => range(07, 23),
+                'minutes' => range(0, 59, 5), // limit minutes to multiples of 5]
+                'constraints' => [
+                    new NotBlank(['message' => "Vous devez spécifier l'horaire de l'entretien."]),
+                ],
             ])
+
             ->add('lieu')
             ->add(
                 'idguide',
@@ -61,7 +66,7 @@ class EntretiensType extends AbstractType
 
                 ]
             )
-            ->add('save', SubmitType::class);;
+            ->add('save', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

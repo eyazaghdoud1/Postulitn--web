@@ -4,10 +4,8 @@
 {%block bodysection%}
 <div class="container" style="width:100% !important;">
 
-<div class="card" >
-	<h1>
-		Entretiens
-	</h1>
+<div>
+	
 	{#<ul class="responsive-table">
 	    <li class="table-header">
 	      <div class="col col-1"> Type </div>
@@ -56,8 +54,11 @@
 		<!-- Testimonial 1-->
 		<div class="card mb-4">
 			<div class="card-body p-4">
-			 <h4>Candidat: Foulen Fouleni </h4>
-			 <h6> Total des entretiens à venir: {{count}} </h6>
+			<h1>
+		Entretiens
+	</h1>
+			 <h4>Candidat: {{candidat.nom ~ ' ' ~ candidat.prenom}} </h4>
+			 <h6> Total des entretiens planifiés: {{count}} </h6>
 			</div>
 		</div>
 	</div>
@@ -75,6 +76,7 @@
 						<th>Horaire</th>
                         <th>Lieu</th>
 						<th>Offre</th>
+						<th>Guide de l'entretien</th>
                         <th>Résultat</th>
 						<th>Candidature</th>
 						
@@ -84,13 +86,20 @@
 					{%for l in list %}
 						<tr>
                         <td>{{l.type}}</td>
-							<td>{{l.date|date('Y-m-d')}}</td>
+							<td>{{l.date|date('d-m-Y')}}</td>
 							<td>{{l.heure}}</td>
 							<td>{{l.lieu}}</td>
 							<td>{{l.idcandidature.idoffre.poste}}</td>
-                            <td></td>
+							<td><a class="btn" style="background-color:#353D62 !important; color: white !important;" href="#">Ouvrir le guide: {{l.idguide.specialite}}</a></td>
+							{% if l.idcandidature.etat|lower== "refusée" %}
+                            <td style="background-color: red !important; color: white !important;">Candidature refusée </td>
+							{% elseif l.idcandidature.etat|lower== "acceptée" %}
+                            <td class="badge" style="background-color: green !important; color: white !important;">Candidature acceptée</td>
+							{%else%}
+							<td ><div class="badge" style="background-color:#0E1947 !important; color: white !important;">En attente</div></td>
+							{% endif %}
 							<td>
-								<a class="btn btn-primary" href="#">Details</a>
+								<a class="btn" style="background-color:#353D62 !important; color: white !important;" href="{{path('detailsCandidatureCandidat', {'id': l.idcandidature.id})}}">Ouvrir</a>
 							</td>
 
 
