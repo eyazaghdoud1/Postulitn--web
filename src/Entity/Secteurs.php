@@ -35,6 +35,7 @@ class Secteurs
      */
     #[ORM\Column(length:254, nullable:false)]
     #[Assert\NotBlank(message:"Vous devez insérer le nom du nouveau secteur.")]
+    /*#[Assert\NotBlank(message:"Le secteur existe deja !")]*/
     private ?string $description = null;
 
     public function getIdsecteur(): ?int
