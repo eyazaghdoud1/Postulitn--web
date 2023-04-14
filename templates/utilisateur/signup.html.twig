@@ -12,17 +12,17 @@
 		</title>
 		<!-- Logoicon-->
 		<link rel="icon" type="image/x-icon" href="assets/logo.ico" " />
-																																				        <!-- Bootstrap icons-->
-																																				        <link href=" https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel=" stylesheet" />
-																																				        <!-- Core theme CSS (includes Bootstrap)-->
-																																				        {%block css%}
-																																				        <link href=" css/style.css" rel=" stylesheet" />
-																																				        {%endblock%}
-																																				    </head>
-																																				    <body>
-																																				        <!-- Responsive navbar-->
-																																				        <nav class=" navbar" >
-																																				            <div class=" container px-">
+																																																																																																																																																																																													        <!-- Bootstrap icons-->
+																																																																																																																																																																																													        <link href=" https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel=" stylesheet" />
+																																																																																																																																																																																													        <!-- Core theme CSS (includes Bootstrap)-->
+																																																																																																																																																																																													        {%block css%}
+																																																																																																																																																																																													        <link href=" css/style.css" rel=" stylesheet" />
+																																																																																																																																																																																													        {%endblock%}
+																																																																																																																																																																																													    </head>
+																																																																																																																																																																																													    <body>
+																																																																																																																																																																																													        <!-- Responsive navbar-->
+																																																																																																																																																																																													        <nav class=" navbar" >
+																																																																																																																																																																																													            <div class=" container px-">
 		<a href="index.html"><img class="logocss" src="assets/img/logowhite.png"></a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
@@ -63,78 +63,110 @@
 <div class="text-center mb-5">
 	{%block bodysection%}
 	<div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
-		<i class="bi bi-envelope"></i>
-	</div>
-	<h2 class="fw-bolder">Inscrivez-vous !</h2>
-	<p class="lead mb-0">Veuillez remplir ces champs</p>
+		<img class="logocss" src="assets/img/logowhite.png" style="width: 70px;"></i>
 </div>
-<div class="row gx-5 justify-content-center">
-	<div class="col-lg-6">
-		<!-- * * * * * * * * * * * * * * *-->
-		<!-- * * SB Forms Contact Form * *-->
-		<!-- * * * * * * * * * * * * * * *-->
-		<!-- This form is pre-integrated with SB Forms.-->
-		<!-- To make this form functional, sign up at-->
-		<!-- https://startbootstrap.com/solution/contact-forms-->
-		<!-- to get an API token!-->
-			<form
-			id="contactForm" data-sb-form-api-token="API_TOKEN"> <!-- Name input-->
-			<div class="form-floating mb-3">
-				<input class="form-control" id="name" type="text" placeholder="Enter your name..." data-sb-validations="required"/>
-				<label for="name">Nom</label>
-				<div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
+<h2 class="fw-bolder">Inscrivez-vous !</h2>
+<p class="lead mb-0">Veuillez remplir ces champs</p></div><div class="row gx-5 justify-content-center">
+<div class="col-lg-6">
+	<!-- * * * * * * * * * * * * * * *-->
+	<!-- * * SB Forms Contact Form * *-->
+	<!-- * * * * * * * * * * * * * * *-->
+	<!-- This form is pre-integrated with SB Forms.-->
+	<!-- To make this form functional, sign up at-->
+	<!-- https://startbootstrap.com/solution/contact-forms-->
+	<!-- to get an API token!-->
+
+	{{form_start (form,{'attr': {'novalidate': 'novalidate'}}
+	)}}
+		<div class="form-floating mb-3"> <div class="form-control">
+			<label>
+				{{form_label (form.nom)}}
+			</label>
+
+			{{ form_widget (form.nom) }}
+			{{ form_errors (form.nom) }}
+
+		</div>
+		<div class="invalid-feedback" data-sb-feedback="name:required">Vous devez insérer votre nom.</div>
+	</div>
+	<div class="form-floating mb-3">
+		<div class="form-control">
+			<label>{{form_label (form.prenom)}}</label>
+			{{ form_widget (form.prenom) }}
+			{{ form_errors (form.prenom) }}
+		</div>
+		<div class="invalid-feedback" data-sb-feedback="prenom:required">Vous devez insérer votre prénom.</div>
+	</div>
+	<!-- Email address input-->
+	<div class="form-floating mb-3">
+		<div class="form-control">
+			<label>{{form_label (form.email)}}</label>
+			{{ form_widget (form.email) }}
+			{{ form_errors (form.email) }}
+		</div>
+
+		<div class="invalid-feedback" data-sb-feedback="email:required">Vous devez insérer votre email.</div>
+		<div class="invalid-feedback" data-sb-feedback="email:email">Email non valide.</div>
+	</div>
+	<div class="form-floating mb-3">
+		<div class="form-control">
+			<label>{{form_label (form.adresse)}}</label>
+			{{ form_widget (form.adresse) }}
+			{{ form_errors (form.adresse) }}
+		</div>
+		<div class="invalid-feedback" data-sb-feedback="name:required">Vous devez insérer votre adresse.</div>
+	</div>
+
+	<div class="form-floating mb-3">
+		<div class="form-control" style="height: 100px;">
+			<label>{{form_label (form.datenaissance)}}</label>
+			{{ form_widget (form.datenaissance) }}
+			{{ form_errors (form.datenaissance) }}
+		</div>
+
+		<!-- Phone number input-->
+		<div class="form-floating mb-3">
+			<div class="form-control" style="margin: top 20px;">
+				<label>{{form_label (form.tel)}}</label>
+				{{ form_widget (form.tel) }}
+				{{ form_errors (form.tel) }}
+
 			</div>
-			<div class="form-floating mb-3">
-				<input class="form-control" id="name" type="text" placeholder="Enter your name..." data-sb-validations="required"/>
-				<label for="name">Prénom</label>
-				<div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
+			<div class="invalid-feedback" data-sb-feedback="phone:required">Vous devez insérer votre numéro de téléphone.</div>
+		</div>
+
+		<div class="form-floating mb-3">
+			<div class="form-control">
+				<label>{{form_label (form.idrole)}}</label>
+				{{ form_widget (form.idrole) }}
+				{{ form_errors (form.idrole) }}
 			</div>
-			<!-- Email address input-->
+
 			<div class="form-floating mb-3">
-				<input class="form-control" id="email" type="email" placeholder="name@example.com" data-sb-validations="required,email"/>
-				<label for="email">Email</label>
-				<div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
-				<div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
-			</div>
-			<div class="form-floating mb-3">
-				<input class="form-control" id="name" type="text" placeholder="Enter your name..." data-sb-validations="required"/>
-				<label for="name">Adresse</label>
-				<div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
-			</div>
-			<!-- Phone number input-->
-			<div class="form-floating mb-3">
-				<input class="form-control" id="phone" type="tel" placeholder="(123) 456-7890" data-sb-validations="required"/>
-				<label for="phone">Phone number</label>
-				<div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is required.</div>
-			</div>
-			<div class="form-floating mb-3">
-				<input class="form-control" id="name" type="text" placeholder="Enter your name..." data-sb-validations="required"/>
-				<label for="name">Mot de passe</label>
-				<div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
-			</div>
-			<!-- Submit success message-->
-			<!---->
-			<!-- This is what your users will see when the form-->
-			<!-- has successfully submitted-->
-				<div class="d-none" id="submitSuccessMessage"> <div class="text-center mb-3">
-					<div class="fw-bolder">Form submission successful!</div>
-					To activate this form, sign up at
-					<br/>
-					<a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+				<div class="form-control">
+					<label>{{form_label (form.mdp)}}</label>
+					{{ form_widget (form.mdp) }}
+					{{ form_errors (form.mdp) }}
 				</div>
+				<div class="invalid-feedback" data-sb-feedback="name:required">Un mot de passe est nécessaire.</div>
 			</div>
-			<!-- Submit error message-->
-			<!---->
-			<!-- This is what your users will see when there is-->
-			<!-- an error submitting the form-->
-				<div class="d-none" id="submitErrorMessage"> <div class="text-center text-danger mb-3">Error sending message!</div>
+
+
+			<div class="d-none" id="submitErrorMessage">
+				<div class="text-center text-danger mb-3">Error sending message!</div>
 			</div>
 			<!-- Submit Button-->
+
 			<div class="d-grid">
-				<button class="btn btn-primary btn-lg disabled" id="submitButton" type="submit">S'inscrire</button>
+				<button class="btn btn-primary btn-lg" {{ form_widget (form.save) }}></button>
 			</div>
-		</form>
+
+			{{form_end (form)}}
+
+		</div>
+		{%endblock%}
 	</div>
-	{%endblock%}
-</div></div></section><!-- Footer--><footer class="py-5 bg-dark"><div class="container px-5">
-<p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div></footer><!-- Bootstrap core JS--><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script><!-- Core theme JS--><script src="js/scripts.js"></script><!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *--><!-- * *                               SB Forms JS                               * *--><!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *--><!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *--><script src="https://cdn.startbootstrap.com/sb-forms-latest.js"> </script></body></html>
+</div></section><!-- Footer--><footer class="py-5 bg-dark">
+<div class="container px-5">
+	<p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p>
+</div></footer><!-- Bootstrap core JS--><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script><!-- Core theme JS--><script src="js/scripts.js"></script><!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *--><!-- * *                               SB Forms JS                               * *--><!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *--><!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *--><script src="https://cdn.startbootstrap.com/sb-forms-latest.js"> </script></body></html>

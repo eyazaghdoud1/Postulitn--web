@@ -1,13 +1,31 @@
 {% extends 'baseback.html.twig' %}
 
 {% block content %}
-<div style="height:75%">
-	<h2 class="fw-bolder" style="padding:20px">Modifier le rôle</h2>
-	{{form_start(form,{'attr':{'novalidate': 'novalidate'}})}}
-	{{form_label(form.description, "Description")}}
-	{{form_widget(form.description)}}
-	{{form_errors(form.description)}}
+	<div style="height: 1000px">
+		<div class="text-center mb-5">
+			<div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
+				<i class="bi bi-envelope"></i>
+			</div>
+			<h2 class="fw-bolder">Modifier un rôle !</h2>
 
-	{{ form_widget(form.save) }}
-	{{ form_end(form) }}</div>
-{%endblock%}
+		</div>
+
+		{{form_start (form)}}
+		<div class="form-floating mb-3">
+			<div class="form-control">
+				<label>
+					{{form_label (form.description)}}
+				</label>
+
+				{{ form_widget (form.description) }}
+				{{ form_errors (form.description) }}
+
+			</div>
+
+			<div class="d-grid">
+				<button class="btn btn-primary btn-lg" style="margin_left: 50px;" {{ form_widget (form.save) }}></button>
+			</div>
+			{{form_end (form)}}
+
+		</div>
+	{% endblock %}

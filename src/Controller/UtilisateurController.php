@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Repository\UtilisateurRepository;
 use App\Form\UtilisateurType;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
 
 class UtilisateurController extends AbstractController
 {
@@ -37,12 +39,15 @@ class UtilisateurController extends AbstractController
         $user = new Utilisateur();
         $form = $this->createForm(UtilisateurType::class, $user);
         $form->handleRequest($req);
+        $user->setSalt('abcdef');
+
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $em = $doctrine->getManager();
             $em->persist($user);
             $em->flush();
-            return $this->redirectToRoute('postuli.tn');
+            return $this->redirectToRoute('app_candidatures');
         }
 
         return $this->render('utilisateur/signup.html.twig', [

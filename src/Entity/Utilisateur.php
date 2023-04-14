@@ -84,6 +84,7 @@ class Utilisateur
      * @ORM\Column(name="mdp", type="string", length=100, nullable=false)
      */
     #[ORM\Column(length: 100, nullable: false)]
+    #[Assert\UserPassword(message: "Mot de passe invalide")]
     private ?string $mdp = null;
 
     /*

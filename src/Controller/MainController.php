@@ -24,5 +24,4 @@ class MainController extends AbstractController
     {
         return $this->render('baseback.html.twig');
     }
-
 }
