@@ -1,0 +1,26 @@
+:root {
+	--color-text: #fff;
+	--color-background: linear-gradient(to right bottom, #ffb88e, #ea5753);
+	--color-container: linear-gradient(
+		to right bottom,
+		rgb(255, 184, 142, 0.44),
+		rgba(255, 255, 255, 0.5)
+	);
+	--color-list: rgba(234, 87, 83, 0.7);
+}
+
+html {
+	font-size: 62.5%; /* 1rem = 10px */
+}
+
+body {
+	margin: 0;
+	height: 100vh;
+	display: grid;
+	font-size: 1.6rem; /* equivalent to 16px */
+	place-items: center;
+	background: #ea5753; /* fallback */
+	background: var(--color-background); /* actual gradient */
+	font-family: Rockwell, "Courier New", Courier, Georgia, Times,
+		"Times New Roman", serif;
+}

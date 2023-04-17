@@ -72,7 +72,7 @@ class CandidaturesController extends AbstractController
         //$list = $Rep->findAll();
         $list = $Rep->findByOffre(53);
         $count = $Rep->numberOfCandidaturePerOffre(53);
-        //$cvImg= $this->displayPdfAsImage('C:\Users\HP I5\Downloads\CV de graphiste.pdf');
+        
         return $this->render('candidatures/readCandidatures.html.twig', [
             'list' => $list, 'count' => $count, 'offre'=> $offreRepo->find(53)
         ]);
@@ -90,7 +90,7 @@ class CandidaturesController extends AbstractController
        $list = $Rep->findByCandidat(68);
         $count = $Rep->numberOfCandidaturePerCandidat(68);
         
-        //$cvImg= $this->displayPdfAsImage('C:\Users\HP I5\Downloads\CV de graphiste.pdf');
+        
         return $this->render('candidatures/readCandidaturesCandidat.html.twig', [
             'list' => $list,
             'count' => $count,

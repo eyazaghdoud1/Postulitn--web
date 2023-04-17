@@ -1,0 +1,66 @@
+{% extends 'basefront.html.twig' %}
+{%block css%}
+<link href="{{asset('css/style.css')}}" rel="stylesheet"/>
+<link href="{{asset('css/quizlist.css')}}" rel="stylesheet"/>
+{%endblock%}
+{%block bodysection%}
+<style>
+h3::before {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex: 0 0 auto;
+	margin-right: 1rem;
+	width: 3rem;
+	height: 3rem;
+	content: '?';
+	padding: 1rem;
+	border-radius: 50%;
+	background-color:#353D62;
+	color: white;
+}
+</style>
+
+<form style="margin-top:-50px !important;"^method="post">
+<div class="feature bg-primary bg-gradient text-white rounded-3 mb-1">
+		<img class="logocss" src="{{asset('assets/img/logowhite.png')}}" style="width: 70px; height:80px"></i>
+</div>
+
+<h2 class="fw-bolder">Quiz: {{quiz.nom}} </h2>
+<p class="lead mb-0">Spécialité: {{quiz.specialite}} </p>
+<p class="lead mb-0">Testez vos connaissances ! </p>
+	<ol class="olq">
+		{% for i in 0..list|length-1 %}
+			{% set n='q'~i %}
+
+			<li class="liq">
+				<ol class="olq">
+					<h3 >Question {{i+1}}:
+						{{list[i].question}}</h3>
+					<li class="liq">
+						<input type="radio" id="opt1" name="n"/>
+						<label for="opt1">
+							{{list[i].option1}}
+						</label>
+					</li>
+					<li class="liq">
+						<input type="radio" id="opt2" name="n"/>
+						<label for="opt2">
+							{{list[i].option2}}
+						</label>
+					</li>
+					<li class="liq">
+						<input type="radio" id="opt3" name="n"/>
+						<label for="opt3">
+							{{list[i].option3}}
+						</label>
+					</li>
+				</ol>
+			</li>
+
+		{% endfor %}
+	</ol>
+    <button type="sumbit" class="custom-btn" >Valider</button>
+</form>
+
+{%endblock%}

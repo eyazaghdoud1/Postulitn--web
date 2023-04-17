@@ -1,0 +1,16 @@
+{% extends 'basefront.html.twig' %}
+{%block css%}
+<link href="{{asset('css/style.css')}}" rel="stylesheet"/>
+<link href="{{asset('css/quizlist.css')}}" rel="stylesheet"/>
+{%endblock%}
+{%block bodysection%}
+<h1> Liste des quiz </h1>
+<ol class="olq" style="--length: {{list|length}}" role="list">
+	{% for q in list %}
+		<li class="liq" style="--i: 1">
+			<h3>Quiz {{q.specialite}}</h3>
+			<a class="custom-btn aq" href={{path('quizQuestions', {'id':  q.id})}} >Passer le quiz</a>
+		</li>
+	{% endfor %}
+</ol>
+{%endblock%}
