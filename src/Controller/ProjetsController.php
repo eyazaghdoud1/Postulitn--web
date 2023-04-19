@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 use App\Entity\Utilisateur;
+use App\Entity\Commentaires;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -9,6 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Form\ProjetsType;
 use App\Entity\Projets;
 use App\Repository\ProjetsRepository;
+use App\Repository\Commentairesepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormTypeInterface;
 
@@ -48,7 +50,7 @@ class ProjetsController extends AbstractController
         $form->handleRequest($req);
         if($form->isSubmitted() && $form->isValid()){
             $em=$doctrine->getManager();
-            $idResponsable = $em->getRepository(Utilisateur::class)->find(69); 
+            $idResponsable = $em->getRepository(Utilisateur::class)->find(67); 
             $projets->setIdResponsable($idResponsable);
             $em->persist($projets);
             $em->flush();
@@ -101,5 +103,13 @@ class ProjetsController extends AbstractController
         ]);
     }
 
+   /* #[Route('/showCommentaires2', name: 'show_commentaires2')]
+    public function index1(CommentairesRepository $CommentairesRepository): Response
+    {
+        return $this->render('projets/ProjetsDetailsCandidat.html.twig', [
+            'commentaires' => $CommentairesRepository->findAll(),
+        ]);
+    }
+/*/
 }
 
