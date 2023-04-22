@@ -84,7 +84,7 @@ class Utilisateur
      * @ORM\Column(name="mdp", type="string", length=100, nullable=false)
      */
     #[ORM\Column(length: 100, nullable: false)]
-    #[Assert\UserPassword(message: "Mot de passe invalide")]
+    #[Assert\NotBlank(message: "Il faut insérer un mot de pass ! ")]
     private ?string $mdp = null;
 
     /*
@@ -117,6 +117,7 @@ class Utilisateur
      */
     #[ORM\ManyToOne(targetEntity: Role::class)]
     #[ORM\JoinColumn(name: 'idRole', referencedColumnName: 'idRole')]
+    #[Assert\NotBlank(message: "Il faut insérer un rôle")]
     private ?Role $idrole = null;
 
     public function getId(): ?int

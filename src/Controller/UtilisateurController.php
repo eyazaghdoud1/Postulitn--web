@@ -55,25 +55,6 @@ class UtilisateurController extends AbstractController
         ]);
     }
 
-    /*#[Route('/addAdmin', name: 'addAdmin')]
-    public function addUser(Request $req, ManagerRegistry $doctrine)
-    {
-        $adminuser = new Utilisateur();
-        //$adminrole = $doctrine->getManager()->getRepository(Role::class)->find(1);
-        $form = $this->createForm(UtilisateurType::class, $adminuser);
-        $form->handleRequest($req);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $doctrine->getManager();
-            $adminuser->setIdrole($em->getRepository(Role::class)->find(1));
-            $em->persist($adminuser);
-            $em->flush();
-            return $this->redirectToRoute('readUsers');
-        }
-        return $this->render('utilisateur/addAdministrateur.html.twig', [
-            'form' => $form->createView()
-        ]);
-    }*/
-
     #[Route('/deleteUser/{id}', name: 'deleteUser')]
     public function deleteUser($id, ManagerRegistry $doctrine)
     {
