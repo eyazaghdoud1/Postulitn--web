@@ -1,0 +1,61 @@
+{% extends 'baseback.html.twig' %}
+{%block css%}
+<link href="{{asset('css/back.css')}}" rel="stylesheet"/>
+<link href="{{asset('css/quizlist.css')}}" rel="stylesheet"/>
+{%endblock%}
+{%block content%}
+<div class="container px-5 my-5 px-5 " style="height:70%">
+ 
+<h1>
+	Liste des quiz
+</h1>
+<a class="btn btn-primary mb-3"  href="{{path('addQuiz')}}">Ajouter un quiz</a>
+
+{#
+<ol class="olq" style="--length: {{list|length}}" role="list">
+
+	{% for q in list %}
+		<li class="liq" style="--i: 1">
+			<h3>Quiz
+				{{q.nom}}</h3>
+			<h6>Spécialité:
+				{{q.specialite}}</h6>
+			<a class="btn btn-primary" href="#">Modifier</a>
+			<a class="btn btn-danger" href="#">Supprimer</a>
+		</li>
+	{% endfor %}
+</ol>
+#}
+<table class="table table-striped">
+	<thead>
+		<tr>
+        <th> Nom du quiz</th>
+        <th> Secteur</th>
+        <th> Spécialité </th>
+        <th> Modifier </th>
+        <th> Supprimer</th>
+        
+        </tr>
+	</thead>
+	<tbody>
+    {% for q in list %}
+		<tr>
+			<td>
+				{{q.nom}}</td>
+			
+            <td>
+				{{q.secteur}}</td>
+			<td>
+				{{q.specialite}}</td>
+			<td><a class="btn btn-primary" href="#">Modifier</a></td>
+			<td><a class="btn btn-danger" href="#">Supprimer</a></td>
+		</tr>
+	{% endfor %}
+
+		
+	</tbody>
+</table>
+
+</div>
+
+{%endblock%}

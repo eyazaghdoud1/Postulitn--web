@@ -38,7 +38,19 @@ class QuizscoresRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    
+    public function findByCandidatAndQuiz($idc, $idq) {
+        
+        $querybuilder = $this -> createQueryBuilder('qs')
+        ->join('qs.idcandidat', 'u') 
+        ->join('qs.idquiz', 'q') 
+        ->where('qs.idcandidat= :idc')
+        ->andWhere('qs.idquiz= :idq')
+        ->setParameter('idc', $idc)
+        ->setParameter('idq', $idq);
+        return $query = $querybuilder->getQuery()->getSingleResult();
 
+    }
 //    /**
 //     * @return Quizscores[] Returns an array of Quizscores objects
 //     */

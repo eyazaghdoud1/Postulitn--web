@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\QuizRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: QuizRepository::class)]
 class Quiz
@@ -29,6 +30,7 @@ class Quiz
      */
 
     #[ORM\Column(length:100, nullable:false)]
+    #[Assert\NotBlank(message:"Vous devez indiquer le secteur du quiz.")]
     private ?string $secteur = null;
 
     /*
@@ -38,6 +40,7 @@ class Quiz
      * @ORM\Column(name="specialite", type="string", length=100, nullable=false)
      */
     #[ORM\Column(length:100, nullable:false)]
+    #[Assert\NotBlank(message:"Vous devez indiquer la spécialité du quiz.")]
     private ?string $specialite = null;
 
     /*
@@ -47,6 +50,7 @@ class Quiz
      * @ORM\Column(name="nom", type="string", length=20, nullable=false)
      */
     #[ORM\Column(length:20, nullable:false)]
+    #[Assert\NotBlank(message:"Vous devez indiquer le nom du secteur.")]
     private ?string $nom = null;
 
     public function getId(): ?int

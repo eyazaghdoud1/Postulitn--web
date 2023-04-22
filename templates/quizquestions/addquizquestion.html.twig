@@ -1,0 +1,93 @@
+{% extends 'baseback.html.twig' %}
+{% block css %}
+	<link href="{{asset('css/back.css')}}" rel="stylesheet">
+	<link href="{{asset('css/form.css')}}" rel="stylesheet">
+
+{% endblock %}
+{%block content%}
+
+<div class="container px-5 my-5 px-5">
+	<div class="text-center mb-5">
+		<div class="feature rounded-3 mb-3">
+			<img class="logocss" src="{{asset('assets/img/logo1.png')}}" style="width: 70px; height:80px">
+		</div>
+		<h2 class="fw-bolder">Nouveau quiz:
+			{{quiz.nom}}</h2>
+		<p class="lead mb-0">Veuillez ajouter 5 questions à votre quiz</p>
+		 {{qstnumber}}
+	</div>
+
+
+	
+
+		
+		<div class="row gx-5 justify-content-center">
+		<div class="col-lg-6">
+
+			{{ form_start(form,{'attr': {'novalidate': 'novalidate', 'id': 'contactForm'}}
+			) }}
+
+
+			<label class="fw-bolder">
+				{{ form_label (form.question, 'Question')  }}
+			</label>
+			{{ form_widget (form.question, {'attr': {'class': "form-control mb-3"}})  }}
+			<p class="lead mb-0 invalid-form-field">{{ form_errors (form.question)  }}</p>
+
+
+			<label class="fw-bolder">{{ form_label (form.option1, 'Option1')  }}
+			</label>
+
+			{{ form_widget (form.option1, {'attr': {'class': "form-control mb-3"}})  }}
+			<p class='invalid-form-field'>{{ form_errors (form.option1)  }}</p>
+
+
+			<label class="fw-bolder">{{ form_label (form.option2, 'Option2')  }}
+			</label>
+
+			{{ form_widget (form.option2, {'attr': {'class': "form-control mb-3"}})  }}
+			<p class="invalid-form-field">{{ form_errors (form.option2)  }}
+			</p>
+			<label class="fw-bolder">{{ form_label (form.option3, 'Option3')  }}
+			</label>
+
+			{{ form_widget (form.option3, {'attr': {'class': "form-control mb-3"}})  }}
+			<p class="invalid-form-field">{{ form_errors (form.option3)  }}
+			</p>
+
+			<label class="fw-bolder">{{ form_label (form.reponse, 'Réponse')  }}
+			</label>
+
+			{{ form_widget (form.reponse, {'attr': {'class': "form-control mb-3"}})  }}
+			<p class="invalid-form-field">{{ form_errors (form.reponse)  }}
+			</p>
+
+
+			<div class="d-grid">{{ form_widget (form.save, {'attr': {'class': "btn btn-primary btn-lg"}})  }}
+			</div>
+
+			{{ form_end (form)  }}
+</div>
+</div>
+	
+	
+
+</div>
+{#
+<form method="POST">
+
+    <h2>Question {{ qstnumber }}</h2>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+    <button class="next-button">Next</button>
+</form>
+<script>
+    const form = document.querySelector('form');
+    const nextButton = document.querySelector('.next-button');
+    nextButton.addEventListener('click', function() {
+        form.submit();
+    });
+</script>
+#}
+{%endblock%}

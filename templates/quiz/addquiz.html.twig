@@ -1,0 +1,58 @@
+{% extends 'baseback.html.twig' %}
+{% block css %}
+    <link href="{{asset('css/back.css')}}" rel="stylesheet">
+    <link href="{{asset('css/form.css')}}" rel="stylesheet">
+    
+{% endblock %}
+{%block content%}
+<div class="container px-5 my-5 px-5">
+ <div class="text-center mb-5">
+<div class="feature rounded-3 mb-3">
+	<img class="logocss" src="{{asset('assets/img/logo1.png')}}" style="width: 70px; height:80px">
+</div><h2 class="fw-bolder">Ajouter un nouveau quiz</h2><p class="lead mb-0">Veuillez remplir ces champs</p>
+</div>
+
+<div class="row gx-5 justify-content-center">
+
+<div class="col-lg-6">
+
+<div>
+
+	{{ form_start(form,{'attr': {'novalidate': 'novalidate', 'id': 'contactForm'}}
+	) }}
+
+
+	<label class="fw-bolder">
+		{{ form_label (form.secteur, 'Secteur')  }}
+	</label>
+	  {{ form_widget (form.secteur, {'attr': {'class': "form-control mb-3"}})  }}
+		<p class="lead mb-0 invalid-form-field">{{ form_errors (form.secteur)  }}</p>
+
+
+
+	<label class="fw-bolder">{{ form_label (form.specialite, 'Specialité')  }}
+	</label>
+	
+		{{ form_widget (form.specialite, {'attr': {'class': "form-control mb-3"}})  }}
+		<p class='invalid-form-field'>{{ form_errors (form.specialite)  }}</p>
+	
+
+	<label class="fw-bolder">{{ form_label (form.nom, "Nom")  }}
+	</label>
+	
+		{{ form_widget (form.nom, {'attr': {'class': "form-control mb-3"}})  }}
+		<p class="invalid-form-field">{{ form_errors (form.nom)  }}
+		</p>
+	
+
+</div>
+
+<div class="d-grid">{{ form_widget (form.save, {'attr': {'class': "btn btn-primary btn-lg"}})  }} </div>
+
+{{ form_end (form)  }}
+</div>
+</div>
+
+</div>
+</div>
+{%endblock%}
