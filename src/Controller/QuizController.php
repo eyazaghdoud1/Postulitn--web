@@ -182,4 +182,22 @@ class QuizController extends AbstractController
         }
         return $score;
     }
+
+    /**
+     * 
+     * delete quiz method
+     */
+    #[Route('/admin/deletequiz/{id}', name: 'deleteQuiz')]
+    public function delete(QuizquestionsController $qqcont ,QuizRepository $repo, QuizquestionsRepository $qqrepo,ManagerRegistry $doctrine, $id): Response
+    {
+        $objet = $repo->find($id);
+        $questions = $qqrepo->findByQuiz($objet);
+        $em = $doctrine->getManager();
+        $em->remove($objet);
+        $em->flush();
+        for($i=0; $i<count($questions); $i++) {
+            $qqcont->delete($qqrepo, $doctrine, $questions[$i]->getId());
+        }
+        return $this->redirectToRoute('adminReadQuiz');
+    }
 }

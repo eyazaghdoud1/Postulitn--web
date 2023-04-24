@@ -89,6 +89,17 @@ class CandidaturesRepository extends ServiceEntityRepository
         return $query->getSingleScalarResult();
 
     }
+     /**
+     * 
+     * filtrer par état
+     */
+    public function filterByEtat($etat)
+    {
+        $querybuilder = $this -> createQueryBuilder('c')
+        ->where('c.etat= :etat')
+        ->setParameter('etat',$etat);
+        return $query = $querybuilder->getQuery()->getResult();
+    }
     
 
 //    /**

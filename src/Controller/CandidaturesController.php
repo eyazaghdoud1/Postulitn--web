@@ -67,11 +67,25 @@ class CandidaturesController extends AbstractController
      */
 
     #[Route('/candidatures', name: 'readCandidatures')]
-    public function read(CandidaturesRepository $Rep, OffreRepository $offreRepo): Response
+    public function read(CandidaturesRepository $Rep, OffreRepository $offreRepo,): Response
     {
         //$list = $Rep->findAll();
-        $list = $Rep->findByOffre(53);
+        
         $count = $Rep->numberOfCandidaturePerOffre(53);
+        $list = $Rep->findByOffre(53);
+        
+        return $this->render('candidatures/readCandidatures.html.twig', [
+            'list' => $list, 'count' => $count, 'offre'=> $offreRepo->find(53)
+        ]);
+    }
+    #[Route('/candidatures/{etat}', name: 'filterCandidatures')]
+    public function filter(CandidaturesRepository $Rep, OffreRepository $offreRepo, $etat): Response
+    {
+        //$list = $Rep->findAll();
+        
+        $count = $Rep->numberOfCandidaturePerOffre(53);
+       
+        $list = $Rep->filterByEtat($etat);
         
         return $this->render('candidatures/readCandidatures.html.twig', [
             'list' => $list, 'count' => $count, 'offre'=> $offreRepo->find(53)

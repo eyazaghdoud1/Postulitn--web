@@ -22,41 +22,70 @@
 		</div>
 	</div>
 </div>#}
-<div class="row card mb-4" >
-	<div class="col-lg-6" style="width:100% !important;">
-				<div>
-					<h3 class="job-title mb-0">Candidatures pour le poste:
-					 {{offre.poste}}</h3>
-					 <h4>
-					Nombre de candidatures reçues: {{count}}
-				</h4>
-					<div class="job-thumb job-thumb-detail">
-						<div class="d-flex flex-wrap align-items-center border-bottom pt-lg-3 pt-2 pb-3 mb-4" style="margin-left:200px !important;">
+<style>
+	.newcol {
+		box-shadow: 0 1px 3px white, 0 1px 2px white !important;
+		padding: 5px !important;
+		border: black;
+		margin-top: -5px !important;
+		display: flex;
+		align-items: left !important;
+		spacing: 10px;
+		
 
-							<p class="job-date mb-0" style="margin-left: 200px !important;">
-								<i class="custom-icon bi-clock me-1"></i>
-								Expire le:
-								{{offre.dateexpiration|date('d-m-Y')}}
-							</p>
-							
+		/*background:  #353D62 !important;*/
+
+	}
+	.parentcol {
+		box-shadow: 2px 3px 3px #0E1947, 0 1px 2px #0E1947 !important;
+		padding: 20px !important;
+		/*background:  #353D62 !important;
+  color:white;*/
+	}
+	.filterbtn{
+	background-color:white !important; 
+	margin-right: 10px !important; 
+	font-size: 12px !important;
+	font-weight: bolder;
+	}
+</style>
+<div>
+	<div class="parentcol mb-4" style="margin-top: -50px !important;">
+
+		<div>
+			<h3 class="job-title mb-0">Candidatures pour le poste:
+				{{offre.poste}}</h3>
+			<h4>
+				Nombre de candidatures reçues:
+				{{count}}
+			</h4>
+			<div class="job-thumb job-thumb-detail">
+				<div class="d-flex flex-wrap align-items-center border-bottom pt-lg-3 pt-2 pb-3 mb-4" style="margin-left:200px !important;">
+
+					<p class="job-date mb-0" style="margin-left: 200px !important;">
+						<i class="custom-icon bi-clock me-1"></i>
+						Expire le:
+						{{offre.dateexpiration|date('d-m-Y')}}
+					</p>
+
 				</div>
-						</div>
+			</div>
+			<h6 style="display: flex; margin-left: 10px !important;"> Filtrer</h6>
+			<div class="newcol" >
+				    
+					<a class="btn filterbtn"  href="{{path('filterCandidatures', {'etat':'Validée'})}}">Validées</a>
+					<a class="btn filterbtn"  href="{{path('filterCandidatures', {'etat':'Enregistrée'})}}">Entregistrées</a>
+					<a class="btn filterbtn"  href="{{path('filterCandidatures', {'etat':'Acceptée'})}}">Acceptées</a>
+					<a class="btn filterbtn"  href="{{path('filterCandidatures', {'etat':'Refusée'})}}">Refusées</a>
+					<a class="btn filterbtn"  href="{{path('filterCandidatures', {'etat':'EntretienPres'})}}">Phase d'entretien présentiel</a>
+					<a class="btn filterbtn"  href="{{path('filterCandidatures', {'etat':'EntretienTel'})}}">Phase d'entretien téléphone</a>
+					<a class="btn filterbtn"  href="{{path('readCandidatures')}}">Toutes les candidatures</a>
+				
+			</div>
 		</div>
 	</div>
 </div>
-						
-<style>
-	.example-wrapper {
-		margin: 1em auto;
-		max-width: 800px;
-		width: 95%;
-		font: 18px / 1.5 sans-serif;
-	}
-	.example-wrapper code {
-		background: #F5F5F5;
-		padding: 2px 6px;
-	}
-</style>
+
 
 <div class="container">
 	<div class="row">
@@ -72,7 +101,7 @@
 					<th>Date de candidature</th>
 					<th>Etat</th>
 					{#<th>Valider</th>#}
-					
+
 				</tr>
 			</thead>
 			<tbody>
@@ -85,17 +114,21 @@
 						</td>
 						<td>{{l.date|date('d-m-Y')}}</td>
 						{% if l.etat|lower == "refusée"%}
-						<td><div class="badge" style="background-color:red !important;">{{l.etat}}</div></td>
+							<td>
+								<div class="badge" style="background-color:red !important;">{{l.etat}}</div>
+							</td>
 						{% elseif l.etat|lower == "acceptée" %}
-						<td><div class="badge" style="background-color:green !important;">{{l.etat}}</div></td>
+							<td>
+								<div class="badge" style="background-color:green !important;">{{l.etat}}</div>
+							</td>
 						{% else %}
-						<td><div class="badge" style="background-color:#0E1947 !important;">{{l.etat}}</div></td>
+							<td>
+								<div class="badge" style="background-color:#0E1947 !important;">{{l.etat}}</div>
+							</td>
 						{% endif %}
 						{#<td>
-							<a class="btn btn-primary" href="{{path('validerCandidature',{'id': l.id})}}">Valider</a>
-						</td>#}
-						
-						
+																			<a class="btn btn-primary" href="{{path('validerCandidature',{'id': l.id})}}">Valider</a>
+																		</td>#}
 
 
 					</tr>
@@ -103,40 +136,35 @@
 			</tbody>
 		</table>
 	</div>
-</div>
-{#
-<table border="1">
-    <tr>
-
-    </tr>
-        {%for l in list %}
-
-    <tr>
-
-        <td>{{l.id}}</td>
-
-        <td>{{l.cv}}</td>
-        
-        <td>{{l.lettre}}</td>
-
-        <td>{{l.idcandidat.id}}</td>
-        <td>{{l.idcandidat.prenom ~ ' ' ~ l.idcandidat.nom}}</td>
-        <td>{{l.idoffre.poste}}</td>
-       <td> <a href= {{ path ('createCandidature') }}> delete candidature </a> </td>
-        </td>
-
-
-    </tr>
-
-    {%endfor%}
-
-</table>
-#}
-
-
-{# to display the pdf 
-<object data="http://localhost/postulitn/cv/CV_ZAGHDOUD_Eya.pdf"  type="application/pdf" width="50%" height="50%">
-        </object>
-
-#}
-{%endblock%}
+</div></div>{#
+	<table border="1">
+	    <tr>
+	
+	    </tr>
+	        {%for l in list %}
+	
+	    <tr>
+	
+	        <td>{{l.id}}</td>
+	
+	        <td>{{l.cv}}</td>
+	        
+	        <td>{{l.lettre}}</td>
+	
+	        <td>{{l.idcandidat.id}}</td>
+	        <td>{{l.idcandidat.prenom ~ ' ' ~ l.idcandidat.nom}}</td>
+	        <td>{{l.idoffre.poste}}</td>
+	       <td> <a href= {{ path ('createCandidature') }}> delete candidature </a> </td>
+	        </td>
+	
+	
+	    </tr>
+	
+	    {%endfor%}
+	
+	</table>
+	#}{# to display the pdf 
+	<object data="http://localhost/postulitn/cv/CV_ZAGHDOUD_Eya.pdf"  type="application/pdf" width="50%" height="50%">
+	        </object>
+	
+	#}{%endblock%}

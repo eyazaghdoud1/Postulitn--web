@@ -111,8 +111,20 @@ class QuizquestionsController extends AbstractController
     }
     
 
-    
-    
+    /** 
+     * 
+     * delete quiz question method
+     */
+    //#[Route('/admin/quiz/{idquiz}/deletequestion/{idquestion}', name: 'deleteQuizQuestion')]
+    public function delete(QuizquestionsRepository $repo,ManagerRegistry $doctrine, $id) //: Response
+    {
+        $objet = $repo->find($id);
+        $em = $doctrine->getManager();
+        $em->remove($objet);
+        $em->flush();
+
+        //return $this->redirectToRoute('adminReadQuiz');
+    }
    
     
 }
