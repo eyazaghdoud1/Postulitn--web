@@ -91,12 +91,28 @@ class CandidaturesRepository extends ServiceEntityRepository
     }
      /**
      * 
-     * filtrer par état
+     * filtrer par état pour recruteur
      */
-    public function filterByEtat($etat)
+    public function filterByEtatOffre($idoffre, $etat)
     {
         $querybuilder = $this -> createQueryBuilder('c')
-        ->where('c.etat= :etat')
+        ->where('c.idoffre = :idoffre')
+        ->andWhere('c.etat= :etat')
+        ->setParameter('idoffre',$idoffre)
+        ->setParameter('etat',$etat);
+        return $query = $querybuilder->getQuery()->getResult();
+    }
+
+    /**
+     * 
+     * filtrer par état pour candidat
+     */
+    public function filterByEtatCandidat($idcandidat, $etat)
+    {
+        $querybuilder = $this -> createQueryBuilder('c')
+        ->where('c.idcandidat = :idcandidat')
+        ->andWhere('c.etat= :etat')
+        ->setParameter('idcandidat',$idcandidat)
         ->setParameter('etat',$etat);
         return $query = $querybuilder->getQuery()->getResult();
     }

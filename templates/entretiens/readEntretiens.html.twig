@@ -1,73 +1,44 @@
 {% extends 'basefront.html.twig' %}
 
 {%block css%}
-<link href="css/style.css" rel="stylesheet"/>
-<link href="css/table.css" rel="stylesheet"/>
+<link href="{{asset('css/style.css')}}" rel="stylesheet" />
+<link href="{{asset('css/detailscontainer.css')}}" rel="stylesheet" />
 
 {%endblock%}
+
 
 {%block bodysection%}
 
 
-<div class="row" >
-	
-	{#<ul class="responsive-table">
-	    <li class="table-header">
-	      <div class="col col-1"> Type </div>
-	      <div class="col col-2"> Date </div>
-	      <div class="col col-3"> Horaire </div>
-	      <div class="col col-4"> Offre </div>
-	      
-	    </li>
-	    
-	        {%for l in list %}
-	           <li class="table-row">
-	    
-	
-	        <div class="col col-1">{{l.type}}</div>
-	
-	        <div class="col col-2"> {{l.date|date('Y-m-d')}}</div>
-	        
-	        <div class="col col-3"> {{l.heure}}</div>
-	       
-	        <div class="col col-4">{{l.idcandidature.idoffre.poste}}<span><a href=""> >> </a></span></div>
-	        
-	       
-	        </li>
-	
-	    {%endfor%}
-	
-	</ul>
-	#}
 
+	
 
-	<style>
-		.example-wrapper {
-			margin: 1em auto;
-			max-width: 800px;
-			width: 95%;
-			font: 18px / 1.5 sans-serif;
-		}
-		.example-wrapper code {
-			background: #F5F5F5;
-			padding: 2px 6px;
-		}
-	</style>
-<div class="row gx-5 justify-content-center">
-	<div
-		class="card" style="width:100%; margin-bottom: 20px !important;">
-		<!-- Testimonial 1-->
+<div class="parentcol mb-4">
+	
+		
 		<div>
-		<h1>
-		Entretiens
-	</h1>
-			<div class="card-body p-4">
-			 <h4>Recruteur: {{recruteur.nom ~ ' ' ~ recruteur.prenom}} </h4>
-			 <h6> Total des entretiens à venir: {{count}} </h6>
-			 <a href="{{path('readCandidatures')}}" class="btn" style="background-color:#353D62 !important; color: white !important;">Planifier un nouvel entretien</a>
-			</div>
+		<h1 class="job-title mb-2 dark-blue">
+		Entretiens	</h1> <span > <h5 class="job-title mb-2 dark-blue"> {{recruteur.nom ~ ' ' ~ recruteur.prenom}} </h5></span>
+
+			
+			 
+			 <h6 class="lighter-blue"> Total des entretiens planifiés: {{count}} </h6>  
+			
+			 <a href="{{path('readCandidatures')}}" class="btn filterbtn" style="background-color:#353D62 !important; color: white !important; display:flex !important; flex-direction: column-reverse;">Planifier un nouvel entretien</a>
+			 
+			 <div class="d-flex flex-wrap align-items-center border-bottom pt-lg-3 pt-2 pb-3 mb-4"></div>
+			 <h6 style="display: flex; margin-left: 10px !important;"> Filtrer</h6>
+		<div class="newcol" >
+		<a class="btn filterbtn"  href="{{path('filterEntretiensRec', {'filter':'today'})}}"><i class="custom-icon bi-clock me-1"></i>Ajourd'hui</a>
+		<a class="btn filterbtn"  href="{{path('filterEntretiensRec', {'filter':'thisweek'})}}"><i class="custom-icon bi-clock me-1"></i>Cette semaine</a>
+		<a class="btn filterbtn"  href="{{path('filterEntretiensRec', {'filter':'thismonth'})}}"><i class="custom-icon bi-clock me-1"></i>Ce mois</a>
+		<a class="btn filterbtn"  href="{{path('readEntretiens')}}"><i class="custom-icon bi-clock me-1"></i>Tous les entretiens</a>
+		
 		</div>
-	</div>
+			
+			
+		</div>
+	
 </div>
 
 
@@ -123,7 +94,6 @@
 	#}
 
 
-</div>
 
 
 {%endblock%}

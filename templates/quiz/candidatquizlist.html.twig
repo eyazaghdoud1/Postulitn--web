@@ -2,9 +2,17 @@
 {%block css%}
 <link href="{{asset('css/style.css')}}" rel="stylesheet"/>
 <link href="{{asset('css/quizlist.css')}}" rel="stylesheet"/>
+<link href="{{asset('css/detailscontainer.css')}}" rel="stylesheet"/>
 {%endblock%}
 {%block bodysection%}
-<h1> Liste des quiz </h1>
+<div style="margin-top:-50px !important;">
+<h1 class="fw-bolder dark-blue"> Liste des quiz </h1>
+<div class="d-flex flex-wrap align-items-center border-bottom pt-lg-3 pt-2 pb-3 mb-4"></div>
+		
+
+	
+		
+
 <ol class="olq" style="--length: {{list|length}}" role="list">
 	{% for q in list %}
 		<li class="liq" style="--i: 1">
@@ -13,4 +21,6 @@
 		</li>
 	{% endfor %}
 </ol>
+</div>
 {%endblock%}
+

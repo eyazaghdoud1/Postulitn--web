@@ -28,6 +28,10 @@
 		
 		color: #1E9DFF;
 	}
+	.filterbtn:active {
+		color: #1E9DFF;
+	}
+	
 	.dark-blue{
 
 		color: #0E1947 !important;

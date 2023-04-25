@@ -80,7 +80,7 @@ class EntretiensRepository extends ServiceEntityRepository
 
     /**
      * 
-     * nombre d'entretiens à venir par candidature
+     * nombre d'entretiens  par candidature
      */
     public function numberOfEntretiensPerCandidature($idcandidature) {
         $em=$this->getEntityManager();
@@ -120,7 +120,7 @@ class EntretiensRepository extends ServiceEntityRepository
     }
    /** 
     * 
-    * entretiens par recruteur
+    * entretiens par candidat
     */
     public function findByCandidat($id)
     {
@@ -165,21 +165,41 @@ class EntretiensRepository extends ServiceEntityRepository
     }
     /**
      * 
-     * liste des entretiens  à venir par recruteur
+     * liste des entretiens filtrées par recruteur
      */
-    public function plannedEntretiens($id) {
+    public function plannedEntretiens($idrec, $date1, $date2) {
         $querybuilder = $this -> createQueryBuilder('e')
         
         ->join('e.idcandidature', 'c') 
         ->join('c.idoffre', 'o') 
         ->join('o.idrecruteur', 'u') 
         ->where('u.id= :id')
-        ->AndWhere('e.date > :date')
-        ->setParameter('id',$id)
-        ->setParameter('date', new \DateTime());
+        ->AndWhere('e.date >= :date1')
+        ->AndWhere('e.date <= :date2')
+        ->setParameter('id',$idrec)
+        ->setParameter('date1', $date1)
+        ->setParameter('date2', $date2);
         return $query = $querybuilder->getQuery()->getResult();
 
     }
+     /**
+     * 
+     * liste des entretiens filtrée par candidat
+     */
+    public function plannedEntretiensCand($idcand, $date1, $date2) {
+        $querybuilder = $this -> createQueryBuilder('e')
+        
+        ->join('e.idcandidature', 'c') 
+        ->where('c.idcandidat= :id')
+        ->AndWhere('e.date >= :date1')
+        ->AndWhere('e.date <= :date2')
+        ->setParameter('id',$idcand)
+        ->setParameter('date1', $date1)
+        ->setParameter('date2', $date2);
+        return $query = $querybuilder->getQuery()->getResult();
+
+    }
+
     /**
      * 
      * filtre pour recruteur par date

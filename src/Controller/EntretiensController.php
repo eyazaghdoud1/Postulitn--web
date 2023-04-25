@@ -42,7 +42,52 @@ class EntretiensController extends AbstractController
             'recruteur' => $userRepo->find(69)
         ]);
     }
+    /**
+     * 
+     * filter for recruteur
+     */
+    #[Route('/entretiens/{filter}', name: 'filterEntretiensRec')]
+    public function filterRec(EntretiensRepository $Rep, UtilisateurRepository $userRepo, $filter): Response
+    {
 
+        $list = $Rep->findByRecruteur(69);
+        $rec = $userRepo->find(69);
+        $count = $Rep->numberOfEntretiensPerRecruteur(69);
+
+        if ($filter == 'today') {
+            $list = $Rep->filterByDateForRecruteur($rec, new \DateTime('now'));
+         
+        } elseif ($filter == 'thismonth') {
+
+            // getting the current month and year
+            $month = date('m');
+            $year = date('Y');
+            $firstdaymonth = date("$year-$month-01");
+            $lastdaymonth = date("$year-$month-t", strtotime($firstdaymonth));
+
+            $list = $Rep->plannedEntretiens($rec, $firstdaymonth, $lastdaymonth);
+            
+        } else if ($filter == 'thisweek') {
+            // getting the current week's monday and sunday
+            $monday = strtotime('monday this week');
+            $sunday = strtotime('sunday this week');
+
+            // converting the dates to Y-m-d format
+            $firstdayweek = date('Y-m-d', $monday);
+            $lastdayweek = date('Y-m-d', $sunday);
+
+            $list = $Rep->plannedEntretiens($rec, $firstdayweek, $lastdayweek);
+            
+        }
+
+        $count=count($list);
+
+        return $this->render('entretiens/readEntretiens.html.twig', [
+            'list' => $list,
+            'count' => $count,
+            'recruteur' => $userRepo->find(69)
+        ]);
+    }
     /**
      * 
      * read entretiens method for candidat
@@ -53,6 +98,53 @@ class EntretiensController extends AbstractController
         // $list = $Rep->findAll();
         $list = $Rep->findByCandidat(68);
         $count = $Rep->numberOfEntretiensPerCandidat(68);
+        return $this->render('entretiens/readEntretiensCandidat.html.twig', [
+            'list' => $list,
+            'count' => $count,
+            'candidat' => $userRepo->find(68)
+        ]);
+    }
+    /**
+     * 
+     * filter for candidat
+     */
+    
+    #[Route('/entretiensCandidat/{filter}', name: 'filterEntretiensCand')]
+    public function filterCand(EntretiensRepository $Rep, UtilisateurRepository $userRepo, $filter): Response
+    {
+
+        $list = $Rep->findByCandidat(68);
+        $cand = $userRepo->find(68);
+        $count = $Rep->numberOfEntretiensPerRecruteur(69);
+
+        if ($filter == 'today') {
+            $list = $Rep->filterByDateForCandidat($cand, new \DateTime('now'));
+         
+        } elseif ($filter == 'thismonth') {
+
+            // getting the current month and year
+            $month = date('m');
+            $year = date('Y');
+            $firstdaymonth = date("$year-$month-01");
+            $lastdaymonth = date("$year-$month-t", strtotime($firstdaymonth));
+
+            $list = $Rep->plannedEntretiensCand($cand, $firstdaymonth, $lastdaymonth);
+            
+        } else if ($filter == 'thisweek') {
+            // getting the current week's monday and sunday
+            $monday = strtotime('monday this week');
+            $sunday = strtotime('sunday this week');
+
+            // converting the dates to Y-m-d format
+            $firstdayweek = date('Y-m-d', $monday);
+            $lastdayweek = date('Y-m-d', $sunday);
+
+            $list = $Rep->plannedEntretiensCand($cand, $firstdayweek, $lastdayweek);
+            
+        }
+
+        $count=count($list);
+
         return $this->render('entretiens/readEntretiensCandidat.html.twig', [
             'list' => $list,
             'count' => $count,
@@ -89,7 +181,7 @@ class EntretiensController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-           
+
             //formatting the time to only save the hours and minutes
             $entretien->setHeure(substr($form->get('heure')->getData(), 0, 5));
 
@@ -108,7 +200,7 @@ class EntretiensController extends AbstractController
             $auth_token =  $this->getParameter('twilio_auth_token');
             $twilio_phone_number =  $this->getParameter('twilio_number');
             $receiver_phone_number = '+216' . $entretien->getIdcandidature()->getIdcandidat()->getTel();
-            
+
 
             $client = new Client($account_sid, $auth_token);
 
@@ -154,7 +246,7 @@ class EntretiensController extends AbstractController
             $em->flush();
 
             /* sending a message to "candidat" once "recruteur" updates a meeting's info  */
-            
+
             /*$account_sid = $this->getParameter('twilio_account_sid');
             $auth_token =  $this->getParameter('twilio_auth_token');
             $twilio_phone_number =  $this->getParameter('twilio_number');
@@ -189,9 +281,9 @@ class EntretiensController extends AbstractController
         $em = $doctrine->getManager();
         $em->remove($objet);
         $em->flush();
-         /* sending a message to "candidat" once "recruteur" deletes a meeting  */
-            
-            /*$account_sid = $this->getParameter('twilio_account_sid');
+        /* sending a message to "candidat" once "recruteur" deletes a meeting  */
+
+        /*$account_sid = $this->getParameter('twilio_account_sid');
             $auth_token =  $this->getParameter('twilio_auth_token');
             $twilio_phone_number =  $this->getParameter('twilio_number');
             $receiver_phone_number = '+21692314270';

@@ -79,18 +79,22 @@ class CandidaturesController extends AbstractController
         ]);
     }
     #[Route('/candidatures/{etat}', name: 'filterCandidatures')]
-    public function filter(CandidaturesRepository $Rep, OffreRepository $offreRepo, $etat): Response
+    public function filterRec(CandidaturesRepository $Rep, OffreRepository $offreRepo, UtilisateurRepository $userRepo, $etat): Response
     {
         //$list = $Rep->findAll();
-        
+        // setting the connected recruteur
+        //$rec = $userRepo->find(69);
+        // setting the selected offre
+        $offre = $offreRepo->find(53);
+
         $count = $Rep->numberOfCandidaturePerOffre(53);
-       
-        $list = $Rep->filterByEtat($etat);
+        $list = $Rep->filterByEtatOffre($offre,$etat);
         
         return $this->render('candidatures/readCandidatures.html.twig', [
-            'list' => $list, 'count' => $count, 'offre'=> $offreRepo->find(53)
+            'list' => $list, 'count' => $count, 'offre'=> $offre
         ]);
     }
+   
 
     /**
      * 
@@ -102,7 +106,7 @@ class CandidaturesController extends AbstractController
     {
        // $list = $Rep->findAll();
        $list = $Rep->findByCandidat(68);
-        $count = $Rep->numberOfCandidaturePerCandidat(68);
+       $count = $Rep->numberOfCandidaturePerCandidat(68);
         
         
         return $this->render('candidatures/readCandidaturesCandidat.html.twig', [
@@ -111,6 +115,30 @@ class CandidaturesController extends AbstractController
             'candidat' => $userRepo->find(68)
         ]);
     }
+
+    /**
+     * 
+     * filter for candidat
+     */
+
+    #[Route('/candidaturesCand/{etat}', name: 'filterCandidaturesCand')]
+    public function filterCand(CandidaturesRepository $Rep, UtilisateurRepository $userRepo,  $etat): Response
+    {
+        //$list = $Rep->findAll();
+        //setting the connected candidat
+        $candidat = $userRepo->find(68);
+        $count = $Rep->numberOfCandidaturePerCandidat(68);
+       
+        $list = $Rep->filterByEtatCandidat($candidat, $etat);
+        
+        
+        return $this->render('candidatures/readCandidaturesCandidat.html.twig', [
+            'list' => $list,
+            'count' => $count,
+            'candidat' => $candidat
+        ]);
+    }
+
     /**
      * 
      * update candidature method

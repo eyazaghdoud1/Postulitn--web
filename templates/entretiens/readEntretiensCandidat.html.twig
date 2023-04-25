@@ -1,68 +1,43 @@
 {% extends 'basefront.html.twig' %}
 
+{%block css%}
+<link href="{{asset('css/style.css')}}" rel="stylesheet"/>
+<link href="{{asset('css/detailscontainer.css')}}" rel="stylesheet"/>
+
+{%endblock%}
 
 {%block bodysection%}
-<div class="container" style="width:100% !important;">
 
 <div>
-	
-	{#<ul class="responsive-table">
-	    <li class="table-header">
-	      <div class="col col-1"> Type </div>
-	      <div class="col col-2"> Date </div>
-	      <div class="col col-3"> Horaire </div>
-	      <div class="col col-4"> Offre </div>
-	      
-	    </li>
-	    
-	        {%for l in list %}
-	           <li class="table-row">
-	    
-	
-	        <div class="col col-1">{{l.type}}</div>
-	
-	        <div class="col col-2"> {{l.date|date('Y-m-d')}}</div>
-	        
-	        <div class="col col-3"> {{l.heure}}</div>
-	       
-	        <div class="col col-4">{{l.idcandidature.idoffre.poste}}<span><a href=""> >> </a></span></div>
-	        
-	       
-	        </li>
-	
-	    {%endfor%}
-	
-	</ul>
-	#}
+
+	<div class="parentcol mb-4">
 
 
-	<style>
-		.example-wrapper {
-			margin: 1em auto;
-			max-width: 800px;
-			width: 95%;
-			font: 18px / 1.5 sans-serif;
-		}
-		.example-wrapper code {
-			background: #F5F5F5;
-			padding: 2px 6px;
-		}
-	</style>
-<div class="row gx-5 justify-content-center">
-	<div
-		class="col-lg-6" style="width:100% !important;">
-		<!-- Testimonial 1-->
-		<div class="card mb-4">
-			<div class="card-body p-4">
-			<h1>
-		Entretiens
-	</h1>
-			 <h4>Candidat: {{candidat.nom ~ ' ' ~ candidat.prenom}} </h4>
-			 <h6> Total des entretiens planifiés: {{count}} </h6>
-			</div>
+		<h1 class="job-title mb-2 dark-blue">
+			Entretiens
+		</h1>
+		<span>
+			<h5 class="job-title mb-2 dark-blue">
+				{{candidat.nom ~ ' ' ~ candidat.prenom}}
+			</h5>
+		</span>
+		<h6 class="lighter-blue">
+			Total des entretiens planifiés:
+			{{count}}
+		</h6>
+
+		<div class="d-flex flex-wrap align-items-center border-bottom pt-lg-3 pt-2 pb-3 mb-4"></div>
+		
+		<h6 style="display: flex; margin-left: 10px !important;"> Filtrer</h6>
+		<div class="newcol" >
+		<a class="btn filterbtn"  href="{{path('filterEntretiensCand', {'filter':'today'})}}"><i class="custom-icon bi-clock me-1"></i>Ajourd'hui</a>
+		<a class="btn filterbtn"  href="{{path('filterEntretiensCand', {'filter':'thisweek'})}}"><i class="custom-icon bi-clock me-1"></i>Cette semaine</a>
+		<a class="btn filterbtn"  href="{{path('filterEntretiensCand', {'filter':'thismonth'})}}"><i class="custom-icon bi-clock me-1"></i>Ce mois</a>
+		<a class="btn filterbtn"  href="{{path('entretiensCandidat')}}"><i class="custom-icon bi-clock me-1"></i>Tous les entretiens</a>
+	
 		</div>
+
 	</div>
-</div>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-4"></div>
@@ -71,32 +46,38 @@
 			<table class="table table-striped">
 				<thead>
 					<tr>
-                    <th>Type de l'entretien</th>
+						<th>Type de l'entretien</th>
 						<th>Date</th>
 						<th>Horaire</th>
-                        <th>Lieu</th>
+						<th>Lieu</th>
 						<th>Offre</th>
 						<th>Guide de l'entretien</th>
-                        <th>Résultat</th>
+						<th>Résultat</th>
 						<th>Candidature</th>
-						
+
 					</tr>
 				</thead>
 				<tbody>
 					{%for l in list %}
 						<tr>
-                        <td>{{l.type}}</td>
+							<td>{{l.type}}</td>
 							<td>{{l.date|date('d-m-Y')}}</td>
 							<td>{{l.heure}}</td>
 							<td>{{l.lieu}}</td>
 							<td>{{l.idcandidature.idoffre.poste}}</td>
-							<td><a class="btn" style="background-color:#353D62 !important; color: white !important;" href="#">Ouvrir le guide: {{l.idguide.specialite}}</a></td>
+							<td>
+								<a class="btn" style="background-color:#353D62 !important; color: white !important;" href="#">Ouvrir le guide:
+									{{l.idguide.specialite}}</a>
+							</td>
 							{% if l.idcandidature.etat|lower== "refusée" %}
-                            <td style="background-color: red !important; color: white !important;">Candidature refusée </td>
+								<td style="background-color: red !important; color: white !important;">Candidature refusée
+								</td>
 							{% elseif l.idcandidature.etat|lower== "acceptée" %}
-                            <td class="badge" style="background-color: green !important; color: white !important;">Candidature acceptée</td>
-							{%else%}
-							<td ><div class="badge" style="background-color:#0E1947 !important; color: white !important;">En attente</div></td>
+								<td class="badge" style="background-color: green !important; color: white !important;">Candidature acceptée</td>
+								{%else%}
+								<td>
+									<div class="badge" style="background-color:#0E1947 !important; color: white !important;">En attente</div>
+								</td>
 							{% endif %}
 							<td>
 								<a class="btn" style="background-color:#353D62 !important; color: white !important;" href="{{path('detailsCandidatureCandidat', {'id': l.idcandidature.id})}}">Ouvrir</a>
@@ -111,14 +92,14 @@
 		</div>
 	</div>
 	{#
-	
-	<a href="{{ path ('addEntretien') }}">
-		Add entretien
-	</a>
-	#}
+				
+				<a href="{{ path ('addEntretien') }}">
+					Add entretien
+				</a>
+				#}
 
 
 </div>
 
-</div>
+
 {%endblock%}

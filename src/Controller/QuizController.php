@@ -83,15 +83,16 @@ class QuizController extends AbstractController
     {
         $quiz = $QuizRepo->find($id);
         $list = $Repo->findByQuiz($quiz);
-        /*$oldqs = $qsRepo->findByCandidatAndQuiz($userRepo->find(69), $quiz);
+        $oldqs = $qsRepo->findByCandidatAndQuiz(68, $id);
         
-        if ($oldqs != null and $oldqs->getDate()<new \DateTime('-1 month')) {
+        if ($oldqs != null and $oldqs->getDate()> new \DateTime('-1 month')) {
+           
             return $this->redirectToRoute('resultatQuiz', [
                 'id' => $id,
                 'score' => $oldqs->getScore()
             ]);
 
-        } else {*/
+        } else {
         // the quiz correct answers
         $correct_answers = [];
         for ($i = 0; $i <= 4; $i++) {
@@ -148,7 +149,7 @@ class QuizController extends AbstractController
             
             // 'count' => $count
         ]);
-    //}
+    }
     }
 
     /**

@@ -1,8 +1,8 @@
 {% extends 'basefront.html.twig' %}
 
 {%block css%}
-<link href="css/style.css" rel="stylesheet"/>
-<link href="css/detailscontainer.css" rel="stylesheet"/>
+<link href="{{asset('css/style.css')}}" rel="stylesheet"/>
+<link href="{{asset('css/detailscontainer.css')}}" rel="stylesheet"/>
 {%endblock%}
 
 {%block bodysection%}
@@ -30,7 +30,7 @@
 				
 					<div>
 						<div>
-							<h3 class="job-title mb-3 dark-blue">Vos candidatures</h3>
+							<h1 class="job-title mb-3 dark-blue">Vos candidatures</h1>
 							<h5>Candidat:
 								{{candidat.nom ~ ' '~ candidat.prenom}}
 							</h5>
@@ -52,13 +52,13 @@
 									</h6>
 							<div class="newcol">
 
-								<a class="btn filterbtn" href="{{path('filterCandidatures', {'etat':'Validée'})}}">Validées</a>
-								<a class="btn filterbtn" href="{{path('filterCandidatures', {'etat':'Enregistrée'})}}">Entregistrées</a>
-								<a class="btn filterbtn" href="{{path('filterCandidatures', {'etat':'Acceptée'})}}">Acceptées</a>
-								<a class="btn filterbtn" href="{{path('filterCandidatures', {'etat':'Refusée'})}}">Refusées</a>
-								<a class="btn filterbtn" href="{{path('filterCandidatures', {'etat':'EntretienPres'})}}">Phase d'entretien présentiel</a>
-								<a class="btn filterbtn" href="{{path('filterCandidatures', {'etat':'EntretienTel'})}}">Phase d'entretien téléphone</a>
-								<a class="btn filterbtn" href="{{path('readCandidatures')}}">Toutes les candidatures</a>
+								<a class="btn filterbtn" href="{{path('filterCandidaturesCand', {'etat':'Validée'})}}">Validées</a>
+								<a class="btn filterbtn" href="{{path('filterCandidaturesCand', {'etat':'Enregistrée'})}}">Entregistrées</a>
+								<a class="btn filterbtn" href="{{path('filterCandidaturesCand', {'etat':'Acceptée'})}}">Acceptées</a>
+								<a class="btn filterbtn" href="{{path('filterCandidaturesCand', {'etat':'Refusée'})}}">Refusées</a>
+								<a class="btn filterbtn" href="{{path('filterCandidaturesCand', {'etat':'EntretienPres'})}}">Phase d'entretien présentiel</a>
+								<a class="btn filterbtn" href="{{path('filterCandidaturesCand', {'etat':'EntretienTel'})}}">Phase d'entretien téléphone</a>
+								<a class="btn filterbtn" href="{{path('candidaturesCand')}}">Toutes les candidatures</a>
 
 							</div>
 						</div>
