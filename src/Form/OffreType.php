@@ -14,6 +14,9 @@ use App\Entity\Utilisateur;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\DateTime as DateTimeConstraint;
+use Symfony\Component\Validator\Constraints\GreaterThan;
+
 
 
 
@@ -41,9 +44,24 @@ class OffreType extends AbstractType
             ->add('lieu')
             ->add('entreprise')
             ->add('specialite')
+            /*->add('dateexpiration', DateType::class, [
+                'widget' => 'single_text',
+            ])*/
             ->add('dateexpiration', DateType::class, [
                 'widget' => 'single_text',
-            ])
+                'format' => 'yyyy-MM-dd',
+                'data' => new \DateTime(),
+                'constraints' => [
+                    new GreaterThan([
+                        'value' => 'today',
+                        'message' => 'La date de début doit être strictement supérieure à la date actuelle.',
+                    ]),
+    
+                ],
+                'attr' => [
+                    'min' => (new \DateTime())->format('Y-m-d'), // Date minimale possible est la date actuelle
+                ],
+                ])
             ->add('idtype', EntityType::class, [
                 'class' => Typeoffre::class,
                 'choice_label' => 'description',

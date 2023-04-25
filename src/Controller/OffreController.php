@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\OffreRepository;
+use App\Repository\TypeoffreRepository;
+
 use App\Entity\Offre;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -100,6 +102,47 @@ public function create(ManagerRegistry $doctrine, Request $request): Response
         ]);
     }
     
+
+    #[Route('/offrecandidat', name: 'app_offre_index1', methods: ['GET'])]
+    public function index1(OffreRepository $repo): Response
+    {
+        return $this->render('offre/index1.html.twig', [
+            'offres' => $repo->findAll(),
+        ]);
+    }
+    
+    #[Route('offre/stats', name: 'stats')]
+public function statistiques(TypeoffreRepository $typerepo, OffreRepository $offrerepo)
+{
+    // On va chercher tous les types d'offres
+    $types = $typerepo->findAll();
+
+    $typeNom = [];
+    $typeCount = [];
+
+    foreach ($types as $type) {
+        $typeNom[] = $type->getDescription();
+
+        $offres = $offrerepo->findBy(['idtype' => $type->getIdtype()]);
+        $typeCount[] = count($offres);
+    }
+      // On va chercher le nombre d'annonces publiées par date
+      $annonces = $offrerepo->countByDate();
+      $dates = [];
+      $annoncesCount = [];
+
+      // On "démonte" les données pour les séparer tel qu'attendu par ChartJS
+      foreach($annonces as $offre){
+          $dates[] = $offre['dateExpiration'];
+          $annoncesCount[] = $offre['count'];
+      }
+    return $this->render('offre/stats.html.twig', [
+        'typeNom' => json_encode($typeNom),
+        'typeCount' => json_encode($typeCount),
+        'dates' => json_encode($dates),
+        'annoncesCount' => json_encode($annoncesCount),
+    ]);
+}
 }
 //mazel cntrl saisie
     
