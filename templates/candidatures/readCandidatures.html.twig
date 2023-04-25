@@ -1,5 +1,8 @@
 {% extends 'basefront.html.twig' %}
-
+{%block css%}
+<link href="css/style.css" rel="stylesheet" />
+<link href="css/detailscontainer.css" rel="stylesheet" />
+{%endblock%}
 {%block bodysection%}
 
 {#<div class="row gx-5 justify-content-center">
@@ -22,44 +25,18 @@
 		</div>
 	</div>
 </div>#}
-<style>
-	.newcol {
-		box-shadow: 0 1px 3px white, 0 1px 2px white !important;
-		padding: 5px !important;
-		border: black;
-		margin-top: -5px !important;
-		display: flex;
-		align-items: left !important;
-		spacing: 10px;
-		
 
-		/*background:  #353D62 !important;*/
-
-	}
-	.parentcol {
-		box-shadow: 2px 3px 3px #0E1947, 0 1px 2px #0E1947 !important;
-		padding: 20px !important;
-		/*background:  #353D62 !important;
-  color:white;*/
-	}
-	.filterbtn{
-	background-color:white !important; 
-	margin-right: 10px !important; 
-	font-size: 12px !important;
-	font-weight: bolder;
-	}
-</style>
 <div>
 	<div class="parentcol mb-4" style="margin-top: -50px !important;">
 
 		<div>
-			<h3 class="job-title mb-0">Candidatures pour le poste:
+			<h3 class="job-title mb-2 dark-blue">Candidatures pour le poste:
 				{{offre.poste}}</h3>
-			<h4>
+			<h6 class="lighter-blue">
 				Nombre de candidatures reçues:
 				{{count}}
-			</h4>
-			<div class="job-thumb job-thumb-detail">
+			</h6>
+			<div class="job-thumb job-thumb-detail ">
 				<div class="d-flex flex-wrap align-items-center border-bottom pt-lg-3 pt-2 pb-3 mb-4" style="margin-left:200px !important;">
 
 					<p class="job-date mb-0" style="margin-left: 200px !important;">

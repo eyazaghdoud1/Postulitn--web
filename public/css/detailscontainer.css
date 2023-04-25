@@ -1,0 +1,38 @@
+
+	.newcol {
+		box-shadow: 0 1px 3px white, 0 1px 2px white !important;
+		padding: 5px !important;
+		border: black;
+		margin-top: -5px !important;
+		display: flex;
+		align-items: left !important;
+		
+		
+
+		/*background:  #353D62 !important;*/
+
+	}
+	.parentcol {
+		box-shadow: 0 1px 2px grey !important;
+		padding: 20px !important;
+		/*background:  #353D62 !important;
+  color:white;*/
+	}
+	.filterbtn{
+	background-color:white !important; 
+	margin-right: 10px !important; 
+	font-size: 12px !important;
+	font-weight: bolder;	
+	}
+	.filterbtn:hover{
+		
+		color: #1E9DFF;
+	}
+	.dark-blue{
+
+		color: #0E1947 !important;
+	}
+	.lighter-blue {
+		color: #353D62 !important;
+	}
+	

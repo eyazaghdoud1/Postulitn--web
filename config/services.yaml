@@ -4,8 +4,9 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-    cv_directory: 'C:\xampp\htdocs\postulitn\cv'
-    lettres_directory: 'C:\xampp\htdocs\postulitn\lettres'
+     twilio_number: '+16315199904'
+     twilio_auth_token: '4be718a37dc65e5579ea56119f90d48a'
+     twilio_account_sid: 'AC330a9eebe30cd2d3b993bbcc07995093'
 
 services:
     # default configuration for services in *this* file
