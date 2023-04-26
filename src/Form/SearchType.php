@@ -5,9 +5,11 @@ namespace App\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use App\Form\SearchData;
-use App\Form\DateType;
+
 
 class SearchType extends AbstractType
 {
@@ -24,14 +26,14 @@ class SearchType extends AbstractType
                 'label' => 'Lieu',
                 'attr' => ['placeholder' => 'Rechercher par lieu'],
             ])
-            /*->add('dateExpiration', DateType::class, [
+            ->add('dateexpiration', DateType::class, [
                 'required' => false,
                 'label' => 'Date d\'expiration',
                 'widget' => 'single_text',
                 'attr' => [
                     'placeholder' => 'Rechercher par date d\'expiration'
                 ]
-            ]);*/;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

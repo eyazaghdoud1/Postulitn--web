@@ -5,7 +5,6 @@ namespace App\Repository;
 use App\Entity\Offre;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Form\DateType;
 
 /**
  * @extends ServiceEntityRepository<Offre>
@@ -39,6 +38,29 @@ class OffreRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+
+
+    public function findByCriteria($criteria)
+    {
+        $qb = $this->createQueryBuilder('o');
+
+        foreach ($criteria as $key => $value) {
+            if (strpos($key, 'like_') === 0) {
+                $field = substr($key, 5);
+                $qb->andWhere($qb->expr()->like("o.$field", ":$key"))
+                    ->setParameter($key, "%$value%");
+            } else {
+                $qb->andWhere("o.$key = :$key")
+                    ->setParameter($key, $value);
+            }
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+
+    
     public function findSearch(SearchData $search): QueryBuilder
 {
     $qb = $this->createQueryBuilder('o');
@@ -62,8 +84,8 @@ class OffreRepository extends ServiceEntityRepository
     
     return $query->getResult();
 }
-   // if ($search->dateExpiration) {
-     //   $qb->andWhere('o.dateExpiration = :dateExpiration');
+  //  if ($search->dateExpiration) {
+  //      $qb->andWhere('o.dateExpiration = :dateExpiration');
     
 //}
 

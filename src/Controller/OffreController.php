@@ -44,15 +44,18 @@ class OffreController extends AbstractController
 
         // Vérifier quel critère est rempli et ajouter au tableau de critères en conséquence
         if (!empty($searchData->poste)) {
-            $criteria['poste'] = $searchData->poste;
+            $criteria['like_poste'] = $searchData->poste;
         }
         if (!empty($searchData->lieu)) {
-            $criteria['lieu'] = $searchData->lieu;
+            $criteria['like_lieu'] = $searchData->lieu;
+        }
+        if (!empty($searchData->dateexpiration)) {
+            $criteria['like_dateexpiration'] = $searchData->dateexpiration;
         }
     }
 
     $offres = $paginator->paginate(
-        $offreRepository->findBy($criteria),
+        $offreRepository->findByCriteria($criteria),
         $request->query->getInt('page', 1),
         3
     );
@@ -62,7 +65,7 @@ class OffreController extends AbstractController
     return $this->render('offre/index.html.twig', [
         'form' => $form->createView(),
         'offres' => $offres,
-       // 'typeoffres' => $typeoffres
+        //'dateExpiration' => $dateExpiration
     ]);
 }
 
