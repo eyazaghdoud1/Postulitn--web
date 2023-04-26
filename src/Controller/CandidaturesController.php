@@ -13,6 +13,7 @@ use App\Repository\OffreRepository;
 use App\Entity\Candidatures;
 use App\Form\CandidaturesType;
 use App\Repository\EntretiensRepository;
+use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\File;
 
@@ -37,7 +38,8 @@ class CandidaturesController extends AbstractController
         ManagerRegistry $doctrine,
         Request $request,
         UtilisateurRepository $userRepo,
-        OffreRepository $offreRepo
+        OffreRepository $offreRepo,
+        FlashyNotifier $flashy
     ): Response {
         $candidature = new Candidatures();
         $candidature->setIdcandidat($userRepo->find(55));
@@ -56,6 +58,9 @@ class CandidaturesController extends AbstractController
             $em = $doctrine->getManager();
             $em->persist($candidature); //insert info
             $em->flush(); //update
+            // notif
+            $flashy->success('Candidature au poste '.$offreRepo->find(53)->getPoste() .' enregistrée avec succès');
+            
             return $this->redirectToRoute('candidaturesCand');
         } else
             return $this->renderForm('candidatures/addCandidature.html.twig', ['form' => $form]);
@@ -66,25 +71,29 @@ class CandidaturesController extends AbstractController
      * read candidatures method for recruteur
      */
 
+    //#[Route('/offre/{idoffre}/candidatures', name: 'readCandidatures')]
     #[Route('/candidatures', name: 'readCandidatures')]
-    public function read(CandidaturesRepository $Rep, OffreRepository $offreRepo,): Response
+    public function read( CandidaturesRepository $Rep, OffreRepository $offreRepo, /*$idoffre*/): Response
     {
-        //$list = $Rep->findAll();
-        
-        $count = $Rep->numberOfCandidaturePerOffre(53);
-        $list = $Rep->findByOffre(53);
-        
+        $idoffre = 53; 
+        $count = $Rep->numberOfCandidaturePerOffre($idoffre);
+        $list = $Rep->findByOffre($idoffre);
+       
+       
         return $this->render('candidatures/readCandidatures.html.twig', [
-            'list' => $list, 'count' => $count, 'offre'=> $offreRepo->find(53)
+            'list' => $list, 'count' => $count, 'offre'=> $offreRepo->find($idoffre)
         ]);
+          
     }
+
+    //#[Route('/offre/{idoffre}/candidatures/{etat}', name: 'readCandidatures')]
     #[Route('/candidatures/{etat}', name: 'filterCandidatures')]
-    public function filterRec(CandidaturesRepository $Rep, OffreRepository $offreRepo, UtilisateurRepository $userRepo, $etat): Response
+    public function filterRec(CandidaturesRepository $Rep, OffreRepository $offreRepo, 
+    UtilisateurRepository $userRepo, $etat, /*$idoffre*/): Response
     {
-        //$list = $Rep->findAll();
-        // setting the connected recruteur
-        //$rec = $userRepo->find(69);
+        
         // setting the selected offre
+       //$offre = $offreRepo->find($idoffre));
         $offre = $offreRepo->find(53);
 
         $count = $Rep->numberOfCandidaturePerOffre(53);
@@ -145,7 +154,8 @@ class CandidaturesController extends AbstractController
      */
 
     #[Route('/updateCandidature/{id}', name: 'updateCandidature')]
-    public function  updateCandidature(ManagerRegistry $doctrine, Request $request,  $id, CandidaturesRepository $repo): Response
+    public function  updateCandidature(ManagerRegistry $doctrine, Request $request,  $id,
+     CandidaturesRepository $repo, FlashyNotifier $flashy,): Response
     {
         $candidature = $repo->find($id);
         if ($request->isMethod('POST')) {
@@ -160,7 +170,8 @@ class CandidaturesController extends AbstractController
             $em = $doctrine->getManager();
             $em->persist($candidature);
             $em->flush();
-            return $this->redirectToRoute('candidaturesCand');
+            $flashy->success('Candidature modifiée avec succès');
+            return $this->redirectToRoute('detailsCandidatureCandidat', ['id'=> $id]);
         }
         return $this->render('candidatures/updateCandidature.html.twig', [
          /*   'cv' => $candidature->getCv(),
@@ -172,13 +183,15 @@ class CandidaturesController extends AbstractController
      * delete candidature method 
      */
     #[Route('/deleteCandidature/{id}', name: 'deleteCandidature')]
-    public function delete(CandidaturesRepository $repo, ManagerRegistry $doctrine, $id): Response
+    public function delete(CandidaturesRepository $repo, ManagerRegistry $doctrine, $id, FlashyNotifier $flashy): Response
     {
 
         $objet = $repo->find($id);
         $em = $doctrine->getManager();
         $em->remove($objet);
         $em->flush();
+        // notif
+        $flashy->info('Votre candidature au poste ' . $objet->getIdoffre()->getPoste().  ' a été supprimée');
         return $this->redirectToRoute('candidaturesCand');
     }
     /**
@@ -187,13 +200,15 @@ class CandidaturesController extends AbstractController
      */
 
     #[Route('/validerCandidature/{id}', name: 'validerCandidature')]
-    public function valider(Candidatures $c, ManagerRegistry $doctrine)
+    public function valider(Candidatures $c, ManagerRegistry $doctrine, FlashyNotifier $flashy, $id)
     {
         $c->setEtat('Validée');
         $em = $doctrine->getManager();
         $em->persist($c);
         $em->flush();
-        return $this->redirectToRoute('readCandidatures');
+        // notif
+        $flashy->info('Le candidat sera notifié que sa candidature est désormais validée.');
+        return $this->redirectToRoute('detailsCandidatureRecruteur', ['id' => $id]);
     }
 
     /**
@@ -201,13 +216,14 @@ class CandidaturesController extends AbstractController
      * accepter la candidature
      */
     #[Route('/accepterCandidature/{id}', name: 'accepterCandidature')]
-    public function accepter($id, CandidaturesRepository $candRepo, ManagerRegistry $doctrine)
+    public function accepter($id, CandidaturesRepository $candRepo, ManagerRegistry $doctrine, FlashyNotifier $flashy)
     {
         $c = $candRepo->find($id);
         $c->setEtat('Acceptée');
         $em = $doctrine->getManager();
         $em->persist($c);
         $em->flush();
+        $flashy->success('Le candidat sera notifié que sa candidature a été acceptée.');
         return $this->redirectToRoute('readCandidatures');
     }
     /**
@@ -215,13 +231,14 @@ class CandidaturesController extends AbstractController
      * accepter la candidature
      */
     #[Route('/refuserCandidature/{id}', name: 'refuserCandidature')]
-    public function refuser(CandidaturesRepository $candRepo, $id,  ManagerRegistry $doctrine)
+    public function refuser(CandidaturesRepository $candRepo, $id,  ManagerRegistry $doctrine, FlashyNotifier $flashy)
     {
         $c = $candRepo->find($id);
         $c->setEtat('Refusée');
         $em = $doctrine->getManager();
         $em->persist($c);
         $em->flush();
+        $flashy->warning('Le candidat sera notifié que sa candidature a été refusée.');
         return $this->redirectToRoute('readCandidatures');
     }
 

@@ -192,13 +192,35 @@ class QuizController extends AbstractController
     public function delete(QuizquestionsController $qqcont ,QuizRepository $repo, QuizquestionsRepository $qqrepo,ManagerRegistry $doctrine, $id): Response
     {
         $objet = $repo->find($id);
-        $questions = $qqrepo->findByQuiz($objet);
+       
         $em = $doctrine->getManager();
         $em->remove($objet);
         $em->flush();
-        for($i=0; $i<count($questions); $i++) {
-            $qqcont->delete($qqrepo, $doctrine, $questions[$i]->getId());
-        }
-        return $this->redirectToRoute('adminReadQuiz');
+        
+       
+        return $this->redirectToRoute('deleteQuizQuestion' , ['idquiz'=>$id]);
+    }
+
+    /**
+     * 
+     * update quiz method
+     */
+    #[Route('/admin/updatequiz/{id}', name: 'updateQuiz')]
+    public function updateQuiz(
+        ManagerRegistry $doctrine,
+        Request $request,
+        QuizRepository $repo, $id
+    ): Response {
+        $quiz = $repo->find($id);
+        $form = $this->createForm(QuizType::class, $quiz);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $em = $doctrine->getManager();
+            $em->persist($quiz);
+            $em->flush();
+            return $this->redirectToRoute('updateQuizQuestion', ['id' => $quiz->getId()]);
+        } else
+            return $this->renderForm('quiz/addquiz.html.twig', ['form' => $form]);
     }
 }

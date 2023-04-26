@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\QuizquestionsRepository;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 #[ORM\Entity(repositoryClass: QuizquestionsRepository::class)]
 class Quizquestions
@@ -28,6 +30,11 @@ class Quizquestions
      * @ORM\Column(name="question", type="string", length=100, nullable=false)
      */
     #[ORM\Column(length:100, nullable:false)]
+    #[Assert\NotBlank(message:"Vous devez saisir une question.")]
+    #[Assert\Length(
+        min: 5,
+        minMessage: "Une option doit contenir au moins {{ limit }} caractères.",
+    )]
     private ?string $question = null;
 
     /*
@@ -37,6 +44,13 @@ class Quizquestions
      * @ORM\Column(name="option1", type="string", length=100, nullable=false)
      */
     #[ORM\Column(length:100, nullable:false)]
+    #[Assert\NotBlank(message:"Une option ne peut pas etre vide.")]
+    #[Assert\Length(
+        min: 2,
+        max: 15,
+        minMessage: "Une option doit contenir au moins {{ limit }} caractères.",
+        maxMessage: "Une option ne peut contenir que {{ limit }} caractères.",
+    )]
     private ?string $option1 = null;
 
     /*
@@ -46,6 +60,13 @@ class Quizquestions
      * @ORM\Column(name="option2", type="string", length=100, nullable=false)
      */
     #[ORM\Column(length:100, nullable:false)]
+    #[Assert\NotBlank(message:"Une option ne peut pas etre vide.")]
+    #[Assert\Length(
+        min: 2,
+        max: 10,
+        minMessage: "Une option doit contenir au moins {{ limit }} caractères.",
+        maxMessage: "Une option ne peut contenir que {{ limit }} caractères.",
+    )]
     private ?string $option2 = null;
 
     /*
@@ -55,6 +76,13 @@ class Quizquestions
      * @ORM\Column(name="option3", type="string", length=100, nullable=false)
      */
     #[ORM\Column(length:100, nullable:false)]
+    #[Assert\NotBlank(message:"Une option ne peut pas etre vide.")]
+    #[Assert\Length(
+        min: 2,
+        max: 10,
+        minMessage: "Une option doit contenir au moins {{ limit }} caractères.",
+        maxMessage: "Une option ne peut contenir que {{ limit }} caractères.",
+    )]
     private ?string $option3 = null;
 
     /*
@@ -78,6 +106,39 @@ class Quizquestions
     #[ORM\ManyToOne(targetEntity: Quiz::class)]
     #[ORM\JoinColumn(name: 'idQuiz', referencedColumnName: 'id')]
     private ?Quiz $idquiz = null;
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('question', new Assert\Regex([
+            'pattern' => '/^[a-zA-Z]/',
+            'match' => true,
+            'message' => 'La question doit commencer par une lettre.',
+        ]));
+        $metadata->addPropertyConstraint('question', new Assert\Regex([
+            'pattern' => '/\?$/',
+            'match' => true,
+            'message' => 'La question doit se terminer par un \'?\'.',
+        ]));
+
+        $metadata->addPropertyConstraint('option1', new Assert\Regex([
+            'pattern' => '/^[a-zA-Z]/',
+            'match' => true,
+            'message' => 'Les options doivent commencer par une lettre.',
+        ]));
+
+        $metadata->addPropertyConstraint('option2', new Assert\Regex([
+            'pattern' => '/^[a-zA-Z]/',
+            'match' => true,
+            'message' => 'Les options doivent commencer par une lettre.',
+        ]));
+        $metadata->addPropertyConstraint('option2', new Assert\Regex([
+            'pattern' => '/^[a-zA-Z]/',
+            'match' => true,
+            'message' => 'Les options doivent commencer par une lettre.',
+        ]));
+
+       
+    }
 
     public function getId(): ?int
     {

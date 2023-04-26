@@ -13,6 +13,7 @@ use App\Repository\OffreRepository;
 use App\Entity\Entretiens;
 use App\Form\EntretiensType;
 use App\Repository\UtilisateurRepository;
+use MercurySeries\FlashyBundle\FlashyNotifier;
 use Twilio\Rest\Client;
 
 
@@ -171,7 +172,7 @@ class EntretiensController extends AbstractController
      */
 
     #[Route('/addEntretien/{id}', name: 'addEntretien')]
-    public function addEntretien(ManagerRegistry $doctrine, Request $request, CandidaturesRepository $candRepo, $id): Response
+    public function addEntretien(ManagerRegistry $doctrine, Request $request, CandidaturesRepository $candRepo, $id, FlashyNotifier $flashy): Response
     {
         $entretien = new Entretiens();
 
@@ -212,7 +213,8 @@ class EntretiensController extends AbstractController
                     //"body" => "Un entretien pour votre candidature au poste " . $entretien->getIdcandidature()->getIdoffre()->getPoste() . "a été planifié."
                 )
             );
-
+            // notif
+            $flashy->success('Le candidat a été notifié de l\'ajout de l\'entretien.');
             return $this->redirectToRoute('readEntretiens');
         } else
             return $this->render('entretiens/add.html.twig', ['form' => $form->createView()]);
@@ -262,6 +264,8 @@ class EntretiensController extends AbstractController
                     //"body" => "Un entretien pour le poste " . $entretien->getIdcandidature()->getIdoffre()->getPoste() . " a été modifié."
                 )
             );
+            // notif
+            $flashy->success('Le candidat a été notifié de la modification de l\'entretien.');
             */
             return $this->redirectToRoute('readEntretiens');
         }
@@ -299,6 +303,8 @@ class EntretiensController extends AbstractController
                      " pour votre candidature au poste " . $entretien->getIdcandidature()->getIdoffre()->getPoste() . " a été annulé."
                 )
             );
+            // notif
+            $flashy->warning('Le candidat a été notifié de l\'annulation de son entretien.');
             */
         return $this->redirectToRoute('readEntretiens');
     }

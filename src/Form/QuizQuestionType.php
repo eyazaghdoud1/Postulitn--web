@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Quizquestions;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,7 +18,13 @@ class QuizQuestionType extends AbstractType
             ->add('option1')
             ->add('option2')
             ->add('option3')
-            ->add('reponse')
+            ->add('reponse', ChoiceType::class, [
+                'choices' => [
+                    'A' => 'A',
+                    'B' => 'B',
+                    'C' => 'C',
+                ]
+                ])
             ->add('save', SubmitType::class)
         ;
     }

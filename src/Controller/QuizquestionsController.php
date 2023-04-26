@@ -11,7 +11,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\QuizquestionsRepository;
 use App\Repository\QuizRepository;
-
+use MercurySeries\FlashyBundle\FlashyNotifier;
+use Symfony\Component\VarDumper\VarDumper;
 
 class QuizquestionsController extends AbstractController
 {
@@ -22,90 +23,50 @@ class QuizquestionsController extends AbstractController
             'controller_name' => 'QuizquestionsController',
         ]);
     }
-
-
-/*
-     #[Route('/admin/newquiz/{id}/questions', name: 'addQuizQuestion')]
-    public function addQuizQuestions(ManagerRegistry $doctrine,Request $request, QuizRepository $quizRepository,$id): Response {
-        $quiz = $quizRepository->find($id);
-        $quizquestions = [];
-        for ($i = 1; $i <= 2; $i++) {
-            $quizquestions[] = new Quizquestions();
-            $quizquestions[$i - 1]->setIdquiz($quiz);
-        }
-        $forms = [];
-        foreach ($quizquestions as $quizquestion) {
-            $forms[] = $this->createForm(QuizQuestionType::class, $quizquestion);
-        }
-    
-        $submitted = false;
-        $currentFormIndex = 0;
-        foreach ($forms as $key => $form) {
-            $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid()) {
-                $em = $doctrine->getManager();
-                $em->persist($quizquestions[$key]);
-                $em->flush(); 
-                $currentFormIndex ++;
-                
-                if ($currentFormIndex==count($forms)) {
-                     $submitted = true;
-            } else {
-                break;
-            }
-            }
-        }
-        $formViews = [];
-        foreach ($forms as $key => $form) {
-            $formViews[$key] = $form->createView();
-        }
-        if ($submitted) {
-            return $this->redirectToRoute('adminReadQuiz');
-        }
-       else {
-        return $this->render('quizquestions/addquizquestion.html.twig', [
-            'forms' => $formViews ,
-            'quiz' => $quiz,
-            'qstnumber' => $currentFormIndex+1
-        ]);
-    
-    }
-}
-    */
+   
    
     #[Route('/admin/newquiz/{id}/questions', name: 'addQuizQuestion')]
     public function addQuizQuestions(
         ManagerRegistry $doctrine,
         Request $request,
         QuizRepository $quizRepository,
-        $id
+        $id, 
+        QuizquestionsRepository $qqrepo,
+        FlashyNotifier $flashy
     ): Response {
         $quiz = $quizRepository->find($id);
         $quizquestions = [];
-        for ($i = 1; $i <= 2; $i++) {
+        for ($i = 0; $i <= 1; $i++) {
             $quizquestion = new Quizquestions();
             $quizquestion->setIdquiz($quiz);
-            $quizquestions[] = $quizquestion;
+            $quizquestions[$i] = $quizquestion;
         }
-        $currentQuestion = 0;
+        $addedquestions=$qqrepo->findByQuiz($id); 
+        $currentQuestion = count($addedquestions);
         $form = $this->createForm(QuizQuestionType::class, $quizquestions[$currentQuestion]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-           /* $em = $doctrine->getManager();
-            $em->persist($quizquestions[$currentQuestion]);
-            $em->flush();*/
-            $currentQuestion++;
-            if ($currentQuestion == 2) {
+            $em = $doctrine->getManager();
+            $em->persist($quizquestions[count($addedquestions)]);
+            $em->flush();
+            
+            
+            if (count($qqrepo->findByQuiz($id)) == 2) {
+                // notif
+                $flashy->success('Le quiz ' . $quiz->getNom() . ' a été enregistré avec succès.');
                 return $this->redirectToRoute('adminReadQuiz');
+                
             } else {
-                $form = $this->createForm(QuizQuestionType::class, $quizquestions[$currentQuestion]);
+                $addedquestions=$qqrepo->findByQuiz($id);
+                $form = $this->createForm(QuizQuestionType::class, $quizquestions[count($addedquestions)]);
+                
                 
             }
         }
         return $this->render('quizquestions/addquizquestion.html.twig', [
             'form' => $form->createView(),
             'quiz' => $quiz,
-            'qstnumber' => $currentQuestion + 1,
+            'qstnumber' => count($addedquestions)+1,
         ]);
         
     }
@@ -115,15 +76,23 @@ class QuizquestionsController extends AbstractController
      * 
      * delete quiz question method
      */
-    //#[Route('/admin/quiz/{idquiz}/deletequestion/{idquestion}', name: 'deleteQuizQuestion')]
-    public function delete(QuizquestionsRepository $repo,ManagerRegistry $doctrine, $id) //: Response
+    #[Route('/admin/quiz/deletequestion/{idquiz}', name: 'deleteQuizQuestion')]
+    public function delete(QuizquestionsRepository $repo,ManagerRegistry $doctrine, $idquiz,
+     FlashyNotifier $flashy) : Response
     {
-        $objet = $repo->find($id);
-        $em = $doctrine->getManager();
-        $em->remove($objet);
-        $em->flush();
-
-        //return $this->redirectToRoute('adminReadQuiz');
+        $questions = $repo->findByQuiz($idquiz);
+        for($i=0; $i<count($questions); $i++) {
+            
+            $em = $doctrine->getManager();
+            $em->remove($questions[$i]);
+            $em->flush();
+          
+        }
+          // notif
+          $flashy->warning('Le quiz a été supprimé avec succès.');
+        
+        return $this->redirectToRoute('adminReadQuiz');
+       
     }
    
     

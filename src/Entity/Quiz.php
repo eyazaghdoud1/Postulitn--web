@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\QuizRepository;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 #[ORM\Entity(repositoryClass: QuizRepository::class)]
 class Quiz
@@ -51,8 +52,33 @@ class Quiz
      */
     #[ORM\Column(length:20, nullable:false)]
     #[Assert\NotBlank(message:"Vous devez indiquer le nom du secteur.")]
+    #[Assert\Length(
+        min: 5,
+        minMessage: "Le nom du secteur doit contenir au moins {{ limit }} caractères.",
+    )]
     private ?string $nom = null;
 
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('secteur', new Assert\Regex([
+            'pattern' => '/\d/',
+            'match' => false,
+            'message' => 'Le secteur ne peut pas contenir des chiffres.',
+        ]));
+
+        $metadata->addPropertyConstraint('specialite', new Assert\Regex([
+            'pattern' => '/\d/',
+            'match' => false,
+            'message' => 'La spécialité ne peut pas contenir des chiffres.',
+        ]));
+
+        $metadata->addPropertyConstraint('nom', new Assert\Regex([
+            'pattern' => '/^[a-zA-Z]/',
+            'match' => true,
+            'message' => 'Le nom doit commencer par une lettre.',
+        ]));
+    }
     public function getId(): ?int
     {
         return $this->id;

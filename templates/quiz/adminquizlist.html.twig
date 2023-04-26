@@ -4,7 +4,7 @@
 <link href="{{asset('css/quizlist.css')}}" rel="stylesheet"/>
 {%endblock%}
 {%block content%}
-<div class="container px-5 my-5 px-5 " style="height:70%">
+<div class="container px-5 my-5 px-5 " >
  
 <h1>
 	Liste des quiz
@@ -32,7 +32,7 @@
         <th> Nom du quiz</th>
         <th> Secteur</th>
         <th> Spécialité </th>
-        <th> Modifier </th>
+       {# <th> Modifier </th> #}
         <th> Supprimer</th>
         
         </tr>
@@ -47,8 +47,8 @@
 				{{q.secteur}}</td>
 			<td>
 				{{q.specialite}}</td>
-			<td><a class="btn btn-primary" href="#">Modifier</a></td>
-			<td><a class="btn btn-danger" href="#">Supprimer</a></td>
+			{#<td><a class="btn btn-primary" href="#">Modifier</a></td>#}
+			<td><a class="btn btn-danger" href="{{path('deleteQuiz', {'id': q.id})}}">Supprimer</a></td>
 		</tr>
 	{% endfor %}
 
