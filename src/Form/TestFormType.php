@@ -7,14 +7,22 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AuthentificationType extends AbstractType
+class TestFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('nom')
+            ->add('prenom')
             ->add('email')
+            ->add('tel')
+            ->add('adresse')
             ->add('mdp')
-            ->add('save', SubmitType::class);;
+            ->add('datenaissance')
+            ->add('salt')
+            ->add('isVerified')
+            ->add('idrole')
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

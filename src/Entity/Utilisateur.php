@@ -5,11 +5,13 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UtilisateurRepository;
 use DateTime;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 #use Symfony\Component\Validator\Constraints\DateTime;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
-class Utilisateur
+
+class Utilisateur implements UserInterface
 {
     /*
     /**
@@ -106,6 +108,7 @@ class Utilisateur
     #[ORM\Column(length: 1000, nullable: false)]
     private ?string $salt = null;
 
+
     /*
     /**
      * @var \Role
@@ -119,6 +122,8 @@ class Utilisateur
     #[ORM\JoinColumn(name: 'idRole', referencedColumnName: 'idRole')]
     #[Assert\NotBlank(message: "Il faut insérer un rôle")]
     private ?Role $idrole = null;
+
+
 
     public function getId(): ?int
     {
@@ -209,10 +214,6 @@ class Utilisateur
         return $this;
     }
 
-    public function getSalt(): ?string
-    {
-        return $this->salt;
-    }
 
     public function setSalt(string $salt): self
     {
@@ -231,5 +232,33 @@ class Utilisateur
         $this->idrole = $idrole;
 
         return $this;
+    }
+    public function getRoles(): ?string
+    {
+        return $this->idrole->getDescription();
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->mdp;
+    }
+
+    public function getSalt(): ?string
+    {
+        return $this->salt;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function getUserIdentifier(): ?string
+    {
+        return $this->email;
+    }
+
+    public function eraseCredentials()
+    {
     }
 }

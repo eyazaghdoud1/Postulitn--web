@@ -5,7 +5,6 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Repository\EntretiensRepository;
 
 class MainController extends AbstractController
 {
@@ -23,10 +22,5 @@ class MainController extends AbstractController
     public function baseback(): Response
     {
         return $this->render('baseback.html.twig');
-    }
-    #[Route('/login', name: 'login')]
-    public function login(): Response
-    {
-        return $this->render('utilisateur/login.html.twig');
     }
 }
