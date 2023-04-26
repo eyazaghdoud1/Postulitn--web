@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\OffreRepository;
 use App\Repository\TypeoffreRepository;
-
+use MercurySeries\FlashyBundle\FlashyNotifier;
 use App\Entity\Offre;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -16,7 +16,12 @@ use phpDocumentor\Reflection\Types\This;
 use App\Form\OffreType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use App\Entity\Typeoffre;
+use Knp\Component\Pager\PaginatorInterface;
+use Knp\Component\Pager\Pagination\SlidingPaginationInterface;
+use App\Form\SearchType;
+use Twilio\Rest\Client;
 
+use App\Form\SearchData;
 
 
 
@@ -26,14 +31,41 @@ use App\Entity\Typeoffre;
 class OffreController extends AbstractController
 {
     #[Route('/offre', name: 'app_offre')]
-    public function index(OffreRepository $Rep): Response
-    {
-        //return $this->render('offre/index.html.twig', [
-            //'controller_name' => 'OffreController',
-            $list = $Rep->findAll();
-        return $this->render('offre/index.html.twig', ['list' => $list
-        ]);
+    public function index(OffreRepository $offreRepository, Request $request, PaginatorInterface $paginator, TypeoffreRepository $typerepo): Response
+{
+    $searchData = new SearchData();
+    $form = $this->createForm(SearchType::class, $searchData);
+    $form->handleRequest($request);
+
+    $criteria = [];
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        $searchData->page = $request->query->getInt('page', 1);
+
+        // Vérifier quel critère est rempli et ajouter au tableau de critères en conséquence
+        if (!empty($searchData->poste)) {
+            $criteria['poste'] = $searchData->poste;
+        }
+        if (!empty($searchData->lieu)) {
+            $criteria['lieu'] = $searchData->lieu;
+        }
     }
+
+    $offres = $paginator->paginate(
+        $offreRepository->findBy($criteria),
+        $request->query->getInt('page', 1),
+        3
+    );
+
+    $typeoffres = $typerepo->findAll();
+
+    return $this->render('offre/index.html.twig', [
+        'form' => $form->createView(),
+        'offres' => $offres,
+       // 'typeoffres' => $typeoffres
+    ]);
+}
+
  
   /**
  * @Route("/delete/{id}", name="delete")
@@ -43,18 +75,19 @@ class OffreController extends AbstractController
  * @return Response
 
  */
-public function delete(OffreRepository $repo, ManagerRegistry $doctrine, $id): Response
+public function delete(OffreRepository $repo, ManagerRegistry $doctrine, $id,FlashyNotifier $flashy): Response
 {
 
     $objet=$repo->find($id);
     $em=$doctrine->getManager();
     $em->remove($objet);
     $em->flush();
+    $flashy->primaryDark('offre supprime avec succes', 'http://your-awesome-link.com');
     return $this->redirectToRoute('app_offre');
-
 }  
+
 #[Route('/createOffre', name: 'createOffre')]
-public function create(ManagerRegistry $doctrine, Request $request): Response
+public function create(ManagerRegistry $doctrine, Request $request,FlashyNotifier $flashy): Response
 {
     $offre = new Offre();
     //$offre->setIdrecruteur(1); // Ici, on fixe la valeur de l'id recruteur à 1
@@ -68,6 +101,16 @@ public function create(ManagerRegistry $doctrine, Request $request): Response
         $em = $doctrine->getManager();
         $em->persist($offre);
         $em->flush();
+        $flashy->success('offre ajoute avec succes', 'http://your-awesome-link.com');
+
+        $sid = "ACdd813fb1473247d79540aff0ace9a161";
+        $token = "c2cf70b040d484f656414e53ee01b51b";
+        $twilio = new Client($sid, $token);
+
+        $message = $twilio->messages
+                  ->create("+21696575810", // to
+                           ["body" => "Your offer has been successfully saved thank you for using Posutli", "from" => "+16812216120"]
+                  );
         return $this->redirectToRoute('app_offre');
     }
 

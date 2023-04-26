@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Offre;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Form\DateType;
 
 /**
  * @extends ServiceEntityRepository<Offre>
@@ -38,6 +39,34 @@ class OffreRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function findSearch(SearchData $search): QueryBuilder
+{
+    $qb = $this->createQueryBuilder('o');
+
+    if ($search->poste) {
+        $qb->andWhere('o.poste LIKE :poste')
+            ->setParameter('poste', '%' . $search->poste . '%');
+    }
+
+    if ($search->lieu) {
+        $qb->andWhere('o.lieu LIKE :lieu')
+            ->setParameter('lieu', '%' . $search->lieu . '%');
+    }
+}
+    public function searchByKeywords($keywords)
+{
+    $query = $this->createQueryBuilder('o')
+        ->where('o.poste LIKE :keywords OR o.lieu LIKE :keywords')
+        ->setParameter('keywords', '%'.$keywords.'%')
+        ->getQuery();
+    
+    return $query->getResult();
+}
+   // if ($search->dateExpiration) {
+     //   $qb->andWhere('o.dateExpiration = :dateExpiration');
+    
+//}
+
 
 //    /**
 //     * @return Offre[] Returns an array of Offre objects
@@ -75,3 +104,4 @@ public function countByDate(){
     return $query->getResult();
 }
 }
+
