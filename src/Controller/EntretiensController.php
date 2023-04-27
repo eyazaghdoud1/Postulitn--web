@@ -13,12 +13,13 @@ use App\Repository\OffreRepository;
 use App\Entity\Entretiens;
 use App\Form\EntretiensType;
 use App\Repository\UtilisateurRepository;
+use App\Service\MailerService;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\Entity;
 use MercurySeries\FlashyBundle\FlashyNotifier;
 use Twilio\Rest\Client;
-
+use Twilio\Rest\Content;
 
 class EntretiensController extends AbstractController
 {
@@ -233,7 +234,10 @@ class EntretiensController extends AbstractController
      */
 
     #[Route('/addEntretien/{id}', name: 'addEntretien')]
-    public function addEntretien(ManagerRegistry $doctrine, Request $request, CandidaturesRepository $candRepo, $id, FlashyNotifier $flashy): Response
+    public function addEntretien(ManagerRegistry $doctrine,
+     Request $request, CandidaturesRepository $candRepo,
+      $id, FlashyNotifier $flashy,
+      MailerService $mailer): Response
     {
         $entretien = new Entretiens();
 
@@ -274,6 +278,18 @@ class EntretiensController extends AbstractController
                     //"body" => "Un entretien pour votre candidature au poste " . $entretien->getIdcandidature()->getIdoffre()->getPoste() . "a été planifié."
                 )
             );
+             /* setting the email data */
+        $to = $entretien->getIdcandidature()->getIdcandidat()->getEmail();
+        $subject = 'Nouvel entretien';
+        $content= 'Vous avez un nouvel entretien programmé:  '
+        .'Poste:  "'.$entretien->getIdcandidature()->getIdoffre()->getPoste().'" / '
+        .'Entreprise : '.$entretien->getIdcandidature()->getIdoffre()->getEntreprise().'" / '
+        .'Date : ' . $entretien->getDate()->format('d-m-Y').' / '
+        .'Horaire : ' . $entretien->getHeure().' / '
+        .'Type : ' . $entretien->getType().' / '
+        .'Lieu : " ' . $entretien->getLieu() ; 
+        /* sending the email  */
+        $mailer->sendEmail($to,$subject,$content);
             // notif
             $flashy->success('Le candidat a été notifié de l\'ajout de l\'entretien.');
             return $this->redirectToRoute('readEntretiens');
@@ -287,7 +303,10 @@ class EntretiensController extends AbstractController
      */
 
     #[Route('/updateEntretien/{id}', name: 'updateEntretien')]
-    public function updateEntretien(ManagerRegistry $doctrine, Request $request, $id, EntretiensRepository $repo): Response
+    public function updateEntretien(ManagerRegistry $doctrine, 
+    Request $request, $id, EntretiensRepository $repo,
+    FlashyNotifier $flashy,
+    MailerService $mailer): Response
     {
 
         $entretien = $repo->find($id);
@@ -295,7 +314,6 @@ class EntretiensController extends AbstractController
         $entretien->setHeure($entretien->getHeure() . ':00');
         $entretien->setLieu("none");
         $form = $this->createForm(EntretiensType::class, $entretien);
-        //$form->add('Modifier', SubmitType::class);
 
 
         $form->handleRequest($request);
@@ -310,10 +328,10 @@ class EntretiensController extends AbstractController
 
             /* sending a message to "candidat" once "recruteur" updates a meeting's info  */
 
-            /*$account_sid = $this->getParameter('twilio_account_sid');
+            $account_sid = $this->getParameter('twilio_account_sid');
             $auth_token =  $this->getParameter('twilio_auth_token');
             $twilio_phone_number =  $this->getParameter('twilio_number');
-            $receiver_phone_number = '+21692314270';
+            $receiver_phone_number = '+216'. $entretien->getIdcandidature()->getIdcandidat()->getTel();;
 
             $client = new Client($account_sid, $auth_token);
 
@@ -321,13 +339,22 @@ class EntretiensController extends AbstractController
                 $receiver_phone_number,
                 array(
                     "from" => $twilio_phone_number,
-                    "body" => "+1"
+                    "body" => "~1"
                     //"body" => "Un entretien pour le poste " . $entretien->getIdcandidature()->getIdoffre()->getPoste() . " a été modifié."
                 )
             );
+
+           /* setting the email data */
+        $to = $entretien->getIdcandidature()->getIdcandidat()->getEmail();
+        $subject = 'Modification d\'entretien';
+        $content= 'Votre entretien du: '. $entretien->getDate()->format('d-m-Y').' relatif à votre candidature au poste '
+        .$entretien->getIdcandidature()->getIdoffre()->getPoste(). ' de l\'entreprise '
+        .$entretien->getIdcandidature()->getIdoffre()->getEntreprise(). ' a été modifié.';
+        /* sending the email  */
+        $mailer->sendEmail($to,$subject,$content);
             // notif
             $flashy->success('Le candidat a été notifié de la modification de l\'entretien.');
-            */
+            
             return $this->redirectToRoute('readEntretiens');
         }
 
@@ -339,19 +366,38 @@ class EntretiensController extends AbstractController
      * delete entretien method 
      */
     #[Route('/deleteEntretien/{id}', name: 'deleteEntretien')]
-    public function deleteEntretien(EntretiensRepository $repo, ManagerRegistry $doctrine, $id): Response
+    public function deleteEntretien(EntretiensRepository $repo,
+     ManagerRegistry $doctrine, 
+     $id,
+     FlashyNotifier $flashy,
+     MailerService $mailer): Response
     {
 
+        
         $objet = $repo->find($id);
+        /* setting the email data */
+        $to = $objet->getIdcandidature()->getIdcandidat()->getEmail();
+        $subject = 'Annulation d\'entretien';
+        $content= 'Votre entretien du: '. $objet->getDate()->format('d-m-Y').' relatif à votre candidature au poste '
+        .$objet->getIdcandidature()->getIdoffre()->getPoste(). ' de l\'entreprise '
+        .$objet->getIdcandidature()->getIdoffre()->getEntreprise(). ' a été annulé.';
+        
+        /* setting the phone number */
+        $phone_number=$objet->getIdcandidature()->getIdcandidat()->getTel();
+        /* removing entretien */
         $em = $doctrine->getManager();
         $em->remove($objet);
         $em->flush();
+
+        /* sending an email to the candidat */
+        $mailer->sendEmail($to, $subject, $content);
+
         /* sending a message to "candidat" once "recruteur" deletes a meeting  */
 
-        /*$account_sid = $this->getParameter('twilio_account_sid');
+        $account_sid = $this->getParameter('twilio_account_sid');
             $auth_token =  $this->getParameter('twilio_auth_token');
             $twilio_phone_number =  $this->getParameter('twilio_number');
-            $receiver_phone_number = '+21692314270';
+            $receiver_phone_number = '+216'.$phone_number;
 
             $client = new Client($account_sid, $auth_token);
 
@@ -360,13 +406,13 @@ class EntretiensController extends AbstractController
                 array(
                     "from" => $twilio_phone_number,
                     "body" => "-1"
-                    //"body" => " * L'entretien du " + $entretien->getDate() . 
-                     " pour votre candidature au poste " . $entretien->getIdcandidature()->getIdoffre()->getPoste() . " a été annulé."
+                   /* "body" => " * L'entretien du " + $entretien->getDate() . 
+                     " pour votre candidature au poste " . $entretien->getIdcandidature()->getIdoffre()->getPoste() . " a été annulé."*/
                 )
-            );
+            ); 
             // notif
             $flashy->warning('Le candidat a été notifié de l\'annulation de son entretien.');
-            */
+            
         return $this->redirectToRoute('readEntretiens');
     }
 }

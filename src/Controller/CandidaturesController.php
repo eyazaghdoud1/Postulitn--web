@@ -13,6 +13,7 @@ use App\Repository\OffreRepository;
 use App\Entity\Candidatures;
 use App\Form\CandidaturesType;
 use App\Repository\EntretiensRepository;
+use App\Service\MailerService;
 use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\File;
@@ -183,15 +184,25 @@ class CandidaturesController extends AbstractController
      * delete candidature method 
      */
     #[Route('/deleteCandidature/{id}', name: 'deleteCandidature')]
-    public function delete(CandidaturesRepository $repo, ManagerRegistry $doctrine, $id, FlashyNotifier $flashy): Response
+    public function delete(CandidaturesRepository $repo,
+     ManagerRegistry $doctrine, $id,
+      FlashyNotifier $flashy,
+      MailerService $mailer): Response
     {
 
         $objet = $repo->find($id);
+        /* setting the email data */
+        $to = $objet->getIdoffre()->getIdrecruteur()->getEmail();
+        $subject = 'Candidature annulée';
+        $content= 'Le candidat "'.$objet-> getIdcandidat()->getNom(). ' ' .  $objet->getIdcandidat()->getPrenom()
+        .'" a annulé sa candidature à votre offre "'.$objet->getIdoffre()->getPoste() ;
         $em = $doctrine->getManager();
         $em->remove($objet);
         $em->flush();
         // notif
         $flashy->info('Votre candidature au poste ' . $objet->getIdoffre()->getPoste().  ' a été supprimée');
+       /* sending an email to the candidat */
+       $mailer->sendEmail($to, $subject, $content);
         return $this->redirectToRoute('candidaturesCand');
     }
     /**
@@ -200,7 +211,11 @@ class CandidaturesController extends AbstractController
      */
 
     #[Route('/validerCandidature/{id}', name: 'validerCandidature')]
-    public function valider(Candidatures $c, ManagerRegistry $doctrine, FlashyNotifier $flashy, $id)
+    public function valider(Candidatures $c,
+     ManagerRegistry $doctrine,
+      FlashyNotifier $flashy,
+       $id,
+       MailerService $mailer)
     {
         $c->setEtat('Validée');
         $em = $doctrine->getManager();
@@ -208,6 +223,14 @@ class CandidaturesController extends AbstractController
         $em->flush();
         // notif
         $flashy->info('Le candidat sera notifié que sa candidature est désormais validée.');
+        /* setting the email data */
+        $to = $c->getIdcandidat()->getEmail();
+        $subject = 'Suivi de vos candidature';
+        $content= 'Votre candidature au poste'.$c->getIdoffre()->getPoste().
+        'de l\'entreprise '.$c->getIdoffre()->getEntreprise().' a été validée.' ;
+       /* sending an email to the candidat */
+       $mailer->sendEmail($to, $subject, $content);
+
         return $this->redirectToRoute('detailsCandidatureRecruteur', ['id' => $id]);
     }
 
@@ -216,22 +239,36 @@ class CandidaturesController extends AbstractController
      * accepter la candidature
      */
     #[Route('/accepterCandidature/{id}', name: 'accepterCandidature')]
-    public function accepter($id, CandidaturesRepository $candRepo, ManagerRegistry $doctrine, FlashyNotifier $flashy)
+    public function accepter($id, CandidaturesRepository $candRepo,
+     ManagerRegistry $doctrine,
+      FlashyNotifier $flashy,
+      MailerService $mailer)
     {
         $c = $candRepo->find($id);
         $c->setEtat('Acceptée');
         $em = $doctrine->getManager();
         $em->persist($c);
         $em->flush();
+        //notif
         $flashy->success('Le candidat sera notifié que sa candidature a été acceptée.');
+         /* setting the email data */
+         $to = $c->getIdcandidat()->getEmail();
+         $subject = 'Suivi de vos candidature';
+         $content= 'Félicitations! Votre candidature au poste'.$c->getIdoffre()->getPoste().
+         'de l\'entreprise '.$c->getIdoffre()->getEntreprise().' a été acceptée.' ;
+        /* sending an email to the candidat */
+        $mailer->sendEmail($to, $subject, $content);
         return $this->redirectToRoute('readCandidatures');
     }
     /**
      * 
-     * accepter la candidature
+     * refuser la candidature
      */
     #[Route('/refuserCandidature/{id}', name: 'refuserCandidature')]
-    public function refuser(CandidaturesRepository $candRepo, $id,  ManagerRegistry $doctrine, FlashyNotifier $flashy)
+    public function refuser(CandidaturesRepository $candRepo, $id,
+      ManagerRegistry $doctrine,
+       FlashyNotifier $flashy, 
+       MailerService $mailer)
     {
         $c = $candRepo->find($id);
         $c->setEtat('Refusée');
@@ -239,6 +276,13 @@ class CandidaturesController extends AbstractController
         $em->persist($c);
         $em->flush();
         $flashy->warning('Le candidat sera notifié que sa candidature a été refusée.');
+        /* setting the email data */
+        $to = $c->getIdcandidat()->getEmail();
+        $subject = 'Suivi de vos candidature';
+        $content= 'Votre candidature au poste'.$c->getIdoffre()->getPoste().
+        'de l\'entreprise '.$c->getIdoffre()->getEntreprise().' a été refusée. Bonne continuation.' ;
+       /* sending an email to the candidat */
+       $mailer->sendEmail($to, $subject, $content);
         return $this->redirectToRoute('readCandidatures');
     }
 
