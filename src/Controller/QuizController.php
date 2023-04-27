@@ -14,6 +14,7 @@ use App\Entity\Quizscores;
 use App\Repository\UtilisateurRepository;
 use App\Repository\QuizquestionsRepository;
 use App\Repository\QuizscoresRepository;
+use Knp\Component\Pager\PaginatorInterface;
 
 class QuizController extends AbstractController
 {
@@ -79,10 +80,19 @@ class QuizController extends AbstractController
      * pass quiz method
      */
     #[Route('/candidat/passerquiz/{id}', name: 'quizQuestions')]
-    public function readQuizQuestions(ManagerRegistry $doctrine, QuizscoresRepository $qsRepo, UtilisateurRepository $userRepo, QuizRepository $QuizRepo, Request $request, QuizquestionsRepository $Repo, $id): Response
+    public function readQuizQuestions(ManagerRegistry $doctrine, QuizscoresRepository $qsRepo, 
+    UtilisateurRepository $userRepo, QuizRepository $QuizRepo,
+     Request $request, QuizquestionsRepository $Repo, $id, 
+    PaginatorInterface $paginator): Response
     {
         $quiz = $QuizRepo->find($id);
         $list = $Repo->findByQuiz($quiz);
+       /* $pagination = $paginator->paginate(
+            $Repo->queryByQuiz($quiz),
+            $request->query->get('page',1),
+            1
+
+        );*/
         $oldqs = $qsRepo->findByCandidatAndQuiz(68, $id);
         
         if ($oldqs != null and $oldqs->getDate()> new \DateTime('-1 month')) {
@@ -144,8 +154,10 @@ class QuizController extends AbstractController
             ]);
         }
         return $this->render('quizquestions/candidatquizquestions.html.twig', [
-            'list' => $list,
+            'list' =>$list,
+           // 'pagination' => $pagination,
             'quiz' => $quiz,
+            
             
             // 'count' => $count
         ]);

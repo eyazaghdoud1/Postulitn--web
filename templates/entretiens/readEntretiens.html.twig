@@ -10,14 +10,11 @@
 {%block bodysection%}
 
 
-
-	
-
 <div class="parentcol mb-4">
 	
 		
 		<div>
-		<h1 class="job-title mb-2 dark-blue">
+		<h1 class="job-title mb-2 dark-blue" style="margin-top: -70px !important;">
 		Entretiens	</h1> <span > <h5 class="job-title mb-2 dark-blue"> {{recruteur.nom ~ ' ' ~ recruteur.prenom}} </h5></span>
 
 			
@@ -25,7 +22,8 @@
 			 <h6 class="lighter-blue"> Total des entretiens planifiés: {{count}} </h6>  
 			
 			 <a href="{{path('readCandidatures')}}" class="btn filterbtn" style="background-color:#353D62 !important; color: white !important; display:flex !important; flex-direction: column-reverse;">Planifier un nouvel entretien</a>
-			 
+			 <a href="{{path('entretiensCalendar', {'role': 'recruteur', 'id': recruteur.id})}}" class="btn filterbtn" style="color:#1E9DFF!important;display:flex !important; flex-direction: column-reverse;">Mon calendrier</a>
+
 			 <div class="d-flex flex-wrap align-items-center border-bottom pt-lg-3 pt-2 pb-3 mb-4"></div>
 			 <h6 style="display: flex; margin-left: 10px !important;"> Filtrer</h6>
 		<div class="newcol" >

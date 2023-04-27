@@ -31,9 +31,10 @@ h3::before {
 <p class="lead mb-0">Spécialité: {{quiz.specialite}} </p>
 <p class="lead mb-0">Testez vos connaissances ! </p>
 	<ol class="olq">
+	   
 		{% for i in 0..list|length-1 %}
 			{% set n='q'~i~'[]' %}
-
+		
 			<li class="liq">
 				<ol class="olq">
 					<h3 >Question {{i+1}}:
@@ -63,6 +64,7 @@ h3::before {
 
 		{% endfor %}
 	</ol>
+	{#{{knp_pagination_render(pagination)}}#}
     <button type="sumbit" class="custom-btn" >Valider</button>
 </form>
 

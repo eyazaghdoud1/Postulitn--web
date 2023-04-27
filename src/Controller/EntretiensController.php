@@ -13,6 +13,9 @@ use App\Repository\OffreRepository;
 use App\Entity\Entretiens;
 use App\Form\EntretiensType;
 use App\Repository\UtilisateurRepository;
+use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\Entity;
 use MercurySeries\FlashyBundle\FlashyNotifier;
 use Twilio\Rest\Client;
 
@@ -26,6 +29,64 @@ class EntretiensController extends AbstractController
             'controller_name' => 'EntretiensController',
         ]);
     }
+    /** calendar */
+    #[Route('/entretiens/calendar/{role}/{id}', name: 'entretiensCalendar')]
+    public function calendar(EntretiensRepository $repo, $role, $id): Response
+    {
+        if ($role=='recruteur') {
+            $events  = $repo->findByRecruteur($id); 
+        } else {
+            $events  = $repo->findByCandidat($id); 
+        }
+        //$events  = $repo->findAll();
+        $entretiens = [];
+        foreach($events as $event) {
+            $entretiens[] = [
+                'id'=> $event->getId(),
+                'start' => $event->getDate()->format('Y-m-d'), 
+                'end' => $event->getDate()->format('Y-m-d'),
+                /*'title' => $event->getHeure() . ':' . $event->getIdcandidature()->getIdcandidat()->getNom(). ' ' 
+                .  $event->getIdcandidature()->getIdcandidat()->getPrenom(),*/
+                'title' => $event->getHeure() . '-' . $event->getType(),
+                //'description' => $event->getType(), 
+                
+                
+            ];
+
+        }
+
+        $data = json_encode($entretiens);
+        return $this->render('entretiens/calendar.html.twig', array_merge(compact('data'), ['id' => $id, 'role' => $role]));
+    }
+
+    #[Route('/calendar/edit/{id}', name: 'editCalendar', methods:'PUT')]
+    public function editCalendar(EntretiensRepository $repo,ManagerRegistry $doctrine,  $id, Request $request)
+    {
+        $donnees = json_decode($request->getContent());
+        $entretien = $repo->find($id);
+        if(
+            isset($donnees->title) && !empty($donnees->title) &&
+            isset($donnees->start) && !empty($donnees->start) 
+           
+        ){
+           
+
+        $entretien->setDate(new DateTime($donnees->start));
+        $em = $doctrine->getManager();
+        $em->persist($entretien);
+        $em->flush();
+        // envoyer un message au candidat
+            return new Response('Ok');
+            
+        }else{
+            return new Response('Données incomplètes', 404);
+        }
+        
+        return $this->render('entretiens/calendar.html.twig'
+           );
+
+    }
+  /************** */
 
     /**
      * 

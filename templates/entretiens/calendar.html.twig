@@ -1,0 +1,77 @@
+{% extends "basefront.html.twig" %}
+{%block css%}
+<link href="{{asset('css/style.css')}}" rel="stylesheet" />
+<link href="{{asset('css/detailscontainer.css')}}" rel="stylesheet" />
+
+{%endblock%}
+{% block bodysection %}
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.0/main.min.css" integrity="sha256-uq9PNlMzB+1h01Ij9cx7zeE2OR2pLAfRw3uUUOOPKdA=" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.0/main.min.js" integrity="sha256-DBxkGZLxKsLKhz054qUpBqtotG00r9AELGpSigJujLg=" crossorigin="anonymous"></script>
+  
+ 
+    <style>
+     #calendrier {
+        width:inherit ; 
+        margin: auto;
+        font-size: 15px;
+        text-decoration: none;
+       
+
+     }
+     .bgdark {
+       background-color:  #0E1947 ;
+       color: white;
+     }
+
+    </style>
+    
+    <div class="parentcol mb-3" style="margin-top: -70px !important; width: 85% !important;margin-bottom: auto !important;margin-left: auto !important;margin-right: auto !important;" >
+    <h2 class="job-title mb-2 dark-blue"> Votre calendrier d'entretiens </h2>
+    {% if role == 'recruteur' %}
+    <a href="{{path('readEntretiens')}}" class="btn filterbtn" style="color:#1E9DFF!important;display:flex !important; flex-direction: column-reverse;">Retourner aux détails</a>
+    {% else %}
+     <a href="{{path('entretiensCandidat')}}" class="btn filterbtn" style="color:#1E9DFF!important;display:flex !important; flex-direction: column-reverse;">Retourner aux détails</a>
+     {% endif %}
+   
+    <div id="calendrier">
+    </div>
+    </div>
+    
+    <script>
+      window.onload = () => {
+        let calendarElt = document.querySelector("#calendrier")
+        let calendar = new FullCalendar.Calendar(calendarElt, {
+           
+            initialView : 'dayGridMonth',
+            locale: 'fr',
+            timeZone: 'Europe/Paris',
+            headerToolbar: {
+            start: 'prev',
+            center: 'title',
+            end: 'next'
+            }, 
+            events : {{data|raw}},
+            editable: true
+        })
+
+        calendar.on('eventChange', (e) => {
+          let url=`/calendar/edit/${e.event.id}`
+          let donnees = {
+            "title": e.event.title,
+            "start": e.event.start,
+            "end": e.event.end,
+            
+
+          }
+          console.log(e)
+          let xhr = new XMLHttpRequest
+          xhr.open("PUT", url)
+          xhr.send(JSON.stringify(donnees))
+          
+        })
+
+        calendar.render()
+      }
+    </script>
+
+{% endblock %}

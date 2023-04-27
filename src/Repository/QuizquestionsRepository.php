@@ -53,6 +53,15 @@ class QuizquestionsRepository extends ServiceEntityRepository
        ;
     }
 
+    public function queryByQuiz($idquiz)
+    {
+        return $this->createQueryBuilder('q')
+            ->where('q.idquiz = :quiz')
+            ->setParameter('quiz', $idquiz)
+            ->getQuery()    
+       ;
+    }
+
 //    public function findOneBySomeField($value): ?Quizquestions
 //    {
 //        return $this->createQueryBuilder('q')

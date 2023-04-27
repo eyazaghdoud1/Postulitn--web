@@ -10,7 +10,7 @@
 
 <div>
 
-	<div class="parentcol mb-4">
+	<div class="parentcol mb-4" style="margin-top: -70px !important;">
 
 
 		<h1 class="job-title mb-2 dark-blue">
@@ -25,6 +25,8 @@
 			Total des entretiens planifiés:
 			{{count}}
 		</h6>
+		<a href="{{path('entretiensCalendar', {'role': 'candidat', 'id': candidat.id})}}" class="btn filterbtn" style="color:#1E9DFF!important;display:flex !important; flex-direction: column-reverse;">Mon calendrier</a>
+
 
 		<div class="d-flex flex-wrap align-items-center border-bottom pt-lg-3 pt-2 pb-3 mb-4"></div>
 		
