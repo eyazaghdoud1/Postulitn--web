@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Service\MailService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class MailingController extends AbstractController
 {
@@ -90,7 +90,7 @@ class MailingController extends AbstractController
         ]);
     }
     #[Route('/resetpwd', name: 'modifmdp')]
-    public function resetpwd(Request $req, UtilisateurRepository $usersRepository)
+    public function resetpwd(Request $req, UtilisateurRepository $usersRepository, UserPasswordEncoderInterface $userPasswordEncoder)
     {
         $session = $req->getSession();
         $code = $session->get('code');
@@ -99,7 +99,9 @@ class MailingController extends AbstractController
         $form = $this->createForm(ResetPwdType::class);
         $form->handleRequest($req);
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setMdp($form->get('mdp')->getData());
+            $plainPassword = $form->get('mdp')->getData();
+            $encodedPassword = $userPasswordEncoder->encodePassword($user, $plainPassword);
+            $user->setMdp($encodedPassword);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();

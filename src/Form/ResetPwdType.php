@@ -18,7 +18,9 @@ class ResetPwdType extends AbstractType
     {
         $builder
 
-            ->add('mdp', PasswordType::class)
+            ->add('mdp', PasswordType::class) /*, [
+             
+            'second_options' => ['label' => 'Répéter le mot de passe'],]) */
             ->add('save', SubmitType::class);
     }
 

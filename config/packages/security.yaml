@@ -17,11 +17,11 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
-            lazy: true
-            custom_authenticator: App\Security\UsersLoginAuthenticator
-            logout:
-                path: app_logout
+       # main:
+        #    lazy: true
+         #   custom_authenticator: App\Security\UsersLoginAuthenticator
+          #  logout:
+           #     path: app_logout
               
                 # where to redirect after logout
                 # target: app_any_route

@@ -10,9 +10,13 @@ use PhpParser\Node\Expr\Cast\String_;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 #use Symfony\Component\Validator\Constraints\DateTime;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
-
+/**
+ * @ORM\Entity
+ * @UniqueEntity(fields={"email"}, message="email déjà utilisé !")
+ */
 class Utilisateur implements UserInterface
 {
     /*
