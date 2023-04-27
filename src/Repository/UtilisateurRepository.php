@@ -69,4 +69,9 @@ class UtilisateurRepository extends ServiceEntityRepository
     {
         return $this->findOneBy(['email' => $email, 'mdp' => $mdp]);
     }
+
+    public function findOneByCode($code): ?Utilisateur
+    {
+        return $this->findOneBy(['code' => $code]);
+    }
 }

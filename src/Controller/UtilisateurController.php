@@ -14,10 +14,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Repository\UtilisateurRepository;
 use App\Form\UtilisateurType;
+use App\Service\MailService;
 use Doctrine\ORM\EntityManagerInterface;
+
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
-
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 class UtilisateurController extends AbstractController
 {
@@ -94,7 +101,7 @@ class UtilisateurController extends AbstractController
         $form = $this->createForm(LoginFormType::class);
         $form->handleRequest($req);
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
+            // $data = $form->getData();
             // Récupérer l'utilisateur correspondant à l'e-mail entré
             $user = $userRepository->findOneByEmailAndMdp($form->getData('email'), $form->getData('mdp'));
 
@@ -103,7 +110,7 @@ class UtilisateurController extends AbstractController
                 //$session->set('user', $user);
                 dump('Authentification réussie');
 
-                // Authentification réussie, rediriger l'utilisateur vers la page d'accueil
+                // Authentification réussie, redirection
                 if ($user->getIdrole()->getDescription() == 'Administrateur') {
                     return $this->redirectToRoute('readUsers');
                 } else
@@ -117,112 +124,4 @@ class UtilisateurController extends AbstractController
         // Afficher le formulaire de connexion avec l'éventuelle erreur
         return $this->render('utilisateur/loginUser.html.twig', ['form' => $form->createView(), 'error' => $error]);
     }
-
-
-    function sendEmail(MailerInterface $mailer, string $to, string $code, string $message): void
-    {
-        $email = (new Email())
-            ->from('postuli.tn@gmail.com')
-            ->to($to)
-            ->subject('Mot de passe oublié')
-            ->html($code)
-            ->text($message);
-
-        $mailer->send($email);
-    }
-
-    #[Route('/code', name: 'code')]
-    public function checkcode(): Response
-    {
-
-        return $this->redirectToRoute('mdp oublié');
-    }
-
-
-    #[Route('/mdpoublie', name: 'mdp oublié')]
-    public function forgotmdp(MailerInterface $mailer, Request $req1, Request $req2, UtilisateurRepository $usersRepository, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(ResetPasswordRequestFormType::class);
-        $form->handleRequest($req1);
-        $form2 = $this->createForm(CheckCodeType::class);
-        $form2->handleRequest($req2);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $user = $usersRepository->findOneByEmail($form->get('email')->getData());
-            if ($user) {
-                $user->setMdp('');
-                $entityManager->persist($user);
-                $entityManager->flush();
-                $code = strval(random_int(1000, 9999));
-                $message = '<p>Bonjour ' . $user->getNom() . ' ' . $user->getPrenom() . '</p>'
-                    . '<p>Pour votre demande de réinitialisation de mot de passe, veuillez insérer le code suivant : '
-                    .  $code . '</p>';
-                $this->sendEmail($mailer, $user->getEmail(), $code,  $message);
-                return $this->redirectToRoute('code');
-                if ($form2->isSubmitted() && $form2->isValid()) {
-                    $codeinsere = $form2->get('code')->getData();
-                    if ($codeinsere == $code) {
-                        return $this->redirectToRoute('login');
-                    } else {
-                        $error = 'code non valide';
-                        dump($error);
-                    }
-                }
-            } else {
-                $error = 'Adresse e-mail non valide';
-                dump($error);
-            }
-        }
-        return $this->render('utilisateur/forgotpwd.html.twig', [
-            'form' => $form->createView(),
-            'form2' => $form2->createView()
-        ]);
-    }
-
-
-
-    /*
-
-    #[Route('/oubli-pass', name: 'forgotten_password')]
-    public function forgottenPassword(Request $request, UtilisateurRepository $usersRepository, TokenGeneratorInterface $tokenGenerator, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
-    {
-        $form = $this->createForm(ResetPasswordRequestFormType::class);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            // on va chercher l'utilisateur par son email
-            $user = $usersRepository->findOneByEmail($form->get('email')->getData());
-
-            //on verifie si on a un utilisateur
-            if ($user) {
-                // on genere un token de reinitialisation
-                $token = $tokenGenerator->GenerateToken();
-                $user->eraseCredentials($token);
-                $entityManager->persist($user);
-                $entityManager->flush();
-
-                // on genere un lien de reinitialisation du mot de passe
-                $url = $this->generateUrl('reset_pass', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
-
-                // on cree les donnees du mail
-                $message = '<p>Bonjour ' . $user->getNom() . ' ' . $user->getPrenom() . '</p>'
-                    . '<p>Pour votre demande de réinitialisation de mot de passe, veuillez cliquer sur le lien suivant : '
-                    . '<a href="' . $url . '">' . $url . '</a></p>';
-
-                //Envoi du mail
-                $this->sendEmail($mailer, $url, $user->getEmail(), $message);
-
-
-                $this->addFlash('success', 'Email envoyé avec succes');
-                return $this->redirectToRoute('login');
-            }
-            //user est null
-            $this->addFlash('danger', 'un probleme est survenu');
-            return $this->redirectToRoute('login');
-        }
-
-        return $this->render(
-            'utilisateur/forgotpwd.html.twig',
-            ['requestPassForm' => $form->createView()]
-        );
-    }
-    */
 }

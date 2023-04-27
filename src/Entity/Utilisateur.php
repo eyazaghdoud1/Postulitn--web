@@ -5,6 +5,8 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UtilisateurRepository;
 use DateTime;
+use phpDocumentor\Reflection\Types\Self_;
+use PhpParser\Node\Expr\Cast\String_;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 #use Symfony\Component\Validator\Constraints\DateTime;
@@ -123,7 +125,14 @@ class Utilisateur implements UserInterface
     #[Assert\NotBlank(message: "Il faut insérer un rôle")]
     private ?Role $idrole = null;
 
-
+    /*
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="code", type="string", length=20, nullable=false)
+     */
+    #[ORM\Column(length: 20, nullable: false)]
+    private ?string $code = null;
 
     public function getId(): ?int
     {
@@ -220,6 +229,18 @@ class Utilisateur implements UserInterface
         $this->salt = $salt;
 
         return $this;
+    }
+
+    public function setCode(string $code): self
+    {
+        $this->code = $code;
+        return $this;
+    }
+
+
+    public function getCode(): ?string
+    {
+        return $this->code;
     }
 
     public function getIdrole(): ?Role

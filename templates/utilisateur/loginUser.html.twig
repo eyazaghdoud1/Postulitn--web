@@ -48,22 +48,24 @@
 										{{ form_errors (form.email) }}
 									</div>
 
-									<div class="form-group mb-3">
+									<div class="form-group mb-3" style="margin-top:20px;">
 										<div class="form-control">
 											<label>{{form_label (form.mdp)}}</label>
 											{{ form_widget (form.mdp) }}
 											{{ form_errors (form.mdp) }}
 										</div>
 
-										<button class="form-control btn btn-primary rounded submit px-3" {{ form_widget (form.save) }}></button>
+										<button style="margin-top: 20px;" class="form-control btn btn-primary rounded submit px-3>
+																																																																																																																																															{{ form_widget (form.save) }}
+																																																																																																																																														</button>
+											
+																																																																																																																																														{{form_end (form)}}
+											
+											
+																																																																																																																																														<div class=" form-group d-md-flex">
 
-										{{form_end (form)}}
-
-
-										<div class="form-group d-md-flex">
-
-											<div class="w-50 text-md-right">
-												<a href="{{path('mdp oublié')}}">Mot de passe oublié ?</a>
+											<div class="w-50 text-md-right" style="margin-top:20px;">
+												<a href="{{path('sendmail')}}">Mot de passe oublié ?</a>
 											</div>
 										</div>
 									</form>
