@@ -48,7 +48,14 @@ class QuizscoresRepository extends ServiceEntityRepository
         ->andWhere('qs.idquiz= :idq')
         ->setParameter('idc', $idc)
         ->setParameter('idq', $idq);
-        return $query = $querybuilder->getQuery()->getSingleResult();
+        return $query = $querybuilder->getQuery()->getOneOrNullResult();
+
+    }
+
+    public function countParticipants($id) {
+        $em=$this->getEntityManager();
+        $query=$em->createQuery('SELECT count(q) FROM App\Entity\Quizscores q WHERE  q.idquiz = :id')->setParameter('id',$id);;
+        return $query->getSingleScalarResult();
 
     }
 //    /**

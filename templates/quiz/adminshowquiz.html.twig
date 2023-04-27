@@ -1,0 +1,47 @@
+{% extends 'baseback.html.twig' %}
+{%block css%}
+<link href="{{asset('css/back.css')}}" rel="stylesheet"/>
+<link href="{{asset('css/quizlist.css')}}" rel="stylesheet"/>
+{%endblock%}
+{%block content%}
+
+
+<div class="container px-5 my-5 px-5 " style="min-height: 70% !important; " >
+
+	<h2 class="fw-bolder">Quiz:
+		{{quiz.nom}}
+	</h2>
+	<p class="lead mb-0">Spécialité:
+		{{quiz.specialite}}
+	
+	<p class="lead mb-0">Nombre de participants: {{count}}</p> 
+
+	<table class="table table-striped" style="align-items: left !important; color:black !important; margin-top: 10px !important;">
+		<thead>
+			<tr >
+				<th style="display:flex !important">Question</th>
+<th>Option A</th>
+<th>Option B</th>
+<th>Option C</th>
+				<th>Réponse</th>
+
+
+			</tr>
+		</thead>
+		<tbody>
+			{% for l in list %}
+				<tr>
+					<td style="display:flex !important">{{l.question}}</td>
+                    <td>{{l.option1}}</td><td>{{l.option2}}</td><td>{{l.option3}}</td>
+					<td>{{l.reponse}}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<button class="custom-btn"><a style="color: white !important; text-decoration: none !important;"
+	href={{path('adminReadQuiz')}}>Tous les quiz </a>
+	</button>
+</div>
+
+{%endblock%}

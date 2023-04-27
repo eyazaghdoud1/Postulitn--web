@@ -14,7 +14,6 @@ use App\Entity\Quizscores;
 use App\Repository\UtilisateurRepository;
 use App\Repository\QuizquestionsRepository;
 use App\Repository\QuizscoresRepository;
-use Knp\Component\Pager\PaginatorInterface;
 
 class QuizController extends AbstractController
 {
@@ -75,107 +74,155 @@ class QuizController extends AbstractController
             return $this->renderForm('quiz/addquiz.html.twig', ['form' => $form]);
     }
 
+    #[Route('/candidat/passerquiz/{id}/responses', name: 'quizReponses')]
+    public function readQuizResponses(
+        QuizRepository $QuizRepo,
+        QuizquestionsRepository $Repo,
+        $id,
+    ): Response {
+        $quiz = $QuizRepo->find($id);
+        $list = $Repo->findByQuiz($quiz);
+        $correct_answers = [];
+        for ($i = 0; $i <= 4; $i++) {
+            $correct_answers[$i] = $list[$i]->getReponse();
+        }
+        return $this->render('quiz/quizreponses.html.twig', [
+            'quiz' => $quiz,
+            'list' => $list
+        ]);
+    }
+
+    #[Route('/admin/quiz/{id}/details', name: 'adminShowQuiz')]
+    public function showQuiz(
+        QuizRepository $QuizRepo,
+        QuizquestionsRepository $Repo,
+        QuizscoresRepository $qsRepo,
+        $id,
+    ): Response {
+        
+        $quiz = $QuizRepo->find($id);
+        $count=$qsRepo->countParticipants($quiz);
+        $list = $Repo->findByQuiz($quiz);
+        $correct_answers = [];
+        for ($i = 0; $i <= 4; $i++) {
+            $correct_answers[$i] = $list[$i]->getReponse();
+        }
+        return $this->render('quiz/adminshowquiz.html.twig', [
+            'quiz' => $quiz,
+            'list' => $list,
+            'count' => $count
+        ]);
+    }
+
     /**
      * 
      * pass quiz method
      */
     #[Route('/candidat/passerquiz/{id}', name: 'quizQuestions')]
-    public function readQuizQuestions(ManagerRegistry $doctrine, QuizscoresRepository $qsRepo, 
-    UtilisateurRepository $userRepo, QuizRepository $QuizRepo,
-     Request $request, QuizquestionsRepository $Repo, $id, 
-    PaginatorInterface $paginator): Response
-    {
+    public function readQuizQuestions(
+        ManagerRegistry $doctrine,
+        QuizscoresRepository $qsRepo,
+        UtilisateurRepository $userRepo,
+        QuizRepository $QuizRepo,
+        Request $request,
+        QuizquestionsRepository $Repo,
+        $id,
+    
+        
+    ): Response {
         $quiz = $QuizRepo->find($id);
         $list = $Repo->findByQuiz($quiz);
-       /* $pagination = $paginator->paginate(
-            $Repo->queryByQuiz($quiz),
-            $request->query->get('page',1),
-            1
-
-        );*/
-        $oldqs = $qsRepo->findByCandidatAndQuiz(68, $id);
         
-        if ($oldqs != null and $oldqs->getDate()> new \DateTime('-1 month')) {
-           
+        $oldqs = $qsRepo->findByCandidatAndQuiz(69, $id);
+
+        if ($oldqs != null and $oldqs->getDate() > new \DateTime('-1 month')) {
+           $verif = 'old';
             return $this->redirectToRoute('resultatQuiz', [
                 'id' => $id,
-                'score' => $oldqs->getScore()
+                'score' => $oldqs->getScore(),
+                'verif' => $verif
+               
             ]);
-
         } else {
-        // the quiz correct answers
-        $correct_answers = [];
-        for ($i = 0; $i <= 4; $i++) {
-            $correct_answers[$i] = $list[$i]->getReponse();
-        }
-        $score = 0;
-        if ($request->isMethod('POST')) {
-            // the candidat's answers
-            $answers = [];
-            foreach ($request->request->all() as $key => $value) {
-                $answers[$key] = $value;
+            $verif = 'new';
+            // the quiz correct answers
+            $correct_answers = [];
+            for ($i = 0; $i <= 4; $i++) {
+                $correct_answers[$i] = $list[$i]->getReponse();
             }
+            $score = 0;
+            if ($request->isMethod('POST')) {
+                // the candidat's answers
+                $answers = [];
+                foreach ($request->request->all() as $key => $value) {
+                    $answers[$key] = $value;
+                }
 
-            $candidat_answers = [];
-            $candidat_answers[0] = $answers['q0'][0];
-            $candidat_answers[1] = $answers['q1'][0];
-            $candidat_answers[2] = $answers['q2'][0];
-            $candidat_answers[3] = $answers['q3'][0];
-            $candidat_answers[4] = $answers['q4'][0];
-            
-            // counting the score
-            $score = $this->score($correct_answers, $candidat_answers);
-            // saving the score
+                $candidat_answers = [];
+                $candidat_answers[0] = $answers['q0'][0];
+                $candidat_answers[1] = $answers['q1'][0];
+                $candidat_answers[2] = $answers['q2'][0];
+                $candidat_answers[3] = $answers['q3'][0];
+                $candidat_answers[4] = $answers['q4'][0];
 
-            // if it's the candidat's first time passing the quiz
-            if ($qsRepo->findByCandidatAndQuiz($userRepo->find(69), $quiz) == null) {
-                $qscore = new Quizscores();
-                $qscore->setIdquiz($quiz);
-                $qscore->setDate(new \DateTime('now'));
-                $qscore->setScore($score);
-                $qscore->setIdcandidat($userRepo->find(69));
-                $em = $doctrine->getManager();
-                $em->persist($qscore);
-                $em->flush();
-            } else {
-                // if the candidat has already passed the quiz before
-                $qscore = $qsRepo->findByCandidatAndQuiz($userRepo->find(69), $quiz);
-                $qscore->setDate(new \DateTime('now'));
-                $qscore->setScore($score);
-                $em = $doctrine->getManager();
-                $em->persist($qscore);
-                $em->flush();
+                // counting the score
+                $score = $this->score($correct_answers, $candidat_answers);
+                // saving the score
+
+                // if it's the candidat's first time passing the quiz
+                if ($qsRepo->findByCandidatAndQuiz($userRepo->find(69), $quiz) == null) {
+                    $qscore = new Quizscores();
+                    $qscore->setIdquiz($quiz);
+                    $qscore->setDate(new \DateTime('now'));
+                    $qscore->setScore($score);
+                    $qscore->setIdcandidat($userRepo->find(69));
+                    $em = $doctrine->getManager();
+                    $em->persist($qscore);
+                    $em->flush();
+                } else {
+                    // if the candidat has already passed the quiz before
+                    $qscore = $qsRepo->findByCandidatAndQuiz($userRepo->find(69), $quiz);
+                    $qscore->setDate(new \DateTime('now'));
+                    $qscore->setScore($score);
+                    $em = $doctrine->getManager();
+                    $em->persist($qscore);
+                    $em->flush();
+                }
+                //dump($score);
+                //die;
+                return $this->redirectToRoute('resultatQuiz', [
+                    'id' => $id,
+                    'score' => $score,
+                    'verif' => $verif
+                   
+                ]);
             }
-            //dump($score);
-            //die;
-            return $this->redirectToRoute('resultatQuiz', [
-                'id' => $id,
-                'score' => $score
+            return $this->render('quizquestions/candidatquizquestions.html.twig', [
+                'list' => $list,
+                
+                'quiz' => $quiz,
+
+
+                
             ]);
         }
-        return $this->render('quizquestions/candidatquizquestions.html.twig', [
-            'list' =>$list,
-           // 'pagination' => $pagination,
-            'quiz' => $quiz,
-            
-            
-            // 'count' => $count
-        ]);
-    }
     }
 
     /**
      * 
      * quiz result method
      */
-    #[Route('/candidat/passerquiz/{id}/resultat/{score}', name: 'resultatQuiz')]
-    public function resultquiz(QuizRepository $QuizRepo, $id, $score)
+    #[Route('/candidat/passerquiz/{id}/resultat/{verif}/{score}', name: 'resultatQuiz')]
+    public function resultquiz(QuizRepository $QuizRepo, $id, $score, $verif)
     {
+        
         $quiz = $QuizRepo->find($id);
         return $this->render('quiz/quizresult.html.twig', [
             //'list' => $list,
             'quiz' => $quiz,
-            'score' => $score
+            'score' => $score,
+            'verif' => $verif
+           
             // 'count' => $count
         ]);
     }
@@ -201,38 +248,17 @@ class QuizController extends AbstractController
      * delete quiz method
      */
     #[Route('/admin/deletequiz/{id}', name: 'deleteQuiz')]
-    public function delete(QuizquestionsController $qqcont ,QuizRepository $repo, QuizquestionsRepository $qqrepo,ManagerRegistry $doctrine, $id): Response
+    public function delete(QuizquestionsController $qqcont, QuizRepository $repo, QuizquestionsRepository $qqrepo, ManagerRegistry $doctrine, $id): Response
     {
         $objet = $repo->find($id);
-       
+
         $em = $doctrine->getManager();
         $em->remove($objet);
         $em->flush();
-        
-       
-        return $this->redirectToRoute('deleteQuizQuestion' , ['idquiz'=>$id]);
+
+
+        return $this->redirectToRoute('deleteQuizQuestion', ['idquiz' => $id]);
     }
 
-    /**
-     * 
-     * update quiz method
-     */
-    #[Route('/admin/updatequiz/{id}', name: 'updateQuiz')]
-    public function updateQuiz(
-        ManagerRegistry $doctrine,
-        Request $request,
-        QuizRepository $repo, $id
-    ): Response {
-        $quiz = $repo->find($id);
-        $form = $this->createForm(QuizType::class, $quiz);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $em = $doctrine->getManager();
-            $em->persist($quiz);
-            $em->flush();
-            return $this->redirectToRoute('updateQuizQuestion', ['id' => $quiz->getId()]);
-        } else
-            return $this->renderForm('quiz/addquiz.html.twig', ['form' => $form]);
-    }
+   
 }

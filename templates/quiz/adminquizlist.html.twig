@@ -4,35 +4,21 @@
 <link href="{{asset('css/quizlist.css')}}" rel="stylesheet"/>
 {%endblock%}
 {%block content%}
-<div class="container px-5 my-5 px-5 " >
+<div class="container px-5 my-5 px-5 " style="min-height: 70% !important;" >
  
 <h1>
 	Liste des quiz
 </h1>
 <a class="btn btn-primary mb-3"  href="{{path('addQuiz')}}">Ajouter un quiz</a>
 
-{#
-<ol class="olq" style="--length: {{list|length}}" role="list">
 
-	{% for q in list %}
-		<li class="liq" style="--i: 1">
-			<h3>Quiz
-				{{q.nom}}</h3>
-			<h6>Spécialité:
-				{{q.specialite}}</h6>
-			<a class="btn btn-primary" href="#">Modifier</a>
-			<a class="btn btn-danger" href="#">Supprimer</a>
-		</li>
-	{% endfor %}
-</ol>
-#}
 <table class="table table-striped">
 	<thead>
 		<tr>
         <th> Nom du quiz</th>
         <th> Secteur</th>
         <th> Spécialité </th>
-       {# <th> Modifier </th> #}
+        <th> Consulter </th> 
         <th> Supprimer</th>
         
         </tr>
@@ -47,8 +33,9 @@
 				{{q.secteur}}</td>
 			<td>
 				{{q.specialite}}</td>
-			{#<td><a class="btn btn-primary" href="#">Modifier</a></td>#}
+			<td><a class="btn btn-primary" href="{{path('adminShowQuiz', {'id': q.id})}}">Consulter</a></td>
 			<td><a class="btn btn-danger" href="{{path('deleteQuiz', {'id': q.id})}}">Supprimer</a></td>
+			
 		</tr>
 	{% endfor %}
 

@@ -49,6 +49,7 @@
   font-size: 0.8rem;  
   letter-spacing: 2px;  
   cursor: pointer;
+ 
 }
 .fill {
   background: #1E9DFF;
@@ -57,7 +58,7 @@
   font-weight: bold;
   transition: all .3s ease; 
 }
-.fill:hover{
+.btn1:hover{
   transform: scale(1.125);  
   border-color: rgba(255, 255, 255, 0.9);
   filter: drop-shadow(0 10px 5px rgba(0,0,0,0.125));
@@ -66,7 +67,7 @@
 
 .ar {
     text-decoration: none;
-    color:white;
+   
 }
 </style>
 {% endblock %}
@@ -79,19 +80,17 @@
 <img src={{asset('assets/img/logo1.png')}}></div>
 
 <h4 class="fw-bolder"> Votre score est: {{score}} /5</h4>
-<h6 class="lead mb-0">Date: {{ "now"|date("m/d/Y") }} </h6>
+{% if verif == 'old' %}
+<h6 class="lead mb-0">Date du dernier essai:  {{ "now"|date("m/d/Y") }} </h6>
+<p >Veuillez attendre un mois avant de repasser le quiz.  {{ "now"|date("m/d/Y") }} </p>
+{% else %}
+<h6 class="lead mb-0">Date:  {{ "now"|date("m/d/Y") }} </h6>
+{% endif %}
 <div class="button-wrapper"> 
-<button class="btn1 fill"><a class="ar" href='{{path('candidatReadQuiz')}}'>Passer un autre quiz?</a></button>
+<button class="btn1 fill"><a class="ar"   style="color: white;" href='{{path('candidatReadQuiz')}}'>Passer un autre quiz?</a></button>
+<button class="btn1"><a class="ar" href='{{path('quizReponses', {'id': quiz.id})}}'>Voir les réponses du quiz</a></button>
 </div>
-{#<ol class="olq">
-<li class="liq">
 
-<h4 class="fw-bolder"> Votre score est: {{score}} /5</h4>
-<h6 class="lead mb-0">Date: {{ "now"|date("m/d/Y") }} </h6>
-
-</li>
-</ol>
-#}
 </div>
 </div>
 {% endblock %}

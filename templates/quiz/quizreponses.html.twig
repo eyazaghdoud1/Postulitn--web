@@ -1,0 +1,59 @@
+{% extends 'basefront.html.twig' %}
+{%block css%}
+<link href="{{asset('css/style.css')}}" rel="stylesheet"/>
+<link href="{{asset('css/quizlist.css')}}" rel="stylesheet"/>
+{%endblock%}
+{%block bodysection%}
+<style>
+	h3::before {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex: 0 0 auto;
+		margin-right: 1rem;
+		width: 3rem;
+		height: 3rem;
+		content: '?';
+		padding: 1rem;
+		border-radius: 50%;
+		background-color: #353D62;
+		color: white;
+	}
+</style>
+
+<div style="margin-top:-50px !important;">
+
+	<h2 class="fw-bolder">Quiz:
+		{{quiz.nom}}
+	</h2>
+	<p class="lead mb-0">Spécialité:
+		{{quiz.specialite}}
+	</p>
+	<p class="lead mb-0">Réponses</p>
+
+	<table class="table table-striped" style="align-items: left !important">
+		<thead>
+			<tr >
+				<th style="display:flex !important">Question</th>
+
+				<th>Réponse</th>
+
+
+			</tr>
+		</thead>
+		<tbody>
+			{% for l in list %}
+				<tr>
+					<td style="display:flex !important">{{l.question}}</td>
+					<td>{{l.reponse}}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<button class="custom-btn"><a style="color: white !important; text-decoration: none !important;"
+	href={{path('candidatReadQuiz')}}>Passer un autre quiz ! </a>
+	</button>
+</div>
+
+{%endblock%}

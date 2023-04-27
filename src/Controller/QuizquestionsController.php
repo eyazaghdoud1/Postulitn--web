@@ -36,7 +36,7 @@ class QuizquestionsController extends AbstractController
     ): Response {
         $quiz = $quizRepository->find($id);
         $quizquestions = [];
-        for ($i = 0; $i <= 1; $i++) {
+        for ($i = 0; $i <= 4; $i++) {
             $quizquestion = new Quizquestions();
             $quizquestion->setIdquiz($quiz);
             $quizquestions[$i] = $quizquestion;
@@ -51,7 +51,7 @@ class QuizquestionsController extends AbstractController
             $em->flush();
             
             
-            if (count($qqrepo->findByQuiz($id)) == 2) {
+            if (count($qqrepo->findByQuiz($id)) == 5) {
                 // notif
                 $flashy->success('Le quiz ' . $quiz->getNom() . ' a été enregistré avec succès.');
                 return $this->redirectToRoute('adminReadQuiz');
