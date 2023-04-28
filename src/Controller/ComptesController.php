@@ -9,6 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
+use Knp\Snappy\Pdf;
+
 
 #[Route('/comptes')]
 class ComptesController extends AbstractController
@@ -75,4 +78,25 @@ class ComptesController extends AbstractController
 
         return $this->redirectToRoute('app_comptes_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+    #[Route('/{idcompte}/topdf', name: 'app_comptes_pdf', methods: ['GET'])]
+    public function pdfExport(Pdf $snappy,Comptes $compte,ComptesRepository $comptesRepository) :Response {
+        $html = $this->renderView('comptes/_pdf.html.twig', [
+            'compte' => $compte,
+
+        ]);
+      
+        $snappy->setOption('enable-local-file-access', true);
+        $snappy->setOption('orientation','landscape');
+        $pdf = $snappy->getOutputFromHtml($html);
+
+        return new PdfResponse(
+            $pdf,
+            'resume.pdf'
+        );
+    }
+    
+    
+
 }

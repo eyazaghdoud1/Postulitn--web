@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Compte Resume</title>
+  </head>
+  <body>
+    <h1>Compte Resume</h1>
+    <img src="{{ compte.photo }}" alt="Photo" width="150px">
+    <h2>John doe</h2>
+    <h3>{{ compte.poste }} at {{ compte.entreprise }}</h3>
+    <h4>{{ compte.domaine }}</h4>
+    <hr>
+    <h3>Education</h3>
+    <ul>
+      <li>{{ compte.diplome }} - {{ compte.datediplome|date("Y-m-d") }}</li>
+    </ul>
+    <hr>
+    <h3>Experience</h3>
+    <ul>
+      <li>{{ compte.experience }}</li>
+    </ul>
+  </body>
+</html>

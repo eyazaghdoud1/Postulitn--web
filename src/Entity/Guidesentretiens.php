@@ -5,8 +5,13 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\GuidesentretiensRepository;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
+
+
 
 #[ORM\Entity(repositoryClass: GuidesentretiensRepository::class)]
+#[Vich\Uploadable]
 class Guidesentretiens
 {
     /*
@@ -47,16 +52,63 @@ class Guidesentretiens
     #[ORM\Column(length:30, nullable:false)]
     private ?string $specialite = null;
 
-    /*
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="support", type="string", length=200, nullable=false)
-     *  @Assert\NotBlank
-     */
-    #[ORM\Column(length:200, nullable:false)]
-    private ?string $support = null;
+    
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @var string|null
+     */
+    
+    private $filename;
+
+
+
+    /**
+     * @Vich\UploadableField(mapping="Guidesentretiens_files", fileNameProperty="filename")
+     * @Assert\File(
+     *     maxSize="5M",
+     *     mimeTypes={"image/png", "image/jpeg", "image/gif"}
+     * )
+     * @var File|null
+     */
+    private $file;
+
+
+
+    #[ORM\Column(length: 255,nullable:true)]
+    private $support;
+
+    /**
+     * 
+     */
+    private $supportFile;
+   
+
+    public function getFilename(): ?string
+    {
+        return $this->filename;
+    }
+
+    public function setFilename(?string $filename): self
+    {
+        $this->filename = $filename;
+
+        return $this;
+    }
+
+    public function getFile(): ?File
+    {
+        return $this->file;
+    }
+
+    public function setFile(?File $file = null): self
+    {
+        $this->file = $file;
+
+        return $this;
+    }
+    
+    
     /*
     /**
      * @var float
@@ -72,7 +124,7 @@ class Guidesentretiens
      *
      * @ORM\Column(name="nombreNotes", type="integer", nullable=false)
      */
-   // #[ORM\Column(nullable:false)]
+    #[ORM\Column(nullable:false)]
     private int $nombrenotes = 0;
 
     public function getIdguide(): ?int
@@ -104,17 +156,7 @@ class Guidesentretiens
         return $this;
     }
 
-    public function getSupport(): ?string
-    {
-        return $this->support;
-    }
-
-    public function setSupport(string $support): self
-    {
-        $this->support = $support;
-
-        return $this;
-    }
+   
 
     public function getNote(): ?float
     {
@@ -140,5 +182,33 @@ class Guidesentretiens
         return $this;
     }
 
+    
+
+    public function getSupportFile(): ?File
+    {
+        return $this->supportFile;
+    }
+    public function setSupportFile(File $supportFile = null): void
+    {
+        $this->supportFile = $supportFile;
+        if ($supportFile) {
+            
+        }
+    }
+
+    public function getSupport(): ?string
+    {
+        return $this->support;
+    }
+
+    public function setSupport(?string $support): void
+    {
+        $this->support = $support;
+    }
+    public function getImageUrl(): ?string
+    {
+        return '/uploads/Guidesentretiens/' . $this->support;
+    }
+   
 
 }

@@ -13,6 +13,7 @@
                 <th>Diplome</th>
                 <th>Datediplome</th>
                 <th>Entreprise</th>
+                
                 <th>Experience</th>
                 <th>Domaine</th>
                 <th>Poste</th>
@@ -33,6 +34,7 @@
                     <td>
                         <div style="display: flex;">
                             <a href="{{ path('app_comptes_show', {'idcompte': compte.idcompte}) }}" class="btn btn-primary">Show</a>
+                            <a href="{{ path('app_comptes_pdf', {'idcompte': compte.idcompte}) }}" class="btn btn-primary">print PDF</a>
                             <a href="{{ path('app_comptes_edit', {'idcompte': compte.idcompte}) }}" class="btn btn-success" style="margin-left: 1em;">Edit</a>
                             {{ include('comptes/_delete_form.html.twig', {'idcompte': compte.idcompte}) }}
                         </div>
