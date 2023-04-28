@@ -46,8 +46,6 @@ class EntretiensController extends AbstractController
                 'id' => $event->getId(),
                 'start' => $event->getDate()->format('Y-m-d'),
                 'end' => $event->getDate()->format('Y-m-d'),
-                /*'title' => $event->getHeure() . ':' . $event->getIdcandidature()->getIdcandidat()->getNom(). ' ' 
-                .  $event->getIdcandidature()->getIdcandidat()->getPrenom(),*/
                 'title' => $event->getHeure() . '-' . $event->getType(),
                 //'description' => $event->getType(), 
 
@@ -63,7 +61,7 @@ class EntretiensController extends AbstractController
     }
 
     #[Route('/calendar/edit/{id}', name: 'editCalendar', methods: 'PUT')]
-    public function editCalendar(EntretiensRepository $repo, ManagerRegistry $doctrine,  $id, Request $request)
+    public function editCalendar(EntretiensRepository $repo, ManagerRegistry $doctrine,  $id, Request $request, MailerService $mailer)
     {
         $donnees = json_decode($request->getContent());
         $entretien = $repo->find($id);
@@ -78,8 +76,42 @@ class EntretiensController extends AbstractController
             $em = $doctrine->getManager();
             $em->persist($entretien);
             $em->flush();
-            // envoyer un message au candidat
-            return new Response('Ok');
+
+
+            // envoyer un email au candidat
+            
+            $account_sid = $this->getParameter('twilio_account_sid');
+            $auth_token =  $this->getParameter('twilio_auth_token');
+            $twilio_phone_number =  $this->getParameter('twilio_number');
+            $receiver_phone_number = '+216' . $entretien->getIdcandidature()->getIdcandidat()->getTel();;
+
+            $client = new Client($account_sid, $auth_token);
+
+            $client->messages->create(
+                $receiver_phone_number,
+                array(
+                    "from" => $twilio_phone_number,
+                    "body" => "~1"
+                    //"body" => "Un entretien a été modifié."
+                )
+            );
+
+            /* setting the email data */
+            $to = $entretien->getIdcandidature()->getIdcandidat()->getEmail();
+            $subject = 'Modification d\'entretien';
+            $content = 'Votre entretien du: ' . $entretien->getDate()->format('d-m-Y') . ' relatif à votre candidature au poste '
+                . $entretien->getIdcandidature()->getIdoffre()->getPoste() . ' de l\'entreprise '
+                . $entretien->getIdcandidature()->getIdoffre()->getEntreprise() . ' a été modifié. Les nouvelles informations: '
+                . 'Date : ' . $entretien->getDate()->format('d-m-Y') . ' / '
+                . 'Horaire : ' . $entretien->getHeure() . ' / '
+                . 'Type : ' . $entretien->getType() . ' / '
+                . 'Lieu : " ' . $entretien->getLieu();;
+            /* sending the email  */
+            $mailer->sendEmail($to, $subject, $content);
+
+            //return new Response('Ok');
+            /* setting the email data */
+            
         } else {
             return new Response('Données incomplètes', 404);
         }
@@ -259,7 +291,7 @@ class EntretiensController extends AbstractController
             $em->flush();
 
             /* sending a message to "candidat" once "recruteur" adds a new meeting  */
-            /* using twilio api */
+            /* using twilio  */
             $account_sid = $this->getParameter('twilio_account_sid');
             $auth_token =  $this->getParameter('twilio_auth_token');
             $twilio_phone_number =  $this->getParameter('twilio_number');
