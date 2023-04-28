@@ -16,6 +16,10 @@ use App\Form\CommentairesType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Projet;
 use App\Repository\ProjetsRepository;
+use Consoletvs\Profanity\Checker;
+use Consoletvs\Profanity\Profanity;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 
 class CommentairesController extends AbstractController
@@ -25,22 +29,35 @@ class CommentairesController extends AbstractController
     #[Route('/basecom', name: 'app_com')]
     public function index(): Response
     {
-        return $this->render('commentaires/index.html.twig', [
-            'controller_name' => 'CommentairesController',
-        ]);
+
+    $commentaires = $this->getDoctrine()->getRepository(Commentaires::class)->findAll();
+    return $this->render('commentaires/index.html.twig', [
+        'commentaires' => $commentaires
+    ]);
     }
+    
+  /*  #[Route('/addCommentaireP/{idprojet}', name: 'app_commentaires')]
+public function listeCommentaires(CommentairesRepository $repo, $idprojet): Response
+{
+    $queryBuilder = $repo->createQueryBuilder('c')
+        ->select('c')
+        ->join('c.projet', 'p')
+        ->addSelect('p')
+        ->where('p.idprojet = :idprojet')
+        ->orderBy('c.dateCreation', 'DESC')
+        ->setParameter('idprojet', $idprojet)
+        ->getQuery();
+
+    $commentaires = $queryBuilder->getResult();
+
+    return $this->render('/commentaires/ShowCom.html.twig', [
+        'controller_name' => 'CommentairesController',
+        'commentaires' => $commentaires,
+    ]);
+}*/
 
 
-    #[Route('/ListeCommentaires', name: 'app_commentaires')]
-    public function listeCommentaires(CommentairesRepository $repo): Response
-    {   $commentaires = $repo->findAll();
-        return $this->render('baseback.html.twig', [
-            'controller_name' => 'CommentairesController',
-            'commentaires'=>$commentaires
-        ]);
-    }
-
-    #[Route('/addCommentaires', name: 'app_commentaires')]
+  /*  #[Route('/addCommentaires', name: 'app_commentaires')]
     public function addCommentaires(Request $req, ManagerRegistry $doctrine)
 {
     $commentaires = new Commentaires();
@@ -52,7 +69,7 @@ class CommentairesController extends AbstractController
        $commentaires->setIdResponsable($idResponsable);
         $em = $doctrine->getManager();
       /*  $commentaires->setIdprojet($idprojet);
-        $commentaires->setIdUser($idUser);*/
+        $commentaires->setIdUser($idUser);
         $em->persist($commentaires);
         $em->flush();
             return $this->redirectToRoute('app_Commentaires');
@@ -61,88 +78,47 @@ class CommentairesController extends AbstractController
     return $this->render('commentaires/addCommentaire.html.twig', [
         'form' => $form->createView(),
     ]);
+}**************************************************************************************/
+
+
+#[Route('/addCommentaireP/{idProjet}', name: 'app_commentairesP')]
+public function addCommentaireP(Request $request, EntityManagerInterface $entityManager, ProjetsRepository $projetRepository, SessionInterface $session, $idProjet): Response
+{
+    $commentaire = new Commentaires();
+    $projet = $projetRepository->find($idProjet);
+    $commentaire->setIdprojet($projet);
+    $utilisateur = $entityManager->getRepository(Utilisateur::class)->find(67);
+    $commentaire->setIduser($utilisateur);
+    $form = $this->createForm(CommentairesType::class, $commentaire);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+
+        // Filter bad words
+         // Get the content of the submitted comment
+        $commentaireContent = $commentaire->getContenu();
+        $badWords = ['bad_word_1', 'bad_word_2', 'bad_word_3'];
+        // Define an array of bad words to be filtered
+        $filteredContent = str_ireplace($badWords, '****', $commentaireContent);
+        // Use the str_ireplace function to replace any bad words in the submitted comment with asterisks
+        $commentaire->setContenu($filteredContent);
+        // Set the filtered comment content in the Commentaires object
+        $entityManager->persist($commentaire);
+        $entityManager->flush();
+        // Add flash message to notify the user
+        $session->getFlashBag()->add('success', 'Comment added successfully!');
+
+        return $this->redirectToRoute('app_commentairesP', ['idProjet' => $idProjet]);
+    }
+
+    return $this->render('commentaires/ShowCom.html.twig', [
+        'form' => $form->createView(),
+        'commentaires' => $commentaire,
+        'idProjet' => $idProjet,
+    ]);
 }
 
 /*
-
-#[Route('/addCommentaire', name: 'app_commentaires')]
-public function addCommentaire(Request $request, EntityManagerInterface $entityManager): Response
-{
-    $commentaires = new Commentaires();
-    $form = $this->createForm(CommentairesType::class, $commentaires);
-    $form->handleRequest($request);
-
-    if ($form->isSubmitted() && $form->isValid()) {
-        $idUser = $entityManager->getRepository(Utilisateur::class)->find(67); 
-        $commentaires->setIduser($this->getIduser());
-        $entityManager->persist($commentaires);
-        $entityManager->flush();
-
-        return $this->redirectToRoute('app_commentaires');
-    }
-
-    return $this->render('commentaires/ShowCom.html.twig', [
-        'form' => $form->createView(),
-        'commentaires' => $commentaires
-    ]);
-} 
-
-
-#[Route('/addCommentaire1', name: 'app_commentaires')]
-public function addCommentaire1(Request $request, EntityManagerInterface $entityManager): Response
-{
-    $commentaires = new Commentaires();
-    $form = $this->createForm(CommentairesType::class, $commentaires);
-    $form->handleRequest($request);
-
-    if ($form->isSubmitted() && $form->isValid()) {
-        $utilisateur = $entityManager->getRepository(Utilisateur::class)->find(67);
-        $commentaires->setIduser($this->getIduser());
-        $entityManager->persist($commentaires);
-        $entityManager->flush();
-
-        return $this->redirectToRoute('app_commentaires');
-    }
-
-    return $this->render('commentaires/ShowCom.html.twig', [
-        'form' => $form->createView(),
-        'commentaires' => $commentaires
-    ]);
-} 
-
-
-
-
-
-*
-     * @Route("/new", name="commentaire_new", methods={"GET","POST"})
-     */
-    /*
-    public function new(Request $request): Response
-    {
-        $commentaires = new Commentaires();
-        $form = $this->createForm(CommentairesType::class, $commentaires);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $commentaires->setIdprojet($idprojet);
-            $commentaires->setIdUser($iduser);
-            $entityManager->persist($commentaires);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_Commentaires');
-        }
-
-        return $this->render('commentaires/addCommentaire.html.twig', [
-            'commentaires' => $commentaires,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    
-*/
-
 #[Route('/addCommentaireP/{idProjet}', name: 'app_commentairesP')]
 public function addCommentaireP(Request $request, EntityManagerInterface $entityManager, ProjetsRepository $projetRepository, $idProjet): Response
 {
@@ -155,6 +131,43 @@ public function addCommentaireP(Request $request, EntityManagerInterface $entity
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
+        // Filter bad words
+        $commentaireContent = $commentaire->getContenu();
+        $filteredContent = Profanity::filter($commentaireContent);
+        $commentaire->setContenu($filteredContent);
+        $entityManager->persist($commentaire);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_commentairesP', ['idProjet' => $idProjet]);
+    }
+
+    return $this->render('commentaires/ShowCom.html.twig', [
+        'form' => $form->createView(),
+        'commentaires' => $commentaire,
+        'idProjet' => $idProjet,
+    ]);
+}*/
+
+
+
+/*
+
+#[Route('/addCommentaireP/{idProjet}', name: 'app_commentairesP')]
+public function addCommentaireP1(Request $request, EntityManagerInterface $entityManager, ProjetsRepository $projetRepository, $idProjet): Response
+{
+    $commentaire = new Commentaires();
+    $projet = $projetRepository->find($idProjet);
+    $commentaire->setIdprojet($projet);
+    $utilisateur = $entityManager->getRepository(Utilisateur::class)->find(67);
+    $commentaire->setIduser($utilisateur);
+    $form = $this->createForm(CommentairesType::class, $commentaire);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        // Filter bad words
+        $commentaireContent = $commentaire->getContenu();
+        $filteredContent = Profanity::blocker()->block($commentaireContent);
+        $commentaire->setContenu($filteredContent);
         $entityManager->persist($commentaire);
         $entityManager->flush();
 
@@ -167,8 +180,7 @@ public function addCommentaireP(Request $request, EntityManagerInterface $entity
         'idProjet' => $idProjet,
     ]);
 }
-
-
+*/
 
 
     #[Route('/deleteCommentaires/{id}', name: 'delete_Commentaires')]
@@ -201,20 +213,6 @@ public function addCommentaireP(Request $request, EntityManagerInterface $entity
     {
         return $this->render('commentaires/ShowCom.html.twig', [
             'commentaires' => $commentaires,
-        ]);
-    }
-
-
-
-     /**
-     * @Route("/", name="commentaire_index", methods={"GET"})
-     */
-
-    #[Route('/showCommentaires2', name: 'show_commentaires2')]
-    public function index1(CommentairesRepository $CommentairesRepository): Response
-    {
-        return $this->render('/commentaires/ShowCom.html.twig', [
-            'commentaires' => $CommentairesRepository->findAll(),
         ]);
     }
 

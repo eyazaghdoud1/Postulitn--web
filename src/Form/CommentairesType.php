@@ -10,16 +10,18 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 
+
+
+
 class CommentairesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('contenu')
-            ->add('save',SubmitType::class)
-        ;
-    }
-
+            ->add('save',SubmitType::class);
+         
+        }
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

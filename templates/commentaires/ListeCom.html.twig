@@ -47,73 +47,17 @@
 		<div class="row">
 			<div class="col-md-8">
 				<div class="media g-mb-30 media-comment">
-					<div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
+		{{dump(commentaires)}}
+			
+				
 						{% for c in commentaires %}
-							<div class="single-job-items mb-30">
-								<h5 class="h5 g-color-gray-dark-v1 mb-0">Nom Prenom</h5>
+							
 								<p>{{c.Contenu}}</p>
-								<ul class="list-inline d-sm-flex my-0">
-									<li class="list-inline-item g-mr-20">
-										<a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
-											<i class="fa fa-thumbs-up g-pos-rel g-top-1 g-mr-3"></i>
-											178
-										</a>
-									</li>
-									<li class="list-inline-item g-mr-20">
-										<a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
-											<i class="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3"></i>
-											34
-										</a>
-									</li>
-								</ul>
-							</div>
+
 						{% endfor %}
 					</div>
 
 				</div>
 
-				<div class="bg-light p-2">
-					<div class="container my-5 py-5 text-dark">
-						<div class="row d-flex justify-content-center">
-							<div class="col-md-5 col-lg-8 col-xl-8">
-
-
-								<div class="d-flex flex-start w-100">
-									<div class="w-100">
-										<h5>Add a comment</h5>
-
-										
-
-									</div>
-								</div>
-								{% block body %}
-									{{ form_start(form) }}
-									{{ form_row(form.contenu, { 'attr': {'class': 'form-control', 'id': 'textAreaExample', 'rows': '4', 'style': 'width: 100%; height: 200px; margin-bottom: 20px;'} }) }}
-									<div>
-										{{ form_widget(form.save, {'label': 'Commenter', 'attr': {'class': 'btn btn-primary btn-lg'}}) }}
-									</div>
-									{{ form_end(form)}}
-								{% endblock %}
-							</div>
-						</div>
-					</div>
-
-				</div>
-
-
-			</div>
-
-
-		</div>
-
-	</header>
-
-{% for type, messages in app.session.flashbag.all() %}
-    {% for message in messages %}
-        <div class="alert alert-{{ type }}">
-            {{ message }}
-        </div>
-    {% endfor %}
-{% endfor %}
-
+                	</header>
 {% endblock %}
