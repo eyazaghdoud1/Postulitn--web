@@ -48,19 +48,15 @@
 										<div class="form-group mb-3">
 											<div class="form-control">
 												<label>
-													{{form_label (form.email)}}</label>
-												{{ form_widget (form.email) }}
-												{{ form_errors (form.email) }}
+													{{form_label (form.tel)}}</label>
+												{{ form_widget (form.tel) }}
+												{{ form_errors (form.tel) }}
 											</div>
 
 										</div>
 
 										<button class="form-control btn btn-primary rounded submit px-3" {{ form_widget (form.Envoyer) }}></button>
 										{{form_end (form)}}
-
-										<div class="w-50 text-md-right" style="margin-top:20px;">
-											<a href="{{path('sendsms')}}">Envoyer par sms</a>
-										</div>
 
 
 									</div>

@@ -11,7 +11,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Repository\UtilisateurRepository;
 use App\Form\UtilisateurType;
+use Container9VsbLlX\getMercuryseriesFlashy_FlashyNotifierService;
 use Doctrine\ORM\EntityManagerInterface;
+use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -44,7 +46,7 @@ class UtilisateurController extends AbstractController
     }
 
     #[Route('/addUser', name: 'signup')]
-    public function addUtilisateur(ManagerRegistry $doctrine,  UserPasswordEncoderInterface $userPasswordEncoder, Request $req)
+    public function addUtilisateur(FlashyNotifier $flashy, ManagerRegistry $doctrine,  UserPasswordEncoderInterface $userPasswordEncoder, Request $req)
     {
         $user = new Utilisateur();
         $form = $this->createForm(UtilisateurType::class, $user);
@@ -72,17 +74,18 @@ class UtilisateurController extends AbstractController
     }
 
     #[Route('/deleteUser/{id}', name: 'deleteUser')]
-    public function deleteUser($id, ManagerRegistry $doctrine)
+    public function deleteUser($id, ManagerRegistry $doctrine, FlashyNotifier $flashy)
     {
         $utilisateur = $doctrine->getRepository(Utilisateur::class)->find($id);
         $em = $doctrine->getManager();
         $em->remove($utilisateur);
         $em->flush();
+        $flashy->primaryDark('User deleted succesfully');
         return $this->redirectToRoute('readUsers');
     }
 
     #[Route('/updateUser/{id}', name: 'updateUser')]
-    public function updateUser(Request $req, $id, ManagerRegistry $doctrine)
+    public function updateUser(Request $req, $id, ManagerRegistry $doctrine, FlashyNotifier $flashy)
     {
         $utilisateur = $doctrine->getRepository(Utilisateur::class)->find($id);
         $form = $this->createForm(UtilisateurType::class, $utilisateur);
@@ -91,6 +94,7 @@ class UtilisateurController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $doctrine->getManager();
             $em->flush();
+            $flashy->primaryDark('User updated succesfully');
             return $this->redirectToRoute('readUsers');
         }
 
@@ -99,7 +103,7 @@ class UtilisateurController extends AbstractController
         ]);
     }
     #[Route('/connexion', name: 'login')]
-    public function login(UtilisateurRepository $userRepository, UserPasswordEncoderInterface $userPasswordEncoder,  Request $req, EntityManagerInterface $entityManager, SessionInterface $session): Response
+    public function login(FlashyNotifier $flashy, UtilisateurRepository $userRepository, UserPasswordEncoderInterface $userPasswordEncoder,  Request $req, EntityManagerInterface $entityManager, SessionInterface $session): Response
     {
         $error = '';
         $form = $this->createForm(LoginFormType::class);
@@ -115,6 +119,7 @@ class UtilisateurController extends AbstractController
             if ($user != null && $userPasswordEncoder->isPasswordValid($user, $plainPassword)) {
                 $session->set('user', $user);
                 dump('Authentification réussie');
+                $flashy->primaryDark('Log in succesfully');
                 // Authentification réussie, redirection
                 if ($user->getIdrole()->getDescription() == 'Administrateur') {
                     return $this->redirectToRoute('readUsers');
@@ -122,6 +127,7 @@ class UtilisateurController extends AbstractController
                     return $this->redirectToRoute('app_candidatures');
             } else {
                 $error = 'Adresse e-mail ou mot de passe incorrect';
+                $flashy->error('erreur lors de l\'authentification');
                 dump($error);
             }
         }
@@ -131,12 +137,13 @@ class UtilisateurController extends AbstractController
     }
 
     #[Route('/logout', name: 'logout')]
-    public function logout(SessionInterface $session, Request $req, UtilisateurRepository $userRepository)
+    public function logout(FlashyNotifier $flashy, SessionInterface $session, Request $req, UtilisateurRepository $userRepository)
     {
         $session->remove('user');
 
         // Rediriger l'utilisateur vers la page d'accueil après la déconnexion
         $response = new RedirectResponse('/connexion');
         return $response;
+        $flashy->primaryDark('Déconnexion');
     }
 }

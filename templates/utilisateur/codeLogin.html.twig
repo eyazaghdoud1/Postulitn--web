@@ -10,6 +10,9 @@
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 		<link rel="stylesheet" href="css/login.css">
+		<link rel=" stylesheet" href=" {{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}"/>
+		<script src="//code.jquery.com/jquery.js"></script>
+		<script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
 
 		<title>
 			{% block title %}
@@ -60,4 +63,4 @@
 			</html>
 		</div>
 	</body>
-</html></body></html></div></body></html></body></html></section></body> </body></html>
+</html></body></html></div></body></html></body></html></section></body>{{ include('@MercurySeriesFlashy/flashy.html.twig') }} </body></html>

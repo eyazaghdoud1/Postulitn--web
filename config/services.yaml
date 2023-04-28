@@ -5,15 +5,15 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     twilio.sid: 'AC8ad7d8957eb7bf1ff6618633e704aeec'
-    twilio.auth_token: 'd32455223143bdbbf0fd0abcd860d56e'
-    twilio.from_number: '27324205'
+    twilio.auth_token: '54e5ce3dcc98cce68000b6cf1529dfd6'
+    twilio.from_number: '+16203496432'
 
 services:
     #App\Service\TwilioSmsService:
      #   arguments:
-     #       $twilioSid: '%env(TWILIO_SID)%'
-     #       $twilioAuthToken: '%env(TWILIO_AUTH_TOKEN)%'
-     #       $twilioFromNumber: '%env(TWILIO_FROM_NUMBER)%'
+      #      $twilioSid: '%env(TWILIO_SID)%'
+      #      $twilioAuthToken: '%env(TWILIO_AUTH_TOKEN)%'
+      #s      $twilioFromNumber: '%env(TWILIO_FROM_NUMBER)%'
            # $twilioClient: '@Twilio\Rest\Client'
     
     

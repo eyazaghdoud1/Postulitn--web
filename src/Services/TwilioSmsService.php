@@ -11,7 +11,7 @@ class TwilioSmsService
 
     public function __construct(string $twilioSid, string $twilioAuthToken, string $twilioFromNumber)
     {
-        $this->twilioFromNumber = $twilioFromNumber;
+        $this->twilioFromNumber = $twilioAuthToken;
         $this->twilioClient = new Client($twilioSid, $twilioAuthToken);
     }
 

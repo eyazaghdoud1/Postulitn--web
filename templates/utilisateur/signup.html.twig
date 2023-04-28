@@ -1,174 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-		<meta name="description" content=""/>
-		<meta name="author" content=""/>
-		<title>
-			{% block title %}
-				Postuli.tn
-			{% endblock %}
-		</title>
-		<!-- Logoicon-->
-		<link rel="icon" type="image/x-icon" href="assets/logo.ico" " />
-																																																																																																																																																																																																																																																												        <!-- Bootstrap icons-->
-																																																																																																																																																																																																																																																												        <link href=" https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel=" stylesheet" />
-																																																																																																																																																																																																																																																												        <!-- Core theme CSS (includes Bootstrap)-->
-																																																																																																																																																																																																																																																												        {%block css%}
-																																																																																																																																																																																																																																																												        <link href=" css/style.css" rel=" stylesheet" />
-																																																																																																																																																																																																																																																												        {%endblock%}
-																																																																																																																																																																																																																																																												    </head>
-																																																																																																																																																																																																																																																												    <body>
-																																																																																																																																																																																																																																																												        <!-- Responsive navbar-->
-																																																																																																																																																																																																																																																												        <nav class=" navbar" >
-																																																																																																																																																																																																																																																												            <div class=" container px-">
-		<a href="index.html"><img class="logocss" src="assets/img/logowhite.png"></a>
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-				<li class="nav-item">
-					<a class="nav-link active" aria-current="page" href="#!">Home</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#!">Quiz</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#!">Offres</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#!">Candidatures</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#!">Projets freelance</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#!">Entretiens</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#!">Guides d'entretiens</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link rightnav" href="#!">Compte</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link btn btn-outline-light btn-lg px-4" href="#!">Logout</a>
-				</li>
-			</ul>
-		</div>
-	</head>
-</html></div></nav><!-- Form section--><section class="bg-light py-5"><div class="container px-5 my-5 px-5">
-<div class="text-center mb-5">
-	{%block bodysection%}
-	<div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
-		<img class="logocss" src="assets/img/logowhite.png" style="width: 70px;"></i>
-</div>
-<h2 class="fw-bolder">Inscrivez-vous !</h2>
-<p class="lead mb-0">Veuillez remplir ces champs</p></div><div class="row gx-5 justify-content-center">
-<div class="col-lg-6">
-	<!-- * * * * * * * * * * * * * * *-->
-	<!-- * * SB Forms Contact Form * *-->
-	<!-- * * * * * * * * * * * * * * *-->
-	<!-- This form is pre-integrated with SB Forms.-->
-	<!-- To make this form functional, sign up at-->
-	<!-- https://startbootstrap.com/solution/contact-forms-->
-	<!-- to get an API token!-->
+{% extends 'basefront.html.twig' %}
 
-	{{form_start (form,{'attr': {'novalidate': 'novalidate'}}
-	)}}
 
-		<div class="form-floating mb-3"> <div class="form-control">
-			<label>
-				{{form_label (form.nom)}}
-			</label>
+{%block bodysection%}
+<div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
+	<img class="logocss" src="{{asset('assets/img/logowhite.png')}}" style="width: 70px; height:80px"></i></div><h2 class="fw-bolder">Inscription</h2><p class="lead mb-0">Veuillez remplir ces champs</p></div><div class="row gx-5 justify-content-center"><div class="col-lg-6">
 
-			{{ form_widget (form.nom) }}
-			{{ form_errors (form.nom) }}
+<div>
 
-		</div>
-		<div class="invalid-feedback" data-sb-feedback="name:required">Vous devez insérer votre nom.</div>
+	{{ form_start(form,{'attr': {'novalidate': 'novalidate', 'id': 'contactForm'}}
+	) }}
+
+
+	<label class="fw-bolder">
+		{{ form_label (form.nom)  }}
+	</label>
+	<div class="form-control mb-3">
+		{{ form_widget (form.nom)  }}
+		<p class="lead mb-0">{{ form_errors (form.nom)  }}</p>
 	</div>
 
-	<div class="form-floating mb-3">
-		<div class="form-control">
-			<label>{{form_label (form.prenom)}}</label>
-			{{ form_widget (form.prenom) }}
-			{{ form_errors (form.prenom) }}
-		</div>
-		<div class="invalid-feedback" data-sb-feedback="prenom:required">Vous devez insérer votre prénom.</div>
-	</div>
-	<!-- Email address input-->
-	<div class="form-floating mb-3">
-		<div class="form-control">
-			<label>{{form_label (form.email)}}</label>
-			{{ form_widget (form.email) }}
-			{{ form_errors (form.email) }}
-		</div>
 
-		<div class="invalid-feedback" data-sb-feedback="email:required">Vous devez insérer votre email.</div>
-		<div class="invalid-feedback" data-sb-feedback="email:email">Email non valide.</div>
-	</div>
-	<div class="form-floating mb-3">
-		<div class="form-control">
-			<label>{{form_label (form.adresse)}}</label>
-			{{ form_widget (form.adresse) }}
-			{{ form_errors (form.adresse) }}
-		</div>
-		<div class="invalid-feedback" data-sb-feedback="name:required">Vous devez insérer votre adresse.</div>
+	<label class="fw-bolder">{{ form_label (form.prenom)  }}
+	</label>
+	<div class="form-control mb-3">
+		{{ form_widget (form.prenom)  }}
+		<p class='invalid-form-field'>{{ form_errors (form.prenom)  }}</p>
 	</div>
 
-	<div class="form-floating mb-3">
-		<div class="form-control" style="height: 100px;">
-			<label>{{form_label (form.datenaissance)}}</label>
-			{{ form_widget (form.datenaissance) }}
-			{{ form_errors (form.datenaissance) }}
-		</div>
-
-		<!-- Phone number input-->
-		<div class="form-floating mb-3">
-			<div class="form-control" style="margin: top 20px;">
-				<label>{{form_label (form.tel)}}</label>
-				{{ form_widget (form.tel) }}
-				{{ form_errors (form.tel) }}
-
-			</div>
-			<div class="invalid-feedback" data-sb-feedback="phone:required">Vous devez insérer votre numéro de téléphone.</div>
-		</div>
-
-		<div class="form-floating mb-3">
-			<div class="form-control">
-				<label>{{form_label (form.idrole)}}</label>
-				{{ form_widget (form.idrole) }}
-				{{ form_errors (form.idrole) }}
-			</div>
-
-			<div class="form-floating mb-3">
-				<div class="form-control">
-					<label>{{form_label (form.mdp)}}</label>
-					{{ form_widget (form.mdp) }}
-					{{ form_errors (form.mdp) }}
-				</div>
-				<div class="invalid-feedback" data-sb-feedback="name:required">Un mot de passe est nécessaire.</div>
-			</div>
-
-
-			<div class="d-none" id="submitErrorMessage">
-				<div class="text-center text-danger mb-3">Error sending message!</div>
-			</div>
-			<!-- Submit Button-->
-
-			<div class="d-grid">
-				<button class="btn btn-primary btn-lg" {{ form_widget (form.save) }}></button>
-			</div>
-
-			{{form_end (form)}}
-
-		</div>
-		{%endblock%}
+	<label class="fw-bolder">{{ form_label (form.email)  }}
+	</label>
+	<div class="form-control mb-3">
+		{{ form_widget (form.email)  }}
+		<p class="invalid-form-field">{{ form_errors (form.email)  }}
+		</p>
 	</div>
-</div></section><!-- Footer--><footer class="py-5 bg-dark">
-<div class="container px-5">
-	<p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p>
-</div></footer><!-- Bootstrap core JS--><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script><!-- Core theme JS--><script src="js/scripts.js"></script><!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *--><!-- * *                               SB Forms JS                               * *--><!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *--><!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *--><script src="https://cdn.startbootstrap.com/sb-forms-latest.js"> </script></body></html>
+	<label class="fw-bolder">{{ form_label (form.adresse)  }}
+	</label>
+	<div class="form-control mb-3">
+		{{ form_widget (form.adresse)  }}
+		<p class="invalid-form-field">{{ form_errors (form.adresse)  }}
+		</p>
+	</div>
+	<label class="fw-bolder">{{ form_label (form.datenaissance)  }}
+	</label>
+	<div class="form-control mb-3">
+		{{ form_widget (form.datenaissance)  }}
+		<p class="invalid-form-field">{{ form_errors (form.datenaissance)  }}
+		</p>
+	</div>
+	<label class="fw-bolder">{{ form_label (form.tel)  }}
+	</label>
+	<div class="form-control mb-3">
+		{{ form_widget (form.tel)  }}
+		<p class="invalid-form-field">{{ form_errors (form.tel)  }}
+		</p>
+	</div>
+
+	<label class="fw-bolder">{{ form_label (form.idrole)  }}
+	</label>
+	<div class="form-control mb-3">
+		{{ form_widget (form.idrole)  }}
+		<p class="invalid-form-field">{{ form_errors (form.idrole)  }}
+		</p>
+	</div>
+	<label class="fw-bolder">{{ form_label (form.mdp)  }}
+	</label>
+	<div class="form-control mb-3">
+		{{ form_widget (form.mdp)  }}
+		<p class="invalid-form-field">{{ form_errors (form.mdp)  }}
+		</p>
+	</div>
+
+
+	<div class="d-grid">
+		<button class="btn btn-primary btn-lg" {{ form_widget (form.save) }}></button>
+	</div>
+	{{ form_end (form)  }}
+</div></div>{%endblock%}
