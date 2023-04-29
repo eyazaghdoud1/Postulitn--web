@@ -36,25 +36,25 @@ class CommentairesController extends AbstractController
     ]);
     }
     
-  /*  #[Route('/addCommentaireP/{idprojet}', name: 'app_commentaires')]
+  #[Route('/listCommentairesP/{idprojet}', name: 'app_commentaires')]
 public function listeCommentaires(CommentairesRepository $repo, $idprojet): Response
 {
+   
     $queryBuilder = $repo->createQueryBuilder('c')
-        ->select('c')
-        ->join('c.projet', 'p')
-        ->addSelect('p')
-        ->where('p.idprojet = :idprojet')
-        ->orderBy('c.dateCreation', 'DESC')
+        
+        ->where('c.idprojet = :idprojet')
+       
         ->setParameter('idprojet', $idprojet)
         ->getQuery();
 
     $commentaires = $queryBuilder->getResult();
+    
 
-    return $this->render('/commentaires/ShowCom.html.twig', [
+    return $this->render('/commentaires/ListeCom.html.twig', [
         'controller_name' => 'CommentairesController',
         'commentaires' => $commentaires,
     ]);
-}*/
+}
 
 
   /*  #[Route('/addCommentaires', name: 'app_commentaires')]
@@ -82,8 +82,15 @@ public function listeCommentaires(CommentairesRepository $repo, $idprojet): Resp
 
 
 #[Route('/addCommentaireP/{idProjet}', name: 'app_commentairesP')]
-public function addCommentaireP(Request $request, EntityManagerInterface $entityManager, ProjetsRepository $projetRepository, SessionInterface $session, $idProjet): Response
+public function addCommentaireP(Request $request, EntityManagerInterface $entityManager, ProjetsRepository $projetRepository, SessionInterface $session,CommentairesRepository $repo, $idProjet): Response
 {
+    $queryBuilder = $repo->createQueryBuilder('c')  
+    ->join('c.iduser', 'u')
+    ->where('c.idprojet = :idProjet')
+    ->setParameter('idProjet', $idProjet)
+    ->getQuery();
+
+$commentaires = $queryBuilder->getResult();
     $commentaire = new Commentaires();
     $projet = $projetRepository->find($idProjet);
     $commentaire->setIdprojet($projet);
@@ -113,8 +120,9 @@ public function addCommentaireP(Request $request, EntityManagerInterface $entity
 
     return $this->render('commentaires/ShowCom.html.twig', [
         'form' => $form->createView(),
-        'commentaires' => $commentaire,
+        'commentaires' => $commentaires,
         'idProjet' => $idProjet,
+
     ]);
 }
 
