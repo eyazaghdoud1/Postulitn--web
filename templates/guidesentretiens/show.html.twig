@@ -9,6 +9,9 @@
                 <div class="card">
                     <div class="card-header"><h1 class="text-center">Guide d'entretien</h1></div>
                     <div class="card-body">
+                     {% for message in app.flashes('success') %}
+                            <div class="alert alert-success">{{ message }}</div>
+                        {% endfor %}
                         <div class="row">
                             <div class="col-md-4 text-center">
                               
@@ -51,11 +54,15 @@
                                             <th>Spécialité</th>
                                             <td>{{ guidesentretien.specialite }}</td>
                                         </tr>
+                                        <tr>
+                                            <th>Support</th>
+                                           <td><span>{{ guidesentretien.support }}</span></td>
+
+                                        </tr>
                                     </tbody>
                                 </table>
                                  <div class="my-3">
-    <h4 class="mb-0">Support</h4>
-    <iframe width="556" height="438" src="https://www.youtube.com/embed/AYtAhi-YE9U" title="Entretien d'embauche: bien se présenter en 2 minutes (exemple)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    <iframe width="700" height="438" src="https://www.youtube.com/embed/AYtAhi-YE9U" title="Entretien d'embauche: bien se présenter en 2 minutes (exemple)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 </div>
                                 <div class="text-right">
                                     <a href="{{ path('app_guidesentretiens_edit', {'idguide': guidesentretien.idguide}) }}" class="btn btn-success">Modifier</a>

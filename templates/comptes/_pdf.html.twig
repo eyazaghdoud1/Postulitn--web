@@ -3,10 +3,48 @@
   <head>
     <meta charset="UTF-8" />
     <title>Compte Resume</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 24px;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      h2 {
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+      h3 {
+        font-size: 16px;
+        margin-bottom: 10px;
+      }
+      h4 {
+        font-size: 14px;
+        margin-bottom: 10px;
+        color: #888;
+      }
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      li {
+        margin-bottom: 10px;
+      }
+      img {
+        display: block;
+        margin: 0 auto;
+        border-radius: 50%;
+      }
+    </style>
   </head>
   <body>
     <h1>Compte Resume</h1>
-    <img src="{{ compte.photo }}" alt="Photo" width="150px">
+    {{ compte.photo }}
     <h2>John doe</h2>
     <h3>{{ compte.poste }} at {{ compte.entreprise }}</h3>
     <h4>{{ compte.domaine }}</h4>
@@ -22,3 +60,4 @@
     </ul>
   </body>
 </html>
+

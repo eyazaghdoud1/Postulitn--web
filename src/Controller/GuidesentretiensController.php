@@ -21,6 +21,10 @@ use Embed\Embed;
 use Symfony\Contracts\Cache\CacheItemPoolInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Handler\DownloadHandler;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+
 
 
 
@@ -129,8 +133,11 @@ public function show(
 
 
 
-    #[Route('/guidesentretiens/{idguide}/set-note', name: 'app_guidesentretiens_set_note', methods: ['POST'])]
-    public function setNote(Request $request, Guidesentretiens $guidesentretien): Response
+    
+        /**
+         * @Route("/guidesentretiens/{idguide}/set-note", name="app_guidesentretiens_set_note", methods={"POST"})
+         */
+        public function setNote(Request $request, Guidesentretiens $guidesentretien, SessionInterface $session): Response
     {
         $note = (float) $request->request->get('note');
     
@@ -143,10 +150,45 @@ public function show(
         
         $this->getDoctrine()->getManager()->flush();
     
+        $this->addFlash('success', 'La note a été mise à jour avec succès.');
+        
         return $this->redirectToRoute('app_guidesentretiens_show', ['idguide' => $guidesentretien->getIdguide()]);
     }
     
 
+
+
+
+/**
+ * @Route("/{id}/download", name="guidesentretiens_download", methods={"GET"})
+ */
+public function download(GuideSentretiens $guideSentretiens, DownloadHandler $downloadHandler): Response
+{
+    $file = new File($this->getParameter('kernel.project_dir').'/public/uploads/Guidesentretiens/'.$guideSentretiens->getSupport());
+    
+    return $downloadHandler->downloadObject($guideSentretiens, $file, 'supportFile');
+}
+
+
+
+
+
+public function lireFichier()
+{
+    $chemin = 'C:\Users\dell\AppData\Local\Temp\php996.tmp';
+
+    // Lire le contenu du fichier
+    $contenu = file_get_contents($chemin);
+
+    return $this->render('mon_template.html.twig', [
+        'contenu' => $contenu
+    ]);
+}
+
+
+
+
+    
     }
 
 
