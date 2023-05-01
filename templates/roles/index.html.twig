@@ -19,7 +19,13 @@
 
 	<div class="container">
 
-		<div class="row">
+		<div
+			class="row">
+			{#{% if app.session.get('user').idrole.description=='Administrateur'%}
+																																														Admin
+																																													{% else %}
+																																														Not Admin
+																																													{% endif %}#}
 			<table class="table table-striped">
 				<thead>
 					<tr>
@@ -44,7 +50,7 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="row">
+		<div class="row" style="margin-bottom:200px; margin-left:450px; margin-top: 30px;">
 			<div class="col-md-4">
 				<a class="btn btn-primary" href="{{path('addRole')}}">Add new role</a>
 

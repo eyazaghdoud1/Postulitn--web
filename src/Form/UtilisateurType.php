@@ -24,10 +24,6 @@ class UtilisateurType extends AbstractType
             ->add('adresse')
             ->add('datenaissance')
             ->add('mdp', PasswordType::class)
-            /*'type' => 
-                'invalid_message' => 'Les deux champs du mot de passe doivent correspondre."',
-                'required' => true,
-                'second_options' => ['label' => 'Répéter le mot de passe'],])*/
             ->add('idrole', EntityType::class, [
                 'class' => Role::class,
                 'choice_label' => function ($role) {

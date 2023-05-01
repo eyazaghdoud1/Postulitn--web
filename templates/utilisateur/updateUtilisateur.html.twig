@@ -1,98 +1,85 @@
 {% extends 'baseback.html.twig' %}
-{% block content %}
-	<div class="text-center mb-5">
-		<div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
-			<i class="bi bi-envelope"></i>
-		</div>
-		<h2 class="fw-bolder">Modifier l'utilisateur !</h2>
-		<p class="lead mb-0">Veuillez remplir ces champs</p>
-	</div>
-	{{form_start (form)}}
-
-	<div class="form-floating mb-3">
-		<div class="form-control">
-			<label>
-				{{form_label (form.nom)}}
-			</label>
-
-			{{ form_widget (form.nom) }}
-			{{ form_errors (form.nom) }}
-
-		</div>
-		<div class="invalid-feedback" data-sb-feedback="name:required">Vous devez insérer votre nom.</div>
-	</div>
-	<div class="form-floating mb-3">
-		<div class="form-control">
-			<label>{{form_label (form.prenom)}}</label>
-			{{ form_widget (form.prenom) }}
-			{{ form_errors (form.prenom) }}
-		</div>
-		<div class="invalid-feedback" data-sb-feedback="prenom:required">Vous devez insérer votre prénom.</div>
-	</div>
-	<!-- Email address input-->
-	<div class="form-floating mb-3">
-		<div class="form-control">
-			<label>{{form_label (form.email)}}</label>
-			{{ form_widget (form.email) }}
-			{{ form_errors (form.email) }}
-		</div>
-
-		<div class="invalid-feedback" data-sb-feedback="email:required">Vous devez insérer votre email.</div>
-		<div class="invalid-feedback" data-sb-feedback="email:email">Email non valide.</div>
-	</div>
-	<div class="form-floating mb-3">
-		<div class="form-control">
-			<label>{{form_label (form.adresse)}}</label>
-			{{ form_widget (form.adresse) }}
-			{{ form_errors (form.adresse) }}
-		</div>
-		<div class="invalid-feedback" data-sb-feedback="name:required">Vous devez insérer votre adresse.</div>
-	</div>
-
-	<div class="form-floating mb-3">
-		<div class="form-control" style="height: 100px;">
-			<label>{{form_label (form.datenaissance)}}</label>
-			{{ form_widget (form.datenaissance) }}
-			{{ form_errors (form.datenaissance) }}
-		</div>
-	</div>
-
-	<!-- Phone number input-->
-	<div class="form-floating mb-3">
-		<div class="form-control" style="margin: top 20px;">
-			<label>{{form_label (form.tel)}}</label>
-			{{ form_widget (form.tel) }}
-			{{ form_errors (form.tel) }}
-
-		</div>
-		<div class="invalid-feedback" data-sb-feedback="phone:required">Vous devez insérer votre numéro de téléphone.</div>
-	</div>
-
-	<div class="form-floating mb-3">
-		<div class="form-control">
-			<label>{{form_label (form.mdp)}}</label>
-			{{ form_widget (form.mdp) }}
-			{{ form_errors (form.mdp) }}
-		</div>
-		<div class="invalid-feedback" data-sb-feedback="name:required">Un mot de passe est nécessaire.</div>
-	</div>
-
-	<div class="form-floating mb-3">
-		<div class="form-control">
-			<label>{{form_label (form.idrole)}}</label>
-			{{ form_widget (form.idrole) }}
-			{{ form_errors (form.idrole) }}
-		</div>
-	</div>
-
-
-	<!-- Submit Button-->
-
-	<div class="d-grid">
-		<button class="btn btn-primary btn-lg" {{ form_widget (form.save) }}></button>
-	</div>
-
-	{{form_end (form)}}
-
+{% block css %}
+	<link href="{{asset('css/back.css')}}" rel="stylesheet">
+	<link href="{{asset('css/form.css')}}" rel="stylesheet">
 
 {% endblock %}
+{%block content%}
+<div class="container px-5 my-5 px-5">
+	<div class="text-center mb-5">
+		<div class="feature rounded-3 mb-3">
+			<img class="logocss" src="{{asset('assets/img/logo1.png')}}" style="width: 70px; height:80px">
+		</div>
+		<h2 class="fw-bolder">Modification d'un utilisateur</h2>
+		<p class="lead mb-0">Veuillez remplir ces champs</p>
+	</div>
+
+	<div class="row gx-5 justify-content-center">
+
+		<div class="col-lg-6">
+
+			<div>
+
+				{{ form_start(form,{'attr': {'novalidate': 'novalidate', 'id': 'contactForm'}}
+				) }}
+
+
+				<label class="fw-bolder">
+					{{ form_label (form.nom, 'Nom')  }}
+				</label>
+				{{ form_widget (form.nom, {'attr': {'class': "form-control mb-3"}})  }}
+				<p class="lead mb-0 invalid-form-field">{{ form_errors (form.nom)  }}</p>
+
+
+				<label class="fw-bolder">
+					{{ form_label (form.prenom, 'Prénom')  }}
+				</label>
+				{{ form_widget (form.prenom, {'attr': {'class': "form-control mb-3"}})  }}
+				<p class="lead mb-0 invalid-form-field">{{ form_errors (form.prenom)  }}</p>
+
+				<label class="fw-bolder">
+					{{ form_label (form.email, 'Email')  }}
+				</label>
+				{{ form_widget (form.email, {'attr': {'class': "form-control mb-3"}})  }}
+				<p class="lead mb-0 invalid-form-field">{{ form_errors (form.email)  }}</p>
+
+				<label class="fw-bolder">
+					{{ form_label (form.adresse, 'Adresse')  }}
+				</label>
+				{{ form_widget (form.adresse, {'attr': {'class': "form-control mb-3"}})  }}
+				<p class="lead mb-0 invalid-form-field">{{ form_errors (form.adresse)  }}</p>
+
+				<label class="fw-bolder">
+					{{ form_label (form.datenaissance, 'Date de naissance')  }}
+				</label>
+				{{ form_widget (form.datenaissance, {'attr': {'class': "form-control mb-3"}})  }}
+				<p class="lead mb-0 invalid-form-field">{{ form_errors (form.datenaissance)  }}</p>
+
+				<label class="fw-bolder">
+					{{ form_label (form.tel, 'Numéro de téléphone')  }}
+				</label>
+				{{ form_widget (form.tel, {'attr': {'class': "form-control mb-3"}})  }}
+				<p class="lead mb-0 invalid-form-field">{{ form_errors (form.tel)  }}</p>
+
+				<label class="fw-bolder">
+					{{ form_label (form.mdp, 'Mot de passe')  }}
+				</label>
+				{{ form_widget (form.mdp, {'attr': {'class': "form-control mb-3"}})  }}
+				<p class="lead mb-0 invalid-form-field">{{ form_errors (form.mdp)  }}</p>
+
+				<label class="fw-bolder">
+					{{ form_label (form.idrole, 'Rôle')  }}
+				</label>
+				{{ form_widget (form.idrole, {'attr': {'class': "form-control mb-3"}})  }}
+				<p class="lead mb-0 invalid-form-field">{{ form_errors (form.idrole)  }}</p>
+
+			</div>
+
+			<div class="d-grid">{{ form_widget (form.save, {'attr': {'class': "btn btn-primary btn-lg"}})  }}
+			</div>
+
+			{{ form_end (form)  }}
+		</div>
+	</div>
+
+</div></div>{%endblock%}

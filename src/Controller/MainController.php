@@ -23,4 +23,9 @@ class MainController extends AbstractController
     {
         return $this->render('baseback.html.twig');
     }
+    #[Route('/404', name: 'erreur')]
+    public function notfound(): Response
+    {
+        return $this->render('notfound.html.twig');
+    }
 }

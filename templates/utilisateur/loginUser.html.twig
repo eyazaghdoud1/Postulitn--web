@@ -18,11 +18,9 @@
 		</title>
 	</head>
 	<body>
-		<section class="ftco-section">
+		<section style="margin-top:50px;">
 			<div class="container">
-				<div class="row justify-content-center">
-					<div class="col-md-6 text-center mb-5"></div>
-				</div>
+
 				<div class="row justify-content-center">
 					<div class="col-md-12 col-lg-10">
 						<div class="wrap d-md-flex">
@@ -35,49 +33,47 @@
 							<div class="login-wrap p-4 p-md-5">
 								<div class="d-flex">
 									<div class="w-100">
-										<h3 class="mb-4">LOGIN</h3>
+										<h3 class="mb-4">BIENVENUE !</h3>
+										<h6 class="mb-4">Veuillez vous connecter</h6>
+
 									</div>
 
 								</div>
+
+
 								{{form_start (form,{'attr': {'novalidate': 'novalidate'}}
 								)}}
-								<div class="form-group mb-3">
-									<div class="form-control">
-										<label>{{form_label (form.email)}}</label>
-										{{ form_widget (form.email) }}
-										{{ form_errors (form.email) }}
+								<p style="color:red;">{{error}}</p>
+								<label class="fw-bolder">
+									{{ form_label (form.email, 'Email')  }}
+								</label>
+								{{ form_widget (form.email, {'attr': {'class': "form-control mb-3"}})  }}
+								<p class="lead mb-0 invalid-form-field">{{ form_errors (form.email)  }}</p>
+								<label class="fw-bolder">
+									{{ form_label (form.mdp, 'Mot de passe')  }}
+								</label>
+								{{ form_widget (form.mdp, {'attr': {'class': "form-control mb-3"}})  }}
+								<p class="lead mb-0 invalid-form-field">{{ form_errors (form.mdp)  }}</p>
+								<button class="form-control btn btn-primary rounded submit px-3>
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																										{{ form_widget (form.save) }}
+									
+																										{{form_end (form)}}
+									
+									
+																										<div class=" form-group d-md-flex">
+
+									<div class="w-50 text-md-right" style="margin-top:20px;">
+										<a href="{{path('sendmail')}}">Mot de passe oublié ?</a>
 									</div>
-
-									<div class="form-group mb-3" style="margin-top:20px;">
-										<div class="form-control">
-											<label>{{form_label (form.mdp)}}</label>
-											{{ form_widget (form.mdp) }}
-											{{ form_errors (form.mdp) }}
-										</div>
-
-										<button style="margin-top: 20px;" class="form-control btn btn-primary rounded submit px-3>
-																																																																																																																																																																					{{ form_widget (form.save) }}
-																																																																																																																																																																				</button>
-											
-																																																																																																																																																																				{{form_end (form)}}
-											
-											
-																																																																																																																																																																				<div class=" form-group d-md-flex">
-
-											<div class="w-50 text-md-right" style="margin-top:20px;">
-												<a href="{{path('sendmail')}}">Mot de passe oublié ?</a>
-											</div>
-										</div>
-									</form>
-									<p class="text-center">Not a member?
-										<a data-toggle="tab" href="{{ path('signup') }}">Sign Up</a>
-									</p>
 								</div>
-							</div>
+							</form>
+							<p class="text-center">Not a member?
+								<a data-toggle="tab" href="{{ path('signup') }}">Sign Up</a>
+							</p>
 						</div>
 					</div>
 				</div>
-			</section>
+			</div>
 		</body>
 	</body>
-</html>
+</html></div></body></html></section></body></body></html>

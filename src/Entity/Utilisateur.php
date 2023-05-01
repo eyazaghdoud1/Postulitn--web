@@ -92,7 +92,7 @@ class Utilisateur implements UserInterface
      * @ORM\Column(name="mdp", type="string", length=100, nullable=false)
      */
     #[ORM\Column(length: 100, nullable: false)]
-    #[Assert\NotBlank(message: "Il faut insérer un mot de pass ! ")]
+    #[Assert\NotBlank(message: "Il faut insérer un mot de passe ! ")]
     private ?string $mdp = null;
 
     /*

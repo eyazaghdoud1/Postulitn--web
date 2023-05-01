@@ -9,6 +9,13 @@ parameters:
     twilio.from_number: '+16203496432'
 
 services:
+    App\EventListener\SessionListener:
+        arguments:
+            $session: '@session'
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }
+   # Symfony\Component\HttpFoundation\Session\SessionInterface:
+    #    public: true
     #App\Service\TwilioSmsService:
      #   arguments:
       #      $twilioSid: '%env(TWILIO_SID)%'
