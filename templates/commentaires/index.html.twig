@@ -24,13 +24,13 @@
          
                 <td>{{ commentaire.Contenu }}</td>
                 <td>
-                    <a href="{{ path('commentaire_show', {'id': commentaire.id}) }}">show</a>
-                    <a href="{{ path('commentaire_edit', {'id': commentaire.id}) }}">edit</a>
+                    <a href="{{ path('commentaire_show', {'id': commentaire.id}) }}">voir</a>
+                    <a href="{{ path('commentaire_edit', {'id': commentaire.id}) }}">modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="4">pas de commentaire</td>
             </tr>
         {% endfor %}
         </tbody>

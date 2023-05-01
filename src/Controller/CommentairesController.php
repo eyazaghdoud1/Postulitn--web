@@ -39,7 +39,6 @@ class CommentairesController extends AbstractController
   #[Route('/listCommentairesP/{idprojet}', name: 'app_commentaires')]
 public function listeCommentaires(CommentairesRepository $repo, $idprojet): Response
 {
-   
     $queryBuilder = $repo->createQueryBuilder('c')
         
         ->where('c.idprojet = :idprojet')

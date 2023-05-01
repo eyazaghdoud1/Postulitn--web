@@ -59,7 +59,7 @@ class SecteursController extends AbstractController
         if($form->isSubmitted()){
             $em=$doctrine->getManager();
             $em->flush();
-        return $this->redirectToRoute('addSecteurs');
+        return $this->redirectToRoute('app_Secteurs');
     }
     return $this->render('secteurs/addSecteur.html.twig',[
         'form'=>$form->createView()
