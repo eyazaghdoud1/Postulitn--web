@@ -19,15 +19,36 @@
                         </ul>
                     </div>
                     <div class="card-footer text-right">
-                        <a href="#" class="btn btn-sm btn-outline-secondary">Candidatures</a>
-
-                        <a href="{{ path('delete', {'id': offre.idoffre}) }}" class="btn btn-danger btn-sm mr-2">Supprimer</a>
-                        <a href="{{ path('update', {'id': offre.idoffre}) }}" class="btn btn-primary btn-sm">Modifier</a>
+                        <a href="#" class="btn btn-primary btn-sm">Postuler</a>
                         <a href="{{ path('app_offre') }}" class="btn btn-secondary btn-sm ml-2">Retour</a>
                     </div>
                 </div>
             </div>
-            
+            <div class="col-md-6 mx-auto"> 
+            <h2>Suggestions</h2>
+           {% for suggestions in similarOffers|batch(2) %}
+           <div class="">
+                    <div class="row my-5 ">
+                        {% for o in suggestions %}
+                            <div class=" mb-4" style="width:50%">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ o.poste }}</h5>
+                                        <p class="card-text">{{ o.description }}</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <p class="card-text">{{ o.lieu }}</p>
+                                            <div class="btn-group">
+                                                <a href="{{ path('app_offre_show1', {'id': o.idOffre}) }}" class="btn btn-sm btn-outline-secondary">Details</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    </div>
+                {% endfor %}
+            </div>
           
         </div>
     </div>

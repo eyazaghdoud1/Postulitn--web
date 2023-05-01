@@ -30,7 +30,7 @@ use App\Form\SearchData;
 
 class OffreController extends AbstractController
 {
-    #[Route('/offre', name: 'app_offre')]
+    #[Route('/offres/recruteur', name: 'app_offre')]
     public function index(OffreRepository $offreRepository, Request $request, PaginatorInterface $paginator, TypeoffreRepository $typerepo): Response
 {
     $searchData = new SearchData();
@@ -70,6 +70,46 @@ class OffreController extends AbstractController
         //'dateExpiration' => $dateExpiration
     ]);
 }
+#[Route('/offres/candidat', name: 'app_offre1', methods: ['GET'])]
+    public function index1(OffreRepository $offreRepository, Request $request, PaginatorInterface $paginator, TypeoffreRepository $typerepo): Response
+    {
+        $searchData = new SearchData();
+        $form = $this->createForm(SearchType::class, $searchData);
+        $form->handleRequest($request);
+    
+        $criteria = [];
+    
+        if ($form->isSubmitted() && $form->isValid()) {
+            $searchData->page = $request->query->getInt('page', 1);
+    
+            // Vérifier quel critère est rempli et ajouter au tableau de critères en conséquence
+            if (!empty($searchData->poste)) {
+                $criteria['like_poste'] = $searchData->poste;
+            }
+            if (!empty($searchData->lieu)) {
+                $criteria['like_lieu'] = $searchData->lieu;
+            }
+            if (!empty($searchData->dateexpiration)) {
+                $dateString = $searchData->dateexpiration->format('Y-m-d');
+    
+                $criteria['like_dateexpiration'] = $dateString;
+            }
+        }
+    
+        $offres = $paginator->paginate(
+            $offreRepository->findByCriteria($criteria),
+            $request->query->getInt('page', 1),
+            3
+        );
+    
+        $typeoffres = $typerepo->findAll();
+    
+        return $this->render('offre/index1.html.twig', [
+            'form' => $form->createView(),
+            'offres' => $offres,
+            //'dateExpiration' => $dateExpiration
+        ]);
+    }
 
  
   /**
@@ -142,7 +182,7 @@ public function create(ManagerRegistry $doctrine, Request $request,FlashyNotifie
 
         return $this->render('offre/modifier.html.twig', ['form' => $form->createView()]);
     }
-    #[Route('/{id}', name: 'app_offre_show', methods: ['GET'])]
+    #[Route('/detailsoffre/recruteur/{id}', name: 'app_offre_show', methods: ['GET'])]
     public function show(Offre $offre , OffreRepository $repo): Response
     {
 
@@ -158,14 +198,24 @@ public function create(ManagerRegistry $doctrine, Request $request,FlashyNotifie
         ]);
     }
     
-
-    #[Route('/offrecandidat', name: 'app_offre_index1', methods: ['GET'])]
-    public function index1(OffreRepository $repo): Response
+    #[Route('/detailsoffre/candidat/{id}', name: 'app_offre_show1', methods: ['GET'])]
+    public function show1(Offre $offre , OffreRepository $repo): Response
     {
-        return $this->render('offre/index1.html.twig', [
-            'offres' => $repo->findAll(),
+
+        $offrewithtype = $repo->findOneWithType($offre->getIdoffre());
+
+        $similarOffers = $repo->findSimilarOffers($offre);
+
+
+        
+        return $this->render('offre/showoffre1.html.twig', [
+            'similarOffers' => $similarOffers,
+            'offre' => $offrewithtype,
         ]);
     }
+
+    
+    
     
     #[Route('offre/stats', name: 'stats')]
 public function statistiques(TypeoffreRepository $typerepo, OffreRepository $offrerepo)
