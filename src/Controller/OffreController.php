@@ -50,7 +50,9 @@ class OffreController extends AbstractController
             $criteria['like_lieu'] = $searchData->lieu;
         }
         if (!empty($searchData->dateexpiration)) {
-            $criteria['like_dateexpiration'] = $searchData->dateexpiration;
+            $dateString = $searchData->dateexpiration->format('Y-m-d');
+
+            $criteria['like_dateexpiration'] = $dateString;
         }
     }
 
@@ -107,7 +109,7 @@ public function create(ManagerRegistry $doctrine, Request $request,FlashyNotifie
         $flashy->success('offre ajoute avec succes', 'http://your-awesome-link.com');
 
         $sid = "ACdd813fb1473247d79540aff0ace9a161";
-        $token = "c2cf70b040d484f656414e53ee01b51b";
+        $token = "d9bf0b1cd5c08bcca8da0d01e6df0849";
         $twilio = new Client($sid, $token);
 
         $message = $twilio->messages
@@ -141,10 +143,18 @@ public function create(ManagerRegistry $doctrine, Request $request,FlashyNotifie
         return $this->render('offre/modifier.html.twig', ['form' => $form->createView()]);
     }
     #[Route('/{id}', name: 'app_offre_show', methods: ['GET'])]
-    public function show(Offre $offre): Response
+    public function show(Offre $offre , OffreRepository $repo): Response
     {
+
+        $offrewithtype = $repo->findOneWithType($offre->getIdoffre());
+
+        $similarOffers = $repo->findSimilarOffers($offre);
+
+
+        
         return $this->render('offre/showoffre.html.twig', [
-            'offre' => $offre,
+            'similarOffers' => $similarOffers,
+            'offre' => $offrewithtype,
         ]);
     }
     

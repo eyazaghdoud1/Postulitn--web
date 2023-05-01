@@ -44,7 +44,7 @@ class OffreRepository extends ServiceEntityRepository
     public function findByCriteria($criteria)
     {
         $qb = $this->createQueryBuilder('o');
-
+   
         foreach ($criteria as $key => $value) {
             if (strpos($key, 'like_') === 0) {
                 $field = substr($key, 5);
@@ -83,6 +83,39 @@ class OffreRepository extends ServiceEntityRepository
         ->getQuery();
     
     return $query->getResult();
+}
+
+public function findSimilarOffers($offer)
+{
+    return $this->createQueryBuilder('o')
+        ->andWhere('o.idtype = :type')
+        ->setParameter('type', $offer->getIdtype())
+        ->andWhere('o.idoffre != :id')
+        ->setParameter('id', $offer->getIdoffre())
+        ->setMaxResults(4)
+        ->getQuery()
+        ->getResult();
+}
+
+
+public function findOneWithType($id)
+{
+    return $this->createQueryBuilder('o')
+        ->select('o', 'o.idoffre,o.specialite,o.dateexpiration,o.poste ,o.description,o.lieu, o.entreprise,t.description AS typeDescription')
+        ->join('o.idtype', 't')
+        ->where('o.idoffre = :id')
+        ->setParameter('id', $id)
+        ->getQuery()
+        ->getOneOrNullResult();
+}
+
+public function findAllWithType()
+{
+    return $this->createQueryBuilder('o')
+        ->select('o', 't.description AS type_description')
+        ->join('o.idtype', 't')
+        ->getQuery()
+        ->getResult();
 }
   //  if ($search->dateExpiration) {
   //      $qb->andWhere('o.dateExpiration = :dateExpiration');
