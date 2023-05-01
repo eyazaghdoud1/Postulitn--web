@@ -1,13 +1,12 @@
-{% extends 'baseback.html.twig' %}
+{% extends 'basefront.html.twig' %}
 
 {% block title %}New Guidesentretiens{% endblock %}
 
-{% block content %}
-
+{% block bodysection %}
+    <h1>Create new Guidesentretiens</h1>
 
     <div class="row">
-     <div style="margin-bottom:100px; margin-left:100px;">
-        <h1>Create new Guidesentretiens</h1>
+        <div class="col-md-6">
             {{ form_start(form) }}
                 {{ form_errors(form) }}
 

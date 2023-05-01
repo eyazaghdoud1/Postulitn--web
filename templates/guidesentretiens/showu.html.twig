@@ -1,8 +1,8 @@
-{% extends 'baseback.html.twig' %}
+{% extends 'basefront.html.twig' %}
 
 {% block title %}Guidesentretiens{% endblock %}
 
-{% block content %}
+{% block bodysection %}
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -19,7 +19,7 @@
                             </div>
                             <div class="col-md-4 text-center">
                                 <div class="my-3">
-                                    <h4 class="mb-0">Note</h4>
+                                    <h4 class="mb-0">Moyenne des  notes</h4>
                                     <span>{{ guidesentretien.note }}</span>
                                 </div>
                                
@@ -29,10 +29,14 @@
                                 </div>
                                 <form method="post" action="{{ path('app_guidesentretiens_set_note', {'idguide': guidesentretien.idguide}) }}">
                                     <div class="form-group">
-                                      
+                                        <label for="number-input">Choose a number between 0 and 10:</label>
+                                        <input type="number" id="number-input" name="note" min="0" max="10" class="form-control">
+                                    </div>
+                                    <div class="card-footer">
+                                        <button class="btn btn-primary" type="submit">Enregistrer</button>
+                                    </div>
                                 </form>
 
-                            </div>
                             </div>
                             </div>
                             <div class="col-md-4">
@@ -49,6 +53,7 @@
                                         <tr>
                                             <th>Support</th>
                                           
+
                                         </tr>
                                     </tbody>
                                 </table>
@@ -56,9 +61,7 @@
     <iframe width="700" height="438" src="https://www.youtube.com/embed/AYtAhi-YE9U" title="Entretien d'embauche: bien se présenter en 2 minutes (exemple)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 </div>
                                 <div class="text-right">
-                                    <a href="{{ path('app_guidesentretiens_edit', {'idguide': guidesentretien.idguide}) }}" class="btn btn-success">Modifier</a>
-                                    {{ include('guidesentretiens/_delete_form.html.twig') }}
-                                    <a href="{{ path('app_guidesentretiens_index') }}" class="btn btn-primary">Retour à la liste</a>
+                                    <a href="{{ path('app_guidesentretiens_indexu') }}" class="btn btn-primary">Retour à la liste</a>
                                 </div>
                             </div>
                         </div>
@@ -68,6 +71,39 @@
         </div>
     </div>
     
-   
+    <style>
+        .card-header h1 {
+            font-size: 2rem;
+        }
+        .card-body {
+            background-color: #f8f9fa;
+        }
+        .card-body img {
+            max-width: 100px;
+            margin-bottom: 1rem;
+        }
+        .card-body h4 {
+            font-size: 1.2rem;
+            margin-bottom: .5rem;
+        }
+        .card-body span {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #007bff;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            text-align: left;
+            padding: 8px;
+        }
+        tr:nth-child(even){background-color: #f2f2f2}
+        th {
+            background-color: #4CAF50;
+            color: black;
+        }
+        </style>
 {% endblock %}
 

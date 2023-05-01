@@ -45,8 +45,8 @@
                 {{ form_widget(form.poste, {'attr': {'class': 'form-control'}}) }}
             </div>
 
-            <button type="submit" class="btn btn-primary">Update</button>
-            <a href="{{ path('app_comptes_index') }}" class="btn btn-default">Cancel</a>
+            <button type="submit" class="btn btn-primary"><a href="{{ path('app_comptes_show1', {'idcompte': compte.idcompte}) }}" >Modifier</a></button>
+            <a href="{{ path('app_comptes_show1', {'idcompte': compte.idcompte}) }}" class="btn btn-default">Annuler</a>
         {{ form_end(form) }}
     </div>
 </div>

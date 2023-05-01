@@ -1,0 +1,101 @@
+{% extends 'basefront.html.twig' %}
+
+{% block title %}Guidesentretiens index{% endblock %}
+
+{% block bodysection %}
+    <h1>Guidesentretiens index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+           
+                <th>Domaine</th>
+                <th>Specialite</th>
+                                
+
+                <th>Note</th>
+                <th>Nombrenotes</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for guidesentretien in guidesentretiens %}
+                <tr>
+                
+                    <td>{{ guidesentretien.domaine }}</td>
+                    <td>{{ guidesentretien.specialite }}</td>
+                 
+                    <td>{{ guidesentretien.note }}</td>
+                    <td>{{ guidesentretien.nombrenotes }}</td>
+                    <td>
+                        <div style="display: flex;">
+                            <a href="{{ path('app_guidesentretiens_showu', {'idguide': guidesentretien.idguide}) }}" class="btn btn-primary">afficher</a>
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">No records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            text-align: left;
+            padding: 8px;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        th {
+            background-color: #4CAF50;
+            color: black;
+        }
+        .btn {
+            display: inline-block;
+            margin-bottom: 0;
+            font-weight: 400;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            cursor: pointer;
+            background-image: none;
+            border: 1px solid transparent;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            border-radius: 4px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        .btn-primary {
+            color: #fff;
+            background-color: #337ab7;
+            border-color: #2e6da4;
+        }
+        .btn-primary:hover,
+        .btn-primary:focus {
+            color: #fff;
+            background-color: #286090;
+            border-color: #204d74;
+        }
+        .btn-success {
+            color: #fff;
+            background-color: #5cb85c;
+            border-color: #4cae4c;
+        }
+        .btn-success:hover,
+        .btn-success:focus 
+              </style>
+{% endblock %}

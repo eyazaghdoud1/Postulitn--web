@@ -11,12 +11,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Snappy\Pdf;
+use App\Entity\Utilisateur;
 
 
 #[Route('/comptes')]
 class ComptesController extends AbstractController
 {
-    #[Route('/', name: 'app_comptes_index', methods: ['GET'])]
+    #[Route('/listeCompte', name: 'app_comptes_index', methods: ['GET'])]
     public function index(ComptesRepository $comptesRepository): Response
     {
         return $this->render('comptes/index.html.twig', [
@@ -43,10 +44,29 @@ class ComptesController extends AbstractController
         ]);
     }
 
-    #[Route('/{idcompte}', name: 'app_comptes_show', methods: ['GET'])]
-    public function show(Comptes $compte): Response
+    #[Route('/showCompteCand/{idcompte}', name: 'app_comptes_show1', methods: ['GET'])]
+    public function show($idcompte, ComptesRepository $crepo): Response
     {
+        $c= $crepo->find($idcompte);
         return $this->render('comptes/show.html.twig', [
+            'compte' => $c,
+        ]);
+    }
+
+    
+    #[Route('/showCompteRec/{idcompte}', name: 'app_comptes_show2', methods: ['GET'])]
+    public function showR(Comptes $compte): Response
+    {
+        return $this->render('comptes/ShowCompteRec.html.twig', [
+            'compte' => $compte,
+        ]);
+    }
+
+
+    #[Route('/showCompteBack/{idcompte}', name: 'app_comptes_show3', methods: ['GET'])]
+    public function showBack(Comptes $compte): Response
+    {
+        return $this->render('comptes/ShowCompteBack.html.twig', [
             'compte' => $compte,
         ]);
     }
@@ -60,7 +80,7 @@ class ComptesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $comptesRepository->save($compte, true);
 
-            return $this->redirectToRoute('app_comptes_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_comptes_show1', ['idcompte' => $compte->getIdcompte()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('comptes/edit.html.twig', [
@@ -68,6 +88,7 @@ class ComptesController extends AbstractController
             'form' => $form,
         ]);
     }
+
 
     #[Route('/{idcompte}', name: 'app_comptes_delete', methods: ['POST'])]
     public function delete(Request $request, Comptes $compte, ComptesRepository $comptesRepository): Response

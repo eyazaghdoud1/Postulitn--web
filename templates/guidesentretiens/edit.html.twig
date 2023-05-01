@@ -1,8 +1,8 @@
-{% extends 'basefront.html.twig' %}
+{% extends 'baseback.html.twig' %}
 
 {% block title %}Edit Guidesentretiens{% endblock %}
 
-{% block bodysection %}
+{% block content %}
 <div class="container">
 <h1>Edit Guidesentretiens</h1>
 <div class="row">
@@ -27,7 +27,7 @@
 
            
             <button type="submit" class="btn btn-primary">Update</button>
-            <a href="{{ path('app_guidesentretiens_index') }}" class="btn btn-default">Cancel</a>
+            <a href="{{ path('app_guidesentretiens_index') }}" class="btn btn-default">annuler</a>
             {{ form_end(form) }}
         </div>
     </div>
