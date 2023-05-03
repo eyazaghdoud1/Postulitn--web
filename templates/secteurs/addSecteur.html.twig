@@ -1,0 +1,40 @@
+{% extends 'baseback.html.twig' %}
+
+{% block css %}
+	<link href="{{asset('css/back.css')}}" rel="stylesheet">
+	<link href="{{asset('css/form.css')}}" rel="stylesheet">
+
+{% endblock %}
+{% block content%}
+<div class="container px-5 my-5 px-5">
+	<div class="text-center mb-5">
+		<div class="feature rounded-3 mb-3">
+			<img class="logocss" src="{{asset('assets/img/logo1.png')}}" style="width: 70px; height:80px">
+		</div>
+		<h2 class="fw-bolder">Ajouter un nouveau secteur</h2>
+		<p class="lead mb-0">Veuillez remplir ces champs</p>
+	</div>
+
+	<div class="row gx-5 justify-content-center">
+
+		<div class="col-lg-6">
+
+			<div>
+				{{ form_start(form, {'attr': {'novalidate': 'novalidate', 'id': 'contactForm'}}) }}
+				<div class="form-floating mb-3">
+					<div>{{ form_label(form.description) }}</div>
+					<div>{{ form_widget(form.description) }}</div>
+					<div>
+						<li class='invalid-form-field'>{{ form_errors(form.description) }}</li>
+					</div>
+				</div>
+				<div>
+					{{ form_widget(form.save, {'label': 'Save', 'attr': {'class': 'btn btn-primary btn-lg'}}) }}
+				</div>
+			</div>
+		</div>
+			</div>
+		{{ form_end(form) }}
+        
+
+{%endblock%}

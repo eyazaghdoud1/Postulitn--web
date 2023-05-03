@@ -1,0 +1,51 @@
+{% extends 'basefront.html.twig' %}
+{% block bodysection %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+ <div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <a class="btn btn-primary" style="position:relative; top: 20px; left: 980px; width:235px;" href="{{ path('addProjets') }}">Add new projet</a>
+        </div>
+    </div>
+    <div class="row mt-5"> <!-- Add margin top here for spacing -->
+        <div class="col-md-12">
+            <table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Projets</th>
+						<th>Thémes</th>
+						<th>Durée</th>
+						<th>Secteur</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					{% for p in projets %}
+						<tr>
+							<td>{{p.nom}}</td>
+							<td>{{p.theme}}</td>
+							<td>{{p.duree}} Mois</td>
+							<td>{{p.idsecteur.description}}</td>
+
+							<td>
+								<a class="btn btn-danger" href="{{path('delete_Projets',{'id':p.idProjet})}}">Supprimer</a>
+							</td>
+							<td>
+								<a class="btn btn-primary" href="{{path('update_Projets',{'id':p.idProjet})}}">Modifier</a>
+							</td>
+							<td>
+							 <a class="btn btn-primary" href="{{path('detailsProjetRecruteur', {'id': p.idProjet})}}">Détails</a>
+                             </td>
+
+						</tr>
+					{%endfor%}
+				</tbody>
+			</table>
+		</div>
+		</div>
+	</div>
+	</div>
+{% endblock %}

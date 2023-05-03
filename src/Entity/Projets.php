@@ -6,10 +6,15 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ProjetsRepository;
 use DateTime;
+use Symfony\Component\Validator\Constraints as Assert;
+
+
+
 
 #[ORM\Entity(repositoryClass: ProjetsRepository::class)]
 class Projets
 {
+
     /*
     /**
      * @var int
@@ -18,6 +23,9 @@ class Projets
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
+
+
+     
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name:'idProjet', type:'integer', nullable:false)]
@@ -28,8 +36,11 @@ class Projets
      * @var string
      *
      * @ORM\Column(name="theme", type="string", length=254, nullable=false)
+     *  @Assert\NotBlank
      */
+
     #[ORM\Column(length:254,nullable:false)]
+    #[Assert\NotBlank(message:"Vous devez insérer le théme de votre projet.")]
     private ?string $theme = null;
 
     /*
@@ -39,6 +50,7 @@ class Projets
      * @ORM\Column(name="description", type="string", length=254, nullable=false)
      */
     #[ORM\Column(length:254, nullable:false)]
+    #[Assert\NotBlank(message:"Vous devez insérer la description de votre projet.")]
     private ?string $description = null;
 
     /*
@@ -46,8 +58,10 @@ class Projets
      * @var int
      *
      * @ORM\Column(name="duree", type="integer", nullable=false)
+     * @Assert\PositiveOrZero
      */
     #[ORM\Column(nullable:false)]
+    #[Assert\NotBlank(message:"Vous devez insérer la durée de votre projet.")]
     private ?int $duree = null;
 
     /*
@@ -57,6 +71,7 @@ class Projets
      * @ORM\Column(name="dateDebut", type="date", nullable=false)
      */
     #[ORM\Column(nullable:false)]
+    #[Assert\NotBlank(message:"Vous devez insérer la date de début de votre projet.")]
     private ?DateTime $datedebut;
 
     /*
@@ -66,6 +81,7 @@ class Projets
      * @ORM\Column(name="dateFin", type="date", nullable=false)
      */
     #[ORM\Column(nullable:false)]
+    #[Assert\NotBlank(message:"Vous devez insérer la date de fin de votre projet.")]
     private ?DateTime $datefin;
 
     /*
@@ -75,6 +91,7 @@ class Projets
      * @ORM\Column(name="Nom", type="string", length=254, nullable=false)
      */
     #[ORM\Column(length:254, nullable:false)]
+    #[Assert\NotBlank(message:"Vous devez insérer le poste vacant de votre projet.")]
     private ?string $nom = null;
 
     /*
@@ -82,10 +99,10 @@ class Projets
      * @var int
      *
      * @ORM\Column(name="note", type="integer", nullable=false)
-     */
+     
     #[ORM\Column(nullable:false)]
     private ?int $note = null;
-
+*/
     /*
     /**
      * @var \Secteurs
