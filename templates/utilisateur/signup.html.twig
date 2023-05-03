@@ -1,0 +1,67 @@
+{% extends 'basefront.html.twig' %}
+
+
+{%block bodysection%}
+<div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
+	<img class="logocss" src="{{asset('assets/img/logowhite.png')}}" style="width: 70px; height:80px"></i></div><h2 class="fw-bolder">Inscription</h2><p class="lead mb-0">Veuillez remplir ces champs</p></div><div class="row gx-5 justify-content-center"><div class="col-lg-6">
+
+<div>
+
+	{{ form_start(form,{'attr': {'novalidate': 'novalidate', 'id': 'contactForm'}}
+	) }}
+
+
+	<label class="fw-bolder">
+		{{ form_label (form.nom, 'Nom')  }}
+	</label>
+	{{ form_widget (form.nom, {'attr': {'class': "form-control mb-3"}})  }}
+	<p class="lead mb-0 invalid-form-field">{{ form_errors (form.nom)  }}</p>
+
+
+	<label class="fw-bolder">
+		{{ form_label (form.prenom, 'Prénom')  }}
+	</label>
+	{{ form_widget (form.prenom, {'attr': {'class': "form-control mb-3"}})  }}
+	<p class="lead mb-0 invalid-form-field">{{ form_errors (form.prenom)  }}</p>
+
+	<label class="fw-bolder">
+		{{ form_label (form.email, 'Email')  }}
+	</label>
+	{{ form_widget (form.email, {'attr': {'class': "form-control mb-3"}})  }}
+	<p class="lead mb-0 invalid-form-field">{{ form_errors (form.email)  }}</p>
+
+	<label class="fw-bolder">
+		{{ form_label (form.adresse, 'Adresse')  }}
+	</label>
+	{{ form_widget (form.adresse, {'attr': {'class': "form-control mb-3"}})  }}
+	<p class="lead mb-0 invalid-form-field">{{ form_errors (form.adresse)  }}</p>
+
+	<label class="fw-bolder">
+		{{ form_label (form.datenaissance, 'Date de naissance')  }}
+	</label>
+	{{ form_widget (form.datenaissance, {'attr': {'class': "form-control mb-3"}})  }}
+	<p class="lead mb-0 invalid-form-field">{{ form_errors (form.datenaissance)  }}</p>
+
+	<label class="fw-bolder">
+		{{ form_label (form.tel, 'Numéro de téléphone')  }}
+	</label>
+	{{ form_widget (form.tel, {'attr': {'class': "form-control mb-3"}})  }}
+	<p class="lead mb-0 invalid-form-field">{{ form_errors (form.tel)  }}</p>
+
+	<label class="fw-bolder">
+		{{ form_label (form.mdp, 'Mot de passe')  }}
+	</label>
+	{{ form_widget (form.mdp, {'attr': {'class': "form-control mb-3"}})  }}
+	<p class="lead mb-0 invalid-form-field">{{ form_errors (form.mdp)  }}</p>
+
+	<label class="fw-bolder">
+		{{ form_label (form.idrole, 'Rôle')  }}
+	</label>
+	{{ form_widget (form.idrole, {'attr': {'class': "form-control mb-3"}})  }}
+	<p class="lead mb-0 invalid-form-field">{{ form_errors (form.idrole)  }}</p>
+
+</div>
+
+<div class="d-grid">{{ form_widget (form.save, {'attr': {'class': "btn btn-primary btn-lg"}})  }}
+</div>
+{{ form_end (form)  }}</div></div>{%endblock%}

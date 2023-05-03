@@ -1,0 +1,8 @@
+swiftmailer:
+    transport: smtp
+    host: smtp.gmail.com
+    username: postuli.tn@gmail.com
+    password: postulitn2023
+    port: 587
+    encryption: tls
+    spool: { type: 'memory' }

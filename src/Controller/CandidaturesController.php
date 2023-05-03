@@ -17,6 +17,7 @@ use App\Service\MailerService;
 use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 
 class CandidaturesController extends AbstractController
@@ -40,8 +41,9 @@ class CandidaturesController extends AbstractController
         Request $request,
         UtilisateurRepository $userRepo,
         OffreRepository $offreRepo,
-        FlashyNotifier $flashy
+        FlashyNotifier $flashy, SessionInterface $session
     ): Response {
+      
         $candidature = new Candidatures();
         $candidature->setIdcandidat($userRepo->find(55));
         $candidature->setIdoffre($offreRepo->find(53));
@@ -65,6 +67,7 @@ class CandidaturesController extends AbstractController
             return $this->redirectToRoute('candidaturesCand');
         } else
             return $this->renderForm('candidatures/addCandidature.html.twig', ['form' => $form]);
+    
     }
 
     /**

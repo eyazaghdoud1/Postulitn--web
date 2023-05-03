@@ -3,197 +3,196 @@
 
 <head>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="">
 
-    <title>{% block title %}Postuli.tn - Gestion {%endblock%}</title>
-    <!-- Logoicon-->
-    <link rel="icon" type="image/x-icon" href="{{asset('assets/logo.ico')}}" />
+		<title>{% block title %}Postuli.tn - Gestion
+			{%endblock%}</title>
+		<!-- Logoicon-->
+		<link
+		rel="icon" type="image/x-icon" href="assets/logo.ico" " />
+			
+																																																																																																																		    <!-- Custom fonts for this template-->
+			
+																																																																																																																		    <link
+																																																																																																																		        href=" https://fonts.googleapis.com/css?family="Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="" stylesheet">
 
-    <!-- Custom fonts for this template-->
-    
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+		<!-- Custom styles for this template-->
+		<script src="//code.jquery.com/jquery.js"></script>
+		<!-- Load Flashy default JavaScript -->
+		<script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
+		{%block css%}
+			<link href="{{asset('css/back.css')}}" rel="stylesheet">
+			<link rel=" stylesheet" href=" {{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}"/>
+		{% endblock %}
 
-    <!-- Custom styles for this template-->
-    <link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
-    {% block css %}
-    <link href="{{asset('css/back.css')}}" rel="stylesheet">
-    
-    {% endblock %}
-    
+	</head>
 
-</head>
+	<body
+		id="page-top">
 
-<body id="page-top">
+		<!-- Page Wrapper -->
+		<div
+			id="wrapper">
 
-    <!-- Page Wrapper -->
-    <div id="wrapper">
+			<!-- Sidebar -->
+			<ul
+				class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-        <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+				<!-- Sidebar - Brand -->
+				<a class="sidebar-brand d-flex align-items-center justify-content-center" href="#!">
+					<div class="sidebar-brand-icon rotate-n-15">
+						<i class="fas fa-laugh-wink"></i>
+					</div>
+					<div class="sidebar-brand-text mx-3">Postuli.tn</div>
+				</a>
 
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#!">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">Postuli.tn</div>
-            </a>
+				<!-- Divider -->
+				<hr class="sidebar-divider my-0">
 
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
+				<!-- Nav Item - Dashboard -->
+				<!-- Heading -->
+					<div class="sidebar-heading"> Gestion
+				</div>
+				<li class="nav-item active">
+					<a class="nav-link" href="{{ path('readUsers') }}">
+						<i class="fas fa-fw fa-tachometer-alt"></i>
+						<span>Utilisateurs</span>
+					</a>
+				</li>
+				<!-- Divider -->
+				<hr class="sidebar-divider my-0">
 
-            <!-- Nav Item - Dashboard -->
-             <!-- Heading -->
-             <div class="sidebar-heading">
-               Gestion
-            </div> 
-            <li class="nav-item active">
-                <a class="nav-link" href="#!">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Utilisateurs</span></a>
-            </li>
-             <!-- Divider -->
-            <hr class="sidebar-divider my-0">
+				<li class="nav-item active">
+					<a class="nav-link" href="{{path('readRoles')}}">
+						<i class="fas fa-fw fa-tachometer-alt"></i>
+						<span>Roles</span>
+					</a>
+				</li>
 
-            <li class="nav-item active">
-                <a class="nav-link" href="#!">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Roles</span></a>
-            </li>
+				<!-- Divider -->
+				<hr class="sidebar-divider my-0">
 
-           <!-- Divider -->
-           <hr class="sidebar-divider my-0">
+				<li class="nav-item active">
+					<a class="nav-link" href="#!">
+						<i class="fas fa-fw fa-tachometer-alt"></i>
+						<span>Secteurs</span>
+					</a>
+				</li>
 
-            <li class="nav-item active">
-                <a class="nav-link" href="#!">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Secteurs</span></a>
-            </li>
+				<!-- Divider -->
+				<hr class="sidebar-divider my-0">
 
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
+				<li class="nav-item active">
+					<a class="nav-link" href="#!">
+						<i class="fas fa-fw fa-tachometer-alt"></i>
+						<span>Quiz</span>
+					</a>
+				</li>
 
-            <li class="nav-item active">
-                <a class="nav-link" href="{{path('adminReadQuiz')}}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Quiz</span></a>
-            </li>
+				<!-- Divider -->
+				<hr class="sidebar-divider my-0">
 
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
+				<li class="nav-item active">
+					<a class="nav-link" href="#!">
+						<i class="fas fa-fw fa-tachometer-alt"></i>
+						<span>Guides d'entretiens
+						</span>
+					</a>
+				</li>
 
-            <li class="nav-item active">
-                <a class="nav-link" href="#!">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Guides d'entretiens </span></a>
-            </li>
+				<!-- Divider -->
+				<hr
+				class="sidebar-divider my-0">
 
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
+				<!-- Heading -->
+				<div class="sidebar-heading">
+					Statistiques
+				</div>
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-               Statistiques
-            </div>
+				<!-- Nav Item - Charts -->
+				<li class="nav-item">
+					<a class="nav-link" href="#!">
+						<i class="fas fa-fw fa-chart-area"></i>
+						<span>Statistiques</span>
+					</a>
+				</li>
 
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="#!">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Statistiques</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
+				<!-- Divider -->
+				<hr class="sidebar-divider d-none d-md-block">
 
 
-        </ul>
-        <!-- End of Sidebar -->
+			</ul>
+			<!-- End of Sidebar -->
 
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+			<!-- Content Wrapper -->
+			<div
+				id="content-wrapper" class="d-flex flex-column">
 
-            <!-- Main Content -->
-            <div id="content">
+				<!-- Main Content -->
+				<div
+					id="content">
 
-                <!-- Topbar -->
-                
-                <nav class="navbar navbar-expand navbar-light bg-dark topbar mb-4 static-top shadow">
+					<!-- Topbar -->
 
-                    <!-- Topbar Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                       <a href="#!"><img class="logocss" src="{{asset('assets/img/logowhite.png')}}"></a>
-                    </li>
-                       
-                        <div class="topbar-divider d-none d-sm-block"></div>
+					<nav
+						class="navbar navbar-expand navbar-light bg-dark topbar mb-4 static-top shadow">
 
-                        <!-- Nav Item - User Information -->
-                        
-                        
-                        <li class="nav-item dropdown no-arrow">
-                        
-                            <a class="nav-link " href="#" >
-                                <span class="mr-2 d-none d-lg-inline text-grey small font-weight-bolder">Logout</span>
-                                
-                            </a>
-                           
-                        </li>
+						<!-- Topbar Navbar -->
+						<ul class="navbar-nav ml-auto">
+							<li class="nav-item">
+								<a href="#!"><img class="logocss" src="assets/img/logowhite.png"></a>
+							</li>
 
-                    </ul>
+							<div class="topbar-divider d-none d-sm-block"></div>
 
-                </nav>
-                
+							<!-- Nav Item - User Information -->
 
-                
-                <!-- End of Topbar -->
 
-                <!-- Begin Page Content -->
-                {% block content %}
-                <div class="container-fluid" style="height:80% !important;">
-                
-                    
+							<li class="nav-item dropdown no-arrow">
 
-                </div>
-                {% endblock%}
-            <!-- End of Main Content -->
+								<a class="nav-link " href="{{path('logout')}}">
+									<span class="mr-2 d-none d-lg-inline text-grey small font-weight-bolder">Logout</span>
 
-            <!-- Footer -->
-            <footer class="sticky-footer bg-dark">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2023</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
+								</a>
 
-        </div>
-        <!-- End of Content Wrapper -->
+							</li>
 
-    </div>
-    <!-- End of Page Wrapper -->
+						</ul>
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-{% block js %}
-    <!-- Flashy depends on jQuery -->
-    <script src="//code.jquery.com/jquery.js"></script>
-    <!-- Load Flashy default JavaScript -->
-    <script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
-    <!-- Include Flashy default partial -->
-   
-    {% endblock %}
-     {{ include('@MercurySeriesFlashy/flashy.html.twig') }}
+					</nav>
 
-</body>
 
+					<!-- End of Topbar -->
+
+					<!-- Begin Page Content -->
+					{% block content%}
+					<div class="container-fluid" style="height:75% !important;"></div>
+					{% endblock%}
+					<!-- End of Main Content -->
+					<!-- Footer -->
+						<footer class="sticky-footer bg-dark" style="margin: top 75% !important;"> <div class="container my-auto">
+							<div class="copyright text-center my-auto">
+								<span>Copyright &copy; Your Website 2023</span>
+							</div>
+						</div>
+					</footer>
+					<!-- End of Footer -->
+
+				</div>
+				<!-- End of Content Wrapper -->
+
+			</div>
+			<!-- End of Page Wrapper -->
+
+			<!-- Scroll to Top Button-->
+			<a class="scroll-to-top rounded" href="#page-top">
+				<i class="fas fa-angle-up"></i>
+			</a>
+		</div>
+		{{ include('@MercurySeriesFlashy/flashy.html.twig') }}
+	</body>
 </html>

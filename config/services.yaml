@@ -4,12 +4,39 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-     twilio_number: '+16315199904'
-     twilio_auth_token: '98a01aca5e09416f7b60980479ffd038'
-     twilio_account_sid: 'AC330a9eebe30cd2d3b993bbcc07995093'
+    # account for user 
+    twilio.sid: 'AC8ad7d8957eb7bf1ff6618633e704aeec'
+    twilio.auth_token: '1f0f1a97ad26f033ea2e4483f7fb78c5'
+    twilio.from_number: '+16203496432'
+    # account for candidatures and entretiens
+    twilio_number: '+16315199904'
+    twilio_auth_token: '98a01aca5e09416f7b60980479ffd038'
+    twilio_account_sid: 'AC330a9eebe30cd2d3b993bbcc07995093'
 
 services:
+    App\EventListener\SessionListener:
+        arguments:
+            $session: '@session'
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }
+   # Symfony\Component\HttpFoundation\Session\SessionInterface:
+    #    public: true
+    #App\Service\TwilioSmsService:
+     #   arguments:
+      #      $twilioSid: '%env(TWILIO_SID)%'
+      #      $twilioAuthToken: '%env(TWILIO_AUTH_TOKEN)%'
+      #s      $twilioFromNumber: '%env(TWILIO_FROM_NUMBER)%'
+           # $twilioClient: '@Twilio\Rest\Client'
+    
+    
+ #   App\Service\TwilioSmsService:
+  #      arguments:
+  #          $client: '@Twilio\Rest\Client'
+  #          $fromNumber: '%twilio_from_number%'
     # default configuration for services in *this* file
+    App\Service\MailService:
+        arguments:
+            $mailer: '@Symfony\Component\Mailer\MailerInterface'
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
