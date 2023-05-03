@@ -1,8 +1,19 @@
-{% extends 'basefrontCandidat.html.twig' %}
-{% block title %}Project Listing
-{% endblock %}
-{% block content%}
+{% extends 'basefront.html.twig' %}
+{% block bodysection%}
 	<head>
+		<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+		<link href="{{asset('css/commentaires.css')}}" rel="stylesheet"/>
+	
+		<link
+		rel="stylesheet" href="css/style.css">
+		<!-- Logoicon-->
+		<link
+		rel="icon" type="image/x-icon" href="{{asset('assets/logo.ico')}}"/>
+		<!-- Bootstrap icons-->
+		<link
+		href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet"/>
+	<!-- Core theme CSS (includes Bootstrap)-->
+
 		<meta charset="utf-8">
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 
@@ -51,7 +62,7 @@
 							<div class="small-section-tittle2 mb-45">
 
 
-								<h4>Ajouter votre propre projet !</h4>
+								<h4>Ajouter votre propre projet</h4>
 								<div class="items-link items-link2 f-center">
 									<a href="{{path('addProjets')}}">Ajouter un projet</a>
 								</div>
