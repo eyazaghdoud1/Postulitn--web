@@ -4,6 +4,11 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\GuidesentretiensRepository;
+use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
+
+
 
 #[ORM\Entity(repositoryClass: GuidesentretiensRepository::class)]
 class Guidesentretiens
@@ -27,6 +32,11 @@ class Guidesentretiens
      * @var string
      *
      * @ORM\Column(name="domaine", type="string", length=30, nullable=false)
+     *  @Assert\NotBlank
+     * @Assert\Regex(
+     *     pattern="/^[^0-9]*$/",
+     *     message="Le champ ne doit pas contenir de chiffres"
+     * )
      */
     #[ORM\Column(length:30, nullable:false)]
     private ?string $domaine = null;
@@ -36,19 +46,22 @@ class Guidesentretiens
      * @var string
      *
      * @ORM\Column(name="specialite", type="string", length=30, nullable=false)
+     *  @Assert\NotBlank
      */
     #[ORM\Column(length:30, nullable:false)]
     private ?string $specialite = null;
 
-    /*
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="support", type="string", length=200, nullable=false)
-     */
-    #[ORM\Column(length:200, nullable:false)]
-    private ?string $support = null;
+   /*
+   /**  
+    * @var string
+    *
+    * @ORM\Column(name="support", type="string", length=200, nullable=false)
+    *  @Assert\NotBlank
+    */
+   #[ORM\Column(length:200, nullable:false)]
+   private ?string $support = null;
 
+        
     /*
     /**
      * @var float
@@ -56,7 +69,7 @@ class Guidesentretiens
      * @ORM\Column(name="note", type="float", precision=10, scale=0, nullable=false)
      */
     #[ORM\Column(nullable:false)]
-    private ?float $note = null;
+    private float $note = 0.0;
 
     /*
     /**
@@ -65,7 +78,7 @@ class Guidesentretiens
      * @ORM\Column(name="nombreNotes", type="integer", nullable=false)
      */
     #[ORM\Column(nullable:false)]
-    private ?int $nombrenotes = null;
+    private int $nombrenotes = 0;
 
     public function getIdguide(): ?int
     {
@@ -96,17 +109,7 @@ class Guidesentretiens
         return $this;
     }
 
-    public function getSupport(): ?string
-    {
-        return $this->support;
-    }
-
-    public function setSupport(string $support): self
-    {
-        $this->support = $support;
-
-        return $this;
-    }
+   
 
     public function getNote(): ?float
     {
@@ -132,5 +135,15 @@ class Guidesentretiens
         return $this;
     }
 
+    public function getSupport(): ?string
+    {
+        return $this->support;
+    }
+
+    public function setSupport(?string $support): void
+    {
+        $this->support = $support;
+    }
+   
 
 }

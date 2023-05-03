@@ -12,27 +12,13 @@ parameters:
     twilio_number: '+16315199904'
     twilio_auth_token: '98a01aca5e09416f7b60980479ffd038'
     twilio_account_sid: 'AC330a9eebe30cd2d3b993bbcc07995093'
+    images_directory: '%kernel.project_dir%/public/uploads/Guidesentretiens'
 
 services:
-    App\EventListener\SessionListener:
-        arguments:
-            $session: '@session'
-        tags:
-            - { name: kernel.event_listener, event: kernel.request }
-   # Symfony\Component\HttpFoundation\Session\SessionInterface:
-    #    public: true
-    #App\Service\TwilioSmsService:
-     #   arguments:
-      #      $twilioSid: '%env(TWILIO_SID)%'
-      #      $twilioAuthToken: '%env(TWILIO_AUTH_TOKEN)%'
-      #s      $twilioFromNumber: '%env(TWILIO_FROM_NUMBER)%'
-           # $twilioClient: '@Twilio\Rest\Client'
-    
-    
- #   App\Service\TwilioSmsService:
-  #      arguments:
-  #          $client: '@Twilio\Rest\Client'
-  #          $fromNumber: '%twilio_from_number%'
+
+    Knp\Snappy\Pdf:
+        arguments: [ '%knp_snappy.pdf.binary%' ]
+
     # default configuration for services in *this* file
     App\Service\MailService:
         arguments:
@@ -49,6 +35,7 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

@@ -1,0 +1,73 @@
+{% extends 'baseback.html.twig' %}
+
+{% block title %}Guidesentretiens{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header"><h1 class="text-center">Guide d'entretien</h1></div>
+                    <div class="card-body">
+                     {% for message in app.flashes('success') %}
+                            <div class="alert alert-success">{{ message }}</div>
+                        {% endfor %}
+                        <div class="row">
+                            <div class="col-md-4 text-center">
+                              
+                               
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <div class="my-3">
+                                    <h4 class="mb-0">Note</h4>
+                                    <span>{{ guidesentretien.note }}</span>
+                                </div>
+                               
+                                <div class="my-3">
+                                    <h4 class="mb-0">Nombre de notes</h4>
+                                    <span>{{ guidesentretien.nombrenotes }}</span>
+                                </div>
+                                <form method="post" action="{{ path('app_guidesentretiens_set_note', {'idguide': guidesentretien.idguide}) }}">
+                                    <div class="form-group">
+                                      
+                                </form>
+
+                            </div>
+                            </div>
+                            </div>
+                            <div class="col-md-4">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <th>Domaine</th>
+                                            <td>{{ guidesentretien.domaine }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Spécialité</th>
+                                            <td>{{ guidesentretien.specialite }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Support</th>
+                                          
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                 <div class="my-3">
+    <iframe width="700" height="438" src="https://www.youtube.com/embed/AYtAhi-YE9U" title="Entretien d'embauche: bien se présenter en 2 minutes (exemple)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</div>
+                                <div class="text-right">
+                                    <a href="{{ path('app_guidesentretiens_edit', {'idguide': guidesentretien.idguide}) }}" class="btn btn-success">Modifier</a>
+                                    {{ include('guidesentretiens/_delete_form.html.twig') }}
+                                    <a href="{{ path('app_guidesentretiens_index') }}" class="btn btn-primary">Retour à la liste</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+   
+{% endblock %}
+

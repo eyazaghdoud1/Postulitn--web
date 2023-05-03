@@ -1,0 +1,53 @@
+{% extends 'baseback.html.twig' %}
+
+{% block title %}Comptes index{% endblock %}
+
+{% block content %}
+    <h1>Comptes index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Idcompte</th>
+                <th>Photo</th>
+                <th>Diplome</th>
+                <th>Datediplome</th>
+                <th>Entreprise</th>
+                
+                <th>Experience</th>
+                <th>Domaine</th>
+                <th>Poste</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for compte in comptes %}
+                <tr>
+                    <td>{{ compte.idcompte }}</td>
+                    <td>{{ compte.photo }}</td>
+                    <td>{{ compte.diplome }}</td>
+                    <td>{{ compte.datediplome ? compte.datediplome|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ compte.entreprise }}</td>
+                    <td>{{ compte.experience }}</td>
+                    <td>{{ compte.domaine }}</td>
+                    <td>{{ compte.poste }}</td>
+                    <td>
+                        <div style="display: flex;">
+                            <a href="{{ path('app_comptes_show3', {'idcompte': compte.idcompte}) }}" class="btn btn-primary">afficher</a>
+
+                        </td>
+                        <td>
+                            <a href="{{ path('app_comptes_delete', {'idcompte': compte.idcompte}) }}" class="btn btn-primary">désactiver</a>
+                        </div>
+                        </td>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="9">No records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
