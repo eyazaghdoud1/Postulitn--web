@@ -1,8 +1,5 @@
 {% extends 'baseback.html.twig' %}
 
-{% block title %}Liste secteurs
-{% endblock %}
-
 {% block content %}
 	<style>
 		.example-wrapper {
@@ -16,38 +13,37 @@
 			padding: 2px 6px;
 		}
 	</style>
-	<div class="container">
+	<div class="container px-5 my-5 px-5 " style="min-height: 70% !important;">
 
-		<div class="row">
-			<table class="table table-striped">
-				<thead>
+		<h1>
+			Secteurs
+		</h1>
+		<a class="btn btn-primary mb-3" href="{{path('addSecteurs')}}">Ajouter un secteur</a>
+
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Secteurs</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for s in secteurs %}
 					<tr>
-						<th>Secteurs</th>
+						<td>{{s.description}}</td>
+
+						<td>
+							<a class="btn btn-danger" href="{{path('deleteSecteurs',{'id':s.idSecteur})}}">Supprimer</a>
+						</td>
+						<td>
+							<a class="btn btn-primary" href="{{path('updateSecteurs',{'id':s.idSecteur})}}">Modifier</a>
+						</td>
+
+
 					</tr>
-				</thead>
-				<tbody>
-					{% for s in secteurs %}
-						<tr>
-							<td>{{s.description}}</td>
-
-							<td>
-								<a class="btn btn-danger" href="{{path('deleteSecteurs',{'id':s.idSecteur})}}">Supprimer</a>
-							</td>
-							<td>
-								<a class="btn btn-primary" href="{{path('updateSecteurs',{'id':s.idSecteur})}}">Modifier</a>
-							</td>
+					{%endfor%}</tbody>
+			</tbody>
+		</table>
 
 
-						</tr>
-						{%endfor%}</tbody>
-				</tbody>
-			</table>
-		</div>
-		<div class="row">
-			<div class="col-md-4">
-				<a class="btn btn-primary" href="{{path('addSecteurs')}}">Ajouter un secteur</a>
-
-			</div>
-		</div>
 	</div>
 {% endblock %}

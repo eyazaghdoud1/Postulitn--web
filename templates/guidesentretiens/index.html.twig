@@ -3,7 +3,11 @@
 {% block title %}Guidesentretiens index{% endblock %}
 
 {% block content %}
-    <h1>Guidesentretiens index</h1>
+<div class="container px-5 my-5 px-5 ">
+
+		   <h1>Les guides d'entretiens</h1>
+		<a class="btn btn-primary mb-3" href="{{path('app_guidesentretiens_new')}}">Ajouter un guide</a>
+ 
 
     <table class="table">
         <thead>
@@ -41,8 +45,7 @@
             {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_guidesentretiens_new') }}" class="btn btn-primary" style="margin-top: 1em;">Créer nouveau</a>
+</div>
 
     
 {% endblock %}

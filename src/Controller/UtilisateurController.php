@@ -32,7 +32,7 @@ class UtilisateurController extends AbstractController
     #[Route('/UsersListe', name: 'readUsers')]
     public function listeUsers(UtilisateurRepository $repo, SessionInterface $session): Response
     {
-        if ($session->get('user')) {
+        if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()=='Administrateur'){
             $utilisateurs = $repo->findAll();
             return $this->render('utilisateur/index.html.twig', [
                 'users' => $utilisateurs
@@ -75,7 +75,7 @@ class UtilisateurController extends AbstractController
     #[Route('/deleteUser/{id}', name: 'deleteUser')]
     public function deleteUser($id, ManagerRegistry $doctrine, FlashyNotifier $flashy, SessionInterface $session)
     {
-        if ($session->get('user')) {
+        if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()=='Administrateur'){
             $utilisateur = $doctrine->getRepository(Utilisateur::class)->find($id);
             $em = $doctrine->getManager();
             $em->remove($utilisateur);
@@ -91,7 +91,7 @@ class UtilisateurController extends AbstractController
     public function updateUser(Request $req, $id, ManagerRegistry $doctrine, FlashyNotifier $flashy, SessionInterface $session)
     {
 
-        if ($session->get('user')) {
+        if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()=='Administrateur'){
             $utilisateur = $doctrine->getRepository(Utilisateur::class)->find($id);
             $form = $this->createForm(UtilisateurType::class, $utilisateur);
             $form->handleRequest($req);
@@ -137,7 +137,7 @@ class UtilisateurController extends AbstractController
                     return $this->redirectToRoute('readUsers');
                 } else if ($session->get('user')->getIdrole()->getDescription() == 'Recruteur') {
 
-                    return $this->redirectToRoute('readCandidatures');
+                    return $this->redirectToRoute('app_offre');
                 }
                 else {
                     return $this->redirectToRoute('candidaturesCand');
@@ -160,7 +160,7 @@ class UtilisateurController extends AbstractController
         $session->remove('user');
 
         // Rediriger l'utilisateur vers la page d'accueil après la déconnexion
-        $response = new RedirectResponse('/connexion');
+        $response = new RedirectResponse('/postuli.tn');
         return $response;
     }
 }

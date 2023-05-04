@@ -18,13 +18,14 @@ use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-
+use Twilio\Rest\Proxy\V1\Service\SessionInstance;
 
 class CandidaturesController extends AbstractController
 {
     #[Route('/candidatures', name: 'app_candidatures')]
     public function index(): Response
     {
+
         return $this->render('candidatures/index.html.twig', [
             'controller_name' => 'CandidaturesController',
         ]);
@@ -35,19 +36,19 @@ class CandidaturesController extends AbstractController
      * add candidature method
      */
 
-    #[Route('/postuler', name: 'addCandidature')]
+    #[Route('/postuler/{idoffre}', name: 'addCandidature')]
     public function addCandidature(
         ManagerRegistry $doctrine,
         Request $request,
         UtilisateurRepository $userRepo,
         OffreRepository $offreRepo,
         FlashyNotifier $flashy,
-         SessionInterface $session
+         SessionInterface $session, $idoffre
     ): Response {
-      
+       if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()=='Candidat'){
         $candidature = new Candidatures();
-        $candidature->setIdcandidat($userRepo->find(55));
-        $candidature->setIdoffre($offreRepo->find(53));
+        $candidature->setIdcandidat($userRepo->find($session->get('user')->getId()));
+        $candidature->setIdoffre($offreRepo->find($idoffre));
         $candidature->setEtat('Enregistrée');
         $candidature->setDate(new \DateTime('now'));
         $form = $this->createForm(CandidaturesType::class, $candidature);
@@ -63,12 +64,14 @@ class CandidaturesController extends AbstractController
             $em->persist($candidature); //insert info
             $em->flush(); //update
             // notif
-            $flashy->success('Candidature au poste '.$offreRepo->find(53)->getPoste() .' enregistrée avec succès');
+            $flashy->success('Candidature au poste '.$offreRepo->find($idoffre)->getPoste() .' enregistrée avec succès');
             
             return $this->redirectToRoute('candidaturesCand');
         } else
             return $this->renderForm('candidatures/addCandidature.html.twig', ['form' => $form]);
-    
+        } else {
+            return $this->render('notfound.html.twig');
+        }
     }
 
     /**
@@ -76,37 +79,43 @@ class CandidaturesController extends AbstractController
      * read candidatures method for recruteur
      */
 
-    //#[Route('/offre/{idoffre}/candidatures', name: 'readCandidatures')]
-    #[Route('/candidatures', name: 'readCandidatures')]
-    public function read( CandidaturesRepository $Rep, OffreRepository $offreRepo, /*$idoffre*/): Response
+    #[Route('/offre/{idoffre}/candidatures', name: 'readCandidatures')]
+    //#[Route('/candidatures', name: 'readCandidatures')]
+    public function read( CandidaturesRepository $Rep, OffreRepository $offreRepo, $idoffre,
+    SessionInterface $session): Response
     {
-        $idoffre = 53; 
+        if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()!='Administrateur'){
+        $idoffre = $idoffre; 
         $count = $Rep->numberOfCandidaturePerOffre($idoffre);
         $list = $Rep->findByOffre($idoffre);
        
        
         return $this->render('candidatures/readCandidatures.html.twig', [
             'list' => $list, 'count' => $count, 'offre'=> $offreRepo->find($idoffre)
-        ]);
+        ]);} else {
+            return $this->render('notfound.html.twig');
+        }
           
     }
 
     //#[Route('/offre/{idoffre}/candidatures/{etat}', name: 'readCandidatures')]
-    #[Route('/candidatures/{etat}', name: 'filterCandidatures')]
+    #[Route('/candidatures/{idoffre}/{etat}', name: 'filterCandidatures')]
     public function filterRec(CandidaturesRepository $Rep, OffreRepository $offreRepo, 
-    UtilisateurRepository $userRepo, $etat, /*$idoffre*/): Response
+    UtilisateurRepository $userRepo, $etat, $idoffre, SessionInterface $session): Response
     {
-        
+        if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()=='Recruteur'){
         // setting the selected offre
        //$offre = $offreRepo->find($idoffre));
-        $offre = $offreRepo->find(53);
+        $offre = $offreRepo->find($idoffre);
 
-        $count = $Rep->numberOfCandidaturePerOffre(53);
+        $count = $Rep->numberOfCandidaturePerOffre($idoffre);
         $list = $Rep->filterByEtatOffre($offre,$etat);
         
         return $this->render('candidatures/readCandidatures.html.twig', [
             'list' => $list, 'count' => $count, 'offre'=> $offre
-        ]);
+        ]);} else {
+            return $this->render('notfound.html.twig');
+        }
     }
    
 
@@ -116,18 +125,21 @@ class CandidaturesController extends AbstractController
      */
 
     #[Route('/candidaturesCand', name: 'candidaturesCand')]
-    public function readC(CandidaturesRepository $Rep, UtilisateurRepository $userRepo): Response
+    public function readC(CandidaturesRepository $Rep, UtilisateurRepository $userRepo, SessionInterface $session): Response
     {
+        if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()=='Candidat'){
        // $list = $Rep->findAll();
-       $list = $Rep->findByCandidat(68);
-       $count = $Rep->numberOfCandidaturePerCandidat(68);
+       $list = $Rep->findByCandidat($session->get('user')->getId());
+       $count = $Rep->numberOfCandidaturePerCandidat($session->get('user')->getId());
         
         
         return $this->render('candidatures/readCandidaturesCandidat.html.twig', [
             'list' => $list,
             'count' => $count,
-            'candidat' => $userRepo->find(68)
-        ]);
+            'candidat' => $userRepo->find($session->get('user')->getId())
+        ]);} else {
+            return $this->render('notfound.html.twig');
+        }
     }
 
     /**
@@ -136,12 +148,13 @@ class CandidaturesController extends AbstractController
      */
 
     #[Route('/candidaturesCand/{etat}', name: 'filterCandidaturesCand')]
-    public function filterCand(CandidaturesRepository $Rep, UtilisateurRepository $userRepo,  $etat): Response
+    public function filterCand(CandidaturesRepository $Rep, UtilisateurRepository $userRepo,  $etat, SessionInterface $session): Response
     {
         //$list = $Rep->findAll();
         //setting the connected candidat
-        $candidat = $userRepo->find(68);
-        $count = $Rep->numberOfCandidaturePerCandidat(68);
+        if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()=='Candidat'){
+        $candidat = $userRepo->find($session->get('user')->getId());
+        $count = $Rep->numberOfCandidaturePerCandidat($session->get('user')->getId());
        
         $list = $Rep->filterByEtatCandidat($candidat, $etat);
         
@@ -150,7 +163,9 @@ class CandidaturesController extends AbstractController
             'list' => $list,
             'count' => $count,
             'candidat' => $candidat
-        ]);
+        ]);} else {
+            return $this->render('notfound.html.twig');
+        }
     }
 
     /**
@@ -160,8 +175,10 @@ class CandidaturesController extends AbstractController
 
     #[Route('/updateCandidature/{id}', name: 'updateCandidature')]
     public function  updateCandidature(ManagerRegistry $doctrine, Request $request,  $id,
-     CandidaturesRepository $repo, FlashyNotifier $flashy,): Response
+     CandidaturesRepository $repo, FlashyNotifier $flashy, SessionInterface $session): Response
     {
+        if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()=='Candidat' &&
+        $session->get('user')->getId()== $repo->find($id)->getId()){
         $candidature = $repo->find($id);
         if ($request->isMethod('POST')) {
             $filecv = $request->files->get('cv');
@@ -181,7 +198,9 @@ class CandidaturesController extends AbstractController
         return $this->render('candidatures/updateCandidature.html.twig', [
          /*   'cv' => $candidature->getCv(),
             'lettre' => $candidature->getLettre()*/
-        ]);
+        ]);} else {
+            return $this->render('notfound.html.twig');
+        }
     }
     /**
      * 
@@ -191,9 +210,10 @@ class CandidaturesController extends AbstractController
     public function delete(CandidaturesRepository $repo,
      ManagerRegistry $doctrine, $id,
       FlashyNotifier $flashy,
-      MailerService $mailer): Response
+      MailerService $mailer, SessionInterface $session): Response
     {
-
+        if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()=='Candidat' &&
+        $session->get('user')->getId()== $repo->find($id)->getId()){
         $objet = $repo->find($id);
         /* setting the email data */
         $to = $objet->getIdoffre()->getIdrecruteur()->getEmail();
@@ -207,7 +227,9 @@ class CandidaturesController extends AbstractController
         $flashy->info('Votre candidature au poste ' . $objet->getIdoffre()->getPoste().  ' a été supprimée');
        /* sending an email to the candidat */
        $mailer->sendEmail($to, $subject, $content);
-        return $this->redirectToRoute('candidaturesCand');
+        return $this->redirectToRoute('candidaturesCand');} else {
+            return $this->render('notfound.html.twig');
+        }
     }
     /**
      * 
@@ -219,8 +241,9 @@ class CandidaturesController extends AbstractController
      ManagerRegistry $doctrine,
       FlashyNotifier $flashy,
        $id,
-       MailerService $mailer)
+       MailerService $mailer, SessionInterface $session)
     {
+        if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()=='Recruteur'){
         $c->setEtat('Validée');
         $em = $doctrine->getManager();
         $em->persist($c);
@@ -235,7 +258,9 @@ class CandidaturesController extends AbstractController
        /* sending an email to the candidat */
        $mailer->sendEmail($to, $subject, $content);
 
-        return $this->redirectToRoute('detailsCandidatureRecruteur', ['id' => $id]);
+        return $this->redirectToRoute('detailsCandidatureRecruteur', ['id' => $id]);} else {
+            return $this->render('notfound.html.twig');
+        }
     }
 
     /**
@@ -246,8 +271,9 @@ class CandidaturesController extends AbstractController
     public function accepter($id, CandidaturesRepository $candRepo,
      ManagerRegistry $doctrine,
       FlashyNotifier $flashy,
-      MailerService $mailer)
+      MailerService $mailer, SessionInterface $session)
     {
+        if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()=='Recruteur'){
         $c = $candRepo->find($id);
         $c->setEtat('Acceptée');
         $em = $doctrine->getManager();
@@ -262,7 +288,9 @@ class CandidaturesController extends AbstractController
          'de l\'entreprise '.$c->getIdoffre()->getEntreprise().' a été acceptée.' ;
         /* sending an email to the candidat */
         $mailer->sendEmail($to, $subject, $content);
-        return $this->redirectToRoute('readCandidatures');
+        return $this->redirectToRoute('readCandidatures');} else {
+            return $this->render('notfound.html.twig');
+        }
     }
     /**
      * 
@@ -272,8 +300,9 @@ class CandidaturesController extends AbstractController
     public function refuser(CandidaturesRepository $candRepo, $id,
       ManagerRegistry $doctrine,
        FlashyNotifier $flashy, 
-       MailerService $mailer)
+       MailerService $mailer, SessionInterface $session)
     {
+        if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()=='Recruteur'){
         $c = $candRepo->find($id);
         $c->setEtat('Refusée');
         $em = $doctrine->getManager();
@@ -287,7 +316,9 @@ class CandidaturesController extends AbstractController
         'de l\'entreprise '.$c->getIdoffre()->getEntreprise().' a été refusée. Bonne continuation.' ;
        /* sending an email to the candidat */
        $mailer->sendEmail($to, $subject, $content);
-        return $this->redirectToRoute('readCandidatures');
+        return $this->redirectToRoute('readCandidatures');} else {
+            return $this->render('notfound.html.twig');
+        }
     }
 
     /**
@@ -295,14 +326,18 @@ class CandidaturesController extends AbstractController
      * details candidatures pour recruteur
      */
     #[Route('/detailsCandidatureRecruteur/{id}', name: 'detailsCandidatureRecruteur')]
-    public function readDetailsRecruteur(CandidaturesRepository $Rep, EntretiensRepository $entRep, $id): Response
+    public function readDetailsRecruteur(CandidaturesRepository $Rep, EntretiensRepository $entRep, $id,
+    SessionInterface $session): Response
     {
+        if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()=='Recruteur'){
         $c = $Rep->find($id);
         $entretiens = $entRep->filterByCandidature($id);
         return $this->render('candidatures/detailsCandidatureRecruteur.html.twig', [
             'c' => $c, 
             'entretiens'=>$entretiens
-        ]);
+        ]);} else {
+            return $this->render('notfound.html.twig');
+        }
     }
 
     /**
@@ -310,13 +345,17 @@ class CandidaturesController extends AbstractController
      * details candidatures pour candidat
      */
     #[Route('/detailsCandidatureCandidat/{id}', name: 'detailsCandidatureCandidat')]
-    public function readDetailsCandidat(CandidaturesRepository $Rep, EntretiensRepository $entRep, $id): Response
+    public function readDetailsCandidat(CandidaturesRepository $Rep, EntretiensRepository $entRep, $id,
+    SessionInterface $session): Response
     {
+        if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()=='Candidat'){
         $c = $Rep->find($id);
         $entretiens = $entRep->filterByCandidature($id);
         return $this->render('candidatures/detailsCandidatureCandidat.html.twig', [
             'c' => $c, 
             'entretiens'=>$entretiens
-        ]);
+        ]);} else {
+            return $this->render('notfound.html.twig');
+        }
     }
 }

@@ -38,6 +38,14 @@ class ProjetsRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function findByRespo($idrespo)
+    {
+        $querybuilder = $this -> createQueryBuilder('p')
+        
+        ->where('p.idresponsable= :id')
+        ->setParameter('id',$idrespo);
+        return $query = $querybuilder->getQuery()->getResult();
+    }
 
 //    /**
 //     * @return Projets[] Returns an array of Projets objects

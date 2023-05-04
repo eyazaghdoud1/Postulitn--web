@@ -18,6 +18,7 @@ use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\Entity;
 use MercurySeries\FlashyBundle\FlashyNotifier;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Twilio\Rest\Client;
 use Twilio\Rest\Content;
 
@@ -32,8 +33,9 @@ class EntretiensController extends AbstractController
     }
     /** calendar */
     #[Route('/entretiens/calendar/{role}/{id}', name: 'entretiensCalendar')]
-    public function calendar(EntretiensRepository $repo, $role, $id): Response
+    public function calendar(EntretiensRepository $repo, $role, $id, SessionInterface $session): Response
     {
+        if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()!='Administrateur'){
         if ($role == 'recruteur') {
             $events  = $repo->findByRecruteur($id);
         } else {
@@ -50,7 +52,7 @@ class EntretiensController extends AbstractController
                 //'description' => $event->getType(), 
 
 
-            ];
+            ]; 
         }
 
         $data = json_encode($entretiens);
@@ -58,11 +60,15 @@ class EntretiensController extends AbstractController
             return $this->render('entretiens/calendarcandidat.html.twig', array_merge(compact('data'), ['id' => $id, 'role' => $role]));
         } else
             return $this->render('entretiens/calendar.html.twig', array_merge(compact('data'), ['id' => $id, 'role' => $role]));
-    }
+    } else {
+        return $this->render('notfound.html.twig');
+    }}
 
     #[Route('/calendar/edit/{id}', name: 'editCalendar', methods: 'PUT')]
-    public function editCalendar(EntretiensRepository $repo, ManagerRegistry $doctrine,  $id, Request $request, MailerService $mailer)
+    public function editCalendar(EntretiensRepository $repo, ManagerRegistry $doctrine,  $id, Request $request,
+    SessionInterface $session, MailerService $mailer)
     {
+        if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()=='Recruteur'){
         $donnees = json_decode($request->getContent());
         $entretien = $repo->find($id);
         if (
@@ -118,7 +124,9 @@ class EntretiensController extends AbstractController
 
         return $this->render(
             'entretiens/calendar.html.twig'
-        );
+        ); } else {
+            return $this->render('notfound.html.twig');
+        }
     }
     /************** */
 
@@ -127,28 +135,32 @@ class EntretiensController extends AbstractController
      * read entretiens method
      */
     #[Route('/entretiens', name: 'readEntretiens')]
-    public function readEntretiens(EntretiensRepository $Rep, UtilisateurRepository $userRepo): Response
+    public function readEntretiens(EntretiensRepository $Rep, UtilisateurRepository $userRepo, SessionInterface $session): Response
     {
+        if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()=='Recruteur'){
         // $list = $Rep->findAll();
-        $list = $Rep->findByRecruteur(69);
-        $count = $Rep->numberOfEntretiensPerRecruteur(69);
+        $list = $Rep->findByRecruteur($session->get('user')->getId());
+        $count = $Rep->numberOfEntretiensPerRecruteur($session->get('user')->getId());
         return $this->render('entretiens/readEntretiens.html.twig', [
             'list' => $list,
             'count' => $count,
-            'recruteur' => $userRepo->find(69)
-        ]);
+            'recruteur' => $userRepo->find($session->get('user')->getId())
+        ]);} else {
+            return $this->render('notfound.html.twig');
+        }
     }
     /**
      * 
      * filter for recruteur
      */
     #[Route('/entretiens/{filter}', name: 'filterEntretiensRec')]
-    public function filterRec(EntretiensRepository $Rep, UtilisateurRepository $userRepo, $filter): Response
+    public function filterRec(EntretiensRepository $Rep, UtilisateurRepository $userRepo, 
+    $filter, SessionInterface $session): Response
     {
-
-        $list = $Rep->findByRecruteur(69);
-        $rec = $userRepo->find(69);
-        $count = $Rep->numberOfEntretiensPerRecruteur(69);
+        if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()=='Recruteur'){
+        $list = $Rep->findByRecruteur($session->get('user')->getId());
+        $rec = $userRepo->find($session->get('user')->getId());
+        $count = $Rep->numberOfEntretiensPerRecruteur($session->get('user')->getId());
 
         if ($filter == 'today') {
             $list = $Rep->filterByDateForRecruteur($rec, new \DateTime('now'));
@@ -178,24 +190,29 @@ class EntretiensController extends AbstractController
         return $this->render('entretiens/readEntretiens.html.twig', [
             'list' => $list,
             'count' => $count,
-            'recruteur' => $userRepo->find(69)
-        ]);
+            'recruteur' => $userRepo->find($session->get('user')->getId())
+        ]);} else {
+            return $this->render('notfound.html.twig');
+        }
     }
     /**
      * 
      * read entretiens method for candidat
      */
     #[Route('/entretiensCandidat', name: 'entretiensCandidat')]
-    public function readEntretiensCandidat(EntretiensRepository $Rep, UtilisateurRepository $userRepo): Response
+    public function readEntretiensCandidat(EntretiensRepository $Rep, UtilisateurRepository $userRepo, SessionInterface $session): Response
     {
+        if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()=='Candidat'){
         // $list = $Rep->findAll();
-        $list = $Rep->findByCandidat(68);
-        $count = $Rep->numberOfEntretiensPerCandidat(68);
+        $list = $Rep->findByCandidat($session->get('user')->getId());
+        $count = $Rep->numberOfEntretiensPerCandidat($session->get('user')->getId());
         return $this->render('entretiens/readEntretiensCandidat.html.twig', [
             'list' => $list,
             'count' => $count,
-            'candidat' => $userRepo->find(68)
-        ]);
+            'candidat' => $userRepo->find($session->get('user')->getId())
+        ]);} else {
+            return $this->render('notfound.html.twig');
+        }
     }
     /**
      * 
@@ -203,12 +220,13 @@ class EntretiensController extends AbstractController
      */
 
     #[Route('/entretiensCandidat/{filter}', name: 'filterEntretiensCand')]
-    public function filterCand(EntretiensRepository $Rep, UtilisateurRepository $userRepo, $filter): Response
+    public function filterCand(EntretiensRepository $Rep, UtilisateurRepository $userRepo, 
+    $filter, SessionInterface $session): Response
     {
-
-        $list = $Rep->findByCandidat(68);
-        $cand = $userRepo->find(68);
-        $count = $Rep->numberOfEntretiensPerRecruteur(69);
+        if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()=='Candidat'){
+        $list = $Rep->findByCandidat($session->get('user')->getId());
+        $cand = $userRepo->find($session->get('user')->getId());
+        $count = $Rep->numberOfEntretiensPerRecruteur($session->get('user')->getId());
 
         if ($filter == 'today') {
             $list = $Rep->filterByDateForCandidat($cand, new \DateTime('now'));
@@ -238,8 +256,10 @@ class EntretiensController extends AbstractController
         return $this->render('entretiens/readEntretiensCandidat.html.twig', [
             'list' => $list,
             'count' => $count,
-            'candidat' => $userRepo->find(68)
-        ]);
+            'candidat' => $userRepo->find($session->get('user')->getId())
+        ]);} else {
+            return $this->render('notfound.html.twig');
+        }
     }
 
     /**
@@ -247,12 +267,15 @@ class EntretiensController extends AbstractController
      * read one entretien method
      */
     #[Route('/entretien/{id}', name: 'readEntretien')]
-    public function readEntretien(EntretiensRepository $Rep, $id): Response
+    public function readEntretien(EntretiensRepository $Rep, $id, SessionInterface $session): Response
     {
+        if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()!='Administrateur'){
         $entretien = $Rep->find($id);
         return $this->render('entretiens/readEntretiens.html.twig', [
             'e' => $entretien
-        ]);
+        ]);} else {
+            return $this->render('notfound.html.twig');
+        }
     }
 
     /**
@@ -267,8 +290,9 @@ class EntretiensController extends AbstractController
         CandidaturesRepository $candRepo,
         $id,
         FlashyNotifier $flashy,
-        MailerService $mailer
+        MailerService $mailer, SessionInterface $session
     ): Response {
+        if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()=='Recruteur'){
         $entretien = new Entretiens();
 
         //$entretien->setIdcandidature($candRepo->find(29));
@@ -324,7 +348,9 @@ class EntretiensController extends AbstractController
             $flashy->success('Le candidat a été notifié de l\'ajout de l\'entretien.');
             return $this->redirectToRoute('readEntretiens');
         } else
-            return $this->render('entretiens/add.html.twig', ['form' => $form->createView()]);
+            return $this->render('entretiens/add.html.twig', ['form' => $form->createView()]);} else {
+                return $this->render('notfound.html.twig');
+            }
     }
 
     /**
@@ -339,9 +365,9 @@ class EntretiensController extends AbstractController
         $id,
         EntretiensRepository $repo,
         FlashyNotifier $flashy,
-        MailerService $mailer
+        MailerService $mailer, SessionInterface $session
     ): Response {
-
+        if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()=='Recruteur'){
         $entretien = $repo->find($id);
 
         $entretien->setHeure($entretien->getHeure() . ':00');
@@ -395,6 +421,9 @@ class EntretiensController extends AbstractController
         }
 
         return $this->render('entretiens/update.html.twig', ['form' => $form->createView(), 'e' => $entretien]);
+    } else {
+        return $this->render('notfound.html.twig');
+    }
     }
 
     /**
@@ -407,10 +436,11 @@ class EntretiensController extends AbstractController
         ManagerRegistry $doctrine,
         $id,
         FlashyNotifier $flashy,
-        MailerService $mailer
+        MailerService $mailer, 
+        SessionInterface $session
     ): Response {
 
-
+        if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()=='Recruteur'){
         $objet = $repo->find($id);
         /* setting the email data */
         $to = $objet->getIdcandidature()->getIdcandidat()->getEmail();
@@ -450,5 +480,8 @@ class EntretiensController extends AbstractController
         $flashy->warning('Le candidat a été notifié de l\'annulation de son entretien.');
 
         return $this->redirectToRoute('readEntretiens');
+    }else {
+        return $this->render('notfound.html.twig');
     }
+}
 }

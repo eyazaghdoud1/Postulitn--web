@@ -19,6 +19,8 @@ use App\Repository\UtilisateurRepository;
 use App\Repository\Commentairesepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormTypeInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Twilio\Rest\Proxy\V1\Service\SessionInstance;
 
 class ProjetsController extends AbstractController
 {
@@ -31,8 +33,12 @@ class ProjetsController extends AbstractController
     }
 
     #[Route('/ListeProjetsCurrentUser', name: 'app_projets3')]
-    public function ListeProjetsCurrent(ProjetsRepository $repo): Response
-    {   $projets = $repo->findAll();
+    public function ListeProjetsCurrent(ProjetsRepository $repo, SessionInterface $session): Response
+    {    $projets = $repo->findByRespo($session->get('user')->getId());
+        return $this->render('/projets/index.html.twig', [
+            'controller_name' => 'ProjetsController',
+            'projets'=>$projets
+        ]);
 
 /*
         $queryBuilder = $repo->createQueryBuilder('c') 
@@ -41,18 +47,18 @@ class ProjetsController extends AbstractController
         ->getQuery();
 
     $commentaires = $queryBuilder->getResult();*/
-        return $this->render('/projets/ListeProjetCurrent.html.twig', [
+    /*    return $this->render('/projets/ListeProjetCurrent.html.twig', [
             'controller_name' => 'ProjetsController',
             'projets'=>$projets
-        ]);
+        ]);*/
     }
 
 
 
 
     #[Route('/ListeProjetsRecruteur', name: 'app_projets2')]
-    public function ListeProjets(ProjetsRepository $repo): Response
-    {   $projets = $repo->findAll();
+    public function ListeProjets(ProjetsRepository $repo, SessionInterface $session): Response
+    {   $projets = $repo->findByRespo($session->get('user')->getId());
         return $this->render('/projets/index.html.twig', [
             'controller_name' => 'ProjetsController',
             'projets'=>$projets
@@ -92,9 +98,9 @@ class ProjetsController extends AbstractController
 #[Route('/addProjets', name: 'addProjets')]
 //#[Route('/addProjets/{iduser}', name: 'addProjets')]
 public function addProjets(Request $req,ManagerRegistry $doctrine,OffreRepository $offrerepo,
-TypeoffreRepository $torepo, UtilisateurRepository $userrepo)
+TypeoffreRepository $torepo, UtilisateurRepository $userrepo, SessionInterface $session)
 {
-    $projets = new Projets();
+    $projets = new Projets();   
     //$idresponsabla = setIdResponsable(id);
     $form = $this->createForm(ProjetsType::class,$projets);
     $form->handleRequest($req);
@@ -102,14 +108,14 @@ TypeoffreRepository $torepo, UtilisateurRepository $userrepo)
 
         
         $em=$doctrine->getManager();
-        $idResponsable = $em->getRepository(Utilisateur::class)->find(67); 
+        $idResponsable = $em->getRepository(Utilisateur::class)->find($session->get('user')->getId()); 
         $projets->setIdResponsable($idResponsable);
         $em->persist($projets);
         $em->flush();
        
         $this->addoffre($doctrine, $em->getRepository(Projets::class)->find($projets->getIdprojet()),
          $torepo, $userrepo,
-         67);
+         $session->get('user')->getId());
     
     
     return $this->redirectToRoute('app_projets2');
@@ -131,7 +137,7 @@ $offre->setDateexpiration($p->getDatefin());
 $offre->setLieu('none ');
 $offre->setEntreprise('none');
 $offre->setSpecialite('none');
-$offre->setIdtype($torepo->find(4)); 
+$offre->setIdtype($torepo->findOneByDesc('ProjetFreelance')); 
 $offre->setIdrecruteur($userrepo->find($id));
  // Persist and flush the entity
 $em1=$doctrine1->getManager();
@@ -167,19 +173,23 @@ $em1->flush();
     }
    
     #[Route('/detailsProjetCandidat/{id}', name: 'detailsProjetCandidat')]
-    public function readDetailsCandidat(ProjetsRepository $Rep, $id): Response
+    public function readDetailsCandidat(ProjetsRepository $Rep, $id, OffreRepository $offrerepo): Response
     {
         $p = $Rep->find($id);
+        $o = $offrerepo->findOneByName($p->getNom());
         return $this->render('projets/ProjetsDetailsCandidat.html.twig', [
-            'p' => $p, 
+            'p' => $p,
+            'o'=> $o, 
         ]);
     }
     #[Route('/detailsProjetRecruteur/{id}', name: 'detailsProjetRecruteur')]
-    public function readDetailsRecruteur(ProjetsRepository $Rep, $id): Response
+    public function readDetailsRecruteur(ProjetsRepository $Rep, $id, OffreRepository $offrerepo): Response
     {
         $p = $Rep->find($id);
+ $o = $offrerepo->findOneByName($p->getNom());
         return $this->render('projets/ProjetsDetailsRecruteur.html.twig', [
             'p' => $p, 
+            'o'=> $o,
         ]);
     }
 

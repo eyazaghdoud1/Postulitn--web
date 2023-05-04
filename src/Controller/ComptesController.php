@@ -14,6 +14,8 @@ use Knp\Snappy\Pdf;
 use App\Entity\Utilisateur;
 use App\Repository\UtilisateurRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Twilio\Rest\Proxy\V1\Service\SessionInstance;
 
 #[Route('/comptes')]
 class ComptesController extends AbstractController
@@ -76,21 +78,25 @@ class ComptesController extends AbstractController
         ]);
     } */
 
-    #[Route('/showCompteConnecte/{idcompte}', name: 'app_comptes_show1', methods: ['GET'])]
-    public function show($idcompte, ComptesRepository $crepo): Response
+    #[Route('/showCompteConnecte', name: 'app_comptes_show1', methods: ['GET'])]
+    public function show(UtilisateurRepository $userrepo, ComptesRepository $crepo, SessionInterface $session): Response
     {
-        $c= $crepo->find($idcompte);
+
+       // $userrepo->find($session->get('user')->getId());
+
+        $c= $crepo->findByUser($session->get('user')->getId());
         return $this->render('comptes/show.html.twig', [
             'compte' => $c,
         ]);
     }
 
     
-    #[Route('/showCompteRec/{idcompte}', name: 'app_comptes_show2', methods: ['GET'])]
-    public function showR(Comptes $compte): Response
+    #[Route('/showCompteRec/{idcandidat}', name: 'app_comptes_show2', methods: ['GET'])]
+    public function showR(ComptesRepository $crepo, $idcandidat): Response
     {
+        $c= $crepo->findByUser($idcandidat);
         return $this->render('comptes/ShowCompteRec.html.twig', [
-            'compte' => $compte,
+            'compte' => $c,
         ]);
     }
 

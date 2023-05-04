@@ -81,7 +81,8 @@ public function listeCommentaires(CommentairesRepository $repo, $idprojet): Resp
 
 
 #[Route('/addCommentaireP/{idProjet}', name: 'app_commentairesP')]
-public function addCommentaireP(Request $request, EntityManagerInterface $entityManager, ProjetsRepository $projetRepository, SessionInterface $session,CommentairesRepository $repo, $idProjet): Response
+public function addCommentaireP(Request $request, EntityManagerInterface $entityManager,
+ ProjetsRepository $projetRepository, SessionInterface $session,CommentairesRepository $repo, $idProjet): Response
 {
     $queryBuilder = $repo->createQueryBuilder('c')  
     ->join('c.iduser', 'u')
@@ -93,7 +94,7 @@ $commentaires = $queryBuilder->getResult();
     $commentaire = new Commentaires();
     $projet = $projetRepository->find($idProjet);
     $commentaire->setIdprojet($projet);
-    $utilisateur = $entityManager->getRepository(Utilisateur::class)->find(67);
+    $utilisateur = $entityManager->getRepository(Utilisateur::class)->find($session->get('user')->getId());
     $commentaire->setIduser($utilisateur);
     $form = $this->createForm(CommentairesType::class, $commentaire);
     $form->handleRequest($request);

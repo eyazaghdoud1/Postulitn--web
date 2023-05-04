@@ -26,7 +26,7 @@ class RolesController extends AbstractController
     #[Route('/RolesListe', name: 'readRoles')]
     public function listeRoles(RoleRepository $repo, SessionInterface $session): Response
     {
-        if ($session->get('user')) {
+        if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()=='Administrateur') {
             $roles = $repo->findAll();
             return $this->render('roles/index.html.twig', [
                 'roles' => $roles
@@ -39,7 +39,7 @@ class RolesController extends AbstractController
     #[Route('/addRole', name: 'addRole')]
     public function addRole(ManagerRegistry $doctrine, Request $req, SessionInterface $session)
     {
-        if ($session->get('user')) {
+        if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()=='Administrateur') {
             $role = new Role();
             $form = $this->createForm(RoleType::class, $role);
             $form->handleRequest($req);
@@ -62,7 +62,7 @@ class RolesController extends AbstractController
     #[Route('/deleteRole/{idRole}', name: 'deleteRole')]
     public function deleteRole($idRole, ManagerRegistry $doctrine, SessionInterface $session)
     {
-        if ($session->get('user')) {
+        if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()=='Administrateur') {
             $role = $doctrine->getRepository(Role::class)->find($idRole);
             $em = $doctrine->getManager();
             $em->remove($role);
@@ -77,7 +77,7 @@ class RolesController extends AbstractController
     public function updateRole(Request $req, $idRole, ManagerRegistry $doctrine, SessionInterface $session)
     {
 
-        if ($session->get('user')) {
+        if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()=='Administrateur') {
             $role = $doctrine->getRepository(Role::class)->find($idRole);
             $form = $this->createForm(RoleType::class, $role);
             $form->handleRequest($req);

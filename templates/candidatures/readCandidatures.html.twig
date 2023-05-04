@@ -51,13 +51,13 @@
 			<h6 style="display: flex; margin-left: 10px !important;"> Filtrer</h6>
 			<div class="newcol" >
 				    
-					<a class="btn filterbtn"  href="{{path('filterCandidatures', {'etat':'Validée'})}}">Validées</a>
-					<a class="btn filterbtn"  href="{{path('filterCandidatures', {'etat':'Enregistrée'})}}">Entregistrées</a>
-					<a class="btn filterbtn"  href="{{path('filterCandidatures', {'etat':'Acceptée'})}}">Acceptées</a>
-					<a class="btn filterbtn"  href="{{path('filterCandidatures', {'etat':'Refusée'})}}">Refusées</a>
-					<a class="btn filterbtn"  href="{{path('filterCandidatures', {'etat':'EntretienPres'})}}">Phase d'entretien présentiel</a>
-					<a class="btn filterbtn"  href="{{path('filterCandidatures', {'etat':'EntretienTel'})}}">Phase d'entretien téléphone</a>
-					<a class="btn filterbtn"  href="{{path('readCandidatures')}}">Toutes les candidatures</a>
+					<a class="btn filterbtn"  href="{{path('filterCandidatures', {'idoffre': offre.idoffre,'etat':'Validée'})}}">Validées</a>
+					<a class="btn filterbtn"  href="{{path('filterCandidatures', {'idoffre': offre.idoffre, 'etat':'Enregistrée'})}}">Enregistrées</a>
+					<a class="btn filterbtn"  href="{{path('filterCandidatures', {'idoffre': offre.idoffre,'etat':'Acceptée'})}}">Acceptées</a>
+					<a class="btn filterbtn"  href="{{path('filterCandidatures', {'idoffre': offre.idoffre,'etat':'Refusée'})}}">Refusées</a>
+					<a class="btn filterbtn"  href="{{path('filterCandidatures', {'idoffre': offre.idoffre,'etat':'EntretienPres'})}}">Phase d'entretien présentiel</a>
+					<a class="btn filterbtn"  href="{{path('filterCandidatures', {'idoffre': offre.idoffre,'etat':'EntretienTel'})}}">Phase d'entretien téléphone</a>
+					<a class="btn filterbtn"  href="{{path('readCandidatures', {'idoffre': offre.idoffre})}}">Toutes les candidatures</a>
 				
 			</div>
 		</div>

@@ -38,6 +38,14 @@ class ComptesRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function findByUser($iduser)
+    {
+        $querybuilder = $this -> createQueryBuilder('c')
+        ->join('c.idutilisateur', 'u') 
+        ->where('c.idutilisateur= :id')
+        ->setParameter('id',$iduser);
+        return $query = $querybuilder->getQuery()->getSingleResult();
+    }
 
 //    /**
 //     * @return Comptes[] Returns an array of Comptes objects

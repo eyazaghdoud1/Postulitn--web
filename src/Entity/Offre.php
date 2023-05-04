@@ -6,6 +6,10 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\OffreRepository;
 use DateTime;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
+use Symfony\Component\Validator\Constraints\Expression;
+
+
 
 #[ORM\Entity(repositoryClass: OffreRepository::class)]
 class Offre
@@ -70,10 +74,17 @@ class Offre
 
     /*
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dateExpiration", type="date", nullable=false)
-     */
+ * @var \DateTime
+ *
+ * @ORM\Column(name="dateExpiration", type="date", nullable=false)
+ * @Assert\Date
+ *@Expression(
+ *     "value.getDateexpiration() >= new \DateTime('today')",
+ *     message="La date d'expiration doit être supérieure ou égale à aujourd'hui."
+ * )
+ */
+
+
     #[ORM\Column(nullable:false)]
     private ?DateTime $dateexpiration;
 

@@ -38,6 +38,10 @@ class TypeoffreRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function findOneByDesc($desc): ?Typeoffre
+    {
+        return $this->findOneBy(['description' => $desc]);
+    }
 
 //    /**
 //     * @return Typeoffre[] Returns an array of Typeoffre objects
