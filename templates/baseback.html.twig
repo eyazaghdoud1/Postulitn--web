@@ -11,7 +11,7 @@
 
     <title>{% block title %}Postuli.tn - Gestion {%endblock%}</title>
     <!-- Logoicon-->
-    <link rel="icon" type="image/x-icon" href="assets/logo.ico"" />
+    <link rel="icon" type="image/x-icon" href="{{asset('assets/logo.ico')}}" />
 
     <!-- Custom fonts for this template-->
     
@@ -21,7 +21,7 @@
 
     <!-- Custom styles for this template-->
     {%block css%}
-    <link href="css/back.css" rel="stylesheet">
+    <link href="{{asset('css/back.css')}}" rel="stylesheet">
     {% endblock %}
 
 </head>
@@ -126,7 +126,7 @@
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                       <a href="#!"><img class="logocss" src="assets/img/logowhite.png"></a>
+                       <a href="#!"><img class="logocss" src="{{asset('assets/img/logowhite.png')}}"></a>
                     </li>
                        
                         <div class="topbar-divider d-none d-sm-block"></div>

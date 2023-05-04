@@ -62,7 +62,8 @@ class UtilisateurController extends AbstractController
             $em = $doctrine->getManager();
             $em->persist($user);
             $em->flush();
-            return $this->redirectToRoute('login');
+           // return $this->redirectToRoute('login');
+           return $this->redirectToRoute('app_comptes_new', ['iduser' => $user->getId(), 'role'=> $user->getRoles()]);
         }
 
         return $this->render('utilisateur/signup.html.twig', [
@@ -134,9 +135,12 @@ class UtilisateurController extends AbstractController
                 if ($session->get('user')->getIdrole()->getDescription() == 'Administrateur') {
 
                     return $this->redirectToRoute('readUsers');
-                } else {
+                } else if ($session->get('user')->getIdrole()->getDescription() == 'Recruteur') {
 
-                    return $this->redirectToRoute('app_candidatures');
+                    return $this->redirectToRoute('readCandidatures');
+                }
+                else {
+                    return $this->redirectToRoute('candidaturesCand');
                 }
             } else {
 

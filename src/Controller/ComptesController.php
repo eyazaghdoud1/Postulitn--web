@@ -12,7 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Snappy\Pdf;
 use App\Entity\Utilisateur;
-
+use App\Repository\UtilisateurRepository;
+use Doctrine\Persistence\ManagerRegistry;
 
 #[Route('/comptes')]
 class ComptesController extends AbstractController
@@ -25,8 +26,39 @@ class ComptesController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_comptes_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ComptesRepository $comptesRepository): Response
+    #[Route('/new/{iduser}/{role}', name: 'app_comptes_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, ComptesRepository $comptesRepository,
+     $iduser, UtilisateurRepository $userRepo, ManagerRegistry $doctrine,
+     $role): Response
+    {
+        $compte = new Comptes();
+        $user = $userRepo->find($iduser);
+        $compte->setIdutilisateur($user);
+      
+        $form = $this->createForm(Comptes1Type::class, $compte);
+        $form->handleRequest($request);
+      
+        if ($form->isSubmitted() && $form->isValid()) {
+         
+            $em=$doctrine->getManager();
+            $em->persist($compte);
+            $em->flush();
+         
+    
+            //$comptesRepository->save($compte, true);
+
+            return $this->redirectToRoute('login', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('comptes/new.html.twig', [
+            'compte' => $compte,
+            'form' => $form,
+            'role' => $role
+        ]);
+    }
+
+  /*  #[Route('/new', name: 'app_comptes_new', methods: ['GET', 'POST'])]
+    public function new1(Request $request, ComptesRepository $comptesRepository): Response
     {
         $compte = new Comptes();
         $form = $this->createForm(Comptes1Type::class, $compte);
@@ -42,9 +74,9 @@ class ComptesController extends AbstractController
             'compte' => $compte,
             'form' => $form,
         ]);
-    }
+    } */
 
-    #[Route('/showCompteCand/{idcompte}', name: 'app_comptes_show1', methods: ['GET'])]
+    #[Route('/showCompteConnecte/{idcompte}', name: 'app_comptes_show1', methods: ['GET'])]
     public function show($idcompte, ComptesRepository $crepo): Response
     {
         $c= $crepo->find($idcompte);

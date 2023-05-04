@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Guidesentretiens;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -63,6 +64,7 @@ class GuidesentretiensType extends AbstractType
 
             //->add('note')
             //->add('nombrenotes')
+            ->add('save', SubmitType::class)
         ;
     }
 

@@ -41,7 +41,8 @@ class CandidaturesController extends AbstractController
         Request $request,
         UtilisateurRepository $userRepo,
         OffreRepository $offreRepo,
-        FlashyNotifier $flashy, SessionInterface $session
+        FlashyNotifier $flashy,
+         SessionInterface $session
     ): Response {
       
         $candidature = new Candidatures();
