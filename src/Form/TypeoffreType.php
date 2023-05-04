@@ -8,6 +8,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
+
 
 class TypeoffreType extends AbstractType
 {
@@ -15,6 +18,7 @@ class TypeoffreType extends AbstractType
     {
         $builder
             ->add('description')
+            ->add('save', SubmitType::class);
         ;
     }
 

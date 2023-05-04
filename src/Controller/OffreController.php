@@ -40,7 +40,7 @@ class OffreController extends AbstractController
     $criteria = [];
 
     if ($form->isSubmitted() && $form->isValid()) {
-        $searchData->page = $request->query->getInt('page', 1);
+        //$searchData->page = $request->query->getInt('page', 1);
 
         // Vérifier quel critère est rempli et ajouter au tableau de critères en conséquence
         if (!empty($searchData->poste)) {
@@ -80,7 +80,7 @@ class OffreController extends AbstractController
         $criteria = [];
     
         if ($form->isSubmitted() && $form->isValid()) {
-            $searchData->page = $request->query->getInt('page', 1);
+            //$searchData->page = $request->query->getInt('page', 1);
     
             // Vérifier quel critère est rempli et ajouter au tableau de critères en conséquence
             if (!empty($searchData->poste)) {
@@ -170,7 +170,6 @@ public function create(ManagerRegistry $doctrine, Request $request,FlashyNotifie
         $offre = $repo->find($id);
 
         $form = $this->createForm(OffreType::class, $offre);
-        $form->add('Modifier', SubmitType::class);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

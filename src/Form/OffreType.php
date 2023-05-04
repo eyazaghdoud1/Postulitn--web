@@ -69,7 +69,8 @@ class OffreType extends AbstractType
             ->add('idrecruteur', EntityType::class, [
                 'class' => Utilisateur::class,
                 'choice_label' => 'id'
-                ])
+            ])
+            ->add('save', SubmitType::class);
         ;
     }
 

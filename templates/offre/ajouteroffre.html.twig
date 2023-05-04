@@ -1,48 +1,77 @@
 {% extends 'basefront.html.twig' %}
-
-{% block title %}{% endblock %}
-
-{% block bodysection %}
-
-<link rel="stylesheet" href="{{ asset('css/form.css') }}">
-
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header text-center">
-                    <h4>Créer une offre</h4>
-                </div>
-                <div class="card-body">
-                    {{ form_start(form) }}
-                    <div class="mb-3">
-                        {{ form_row(form.poste) }}
-                    </div>
-                    <div class="mb-3">
-                        {{ form_row(form.description) }}
-                    </div>
-                    <div class="mb-3">
-                        {{ form_row(form.lieu) }}
-                    </div>
-                    <div class="mb-3">
-                        {{ form_row(form.entreprise) }}
-                    </div>
-                    <div class="mb-3">
-                        {{ form_row(form.specialite) }}
-                    </div>
-                    <div class="mb-3">
-                        {{ form_row(form.dateexpiration) }}
-                    </div>
-
-                    <div class="form-group">
-                        {{ form_rest(form) }}
-                        <button type="submit" class="btn btn-primary">Créer l'offre</button>
-                    </div>
-                    {{ form_end(form) }}
-                </div>
-            </div>
-        </div>
-    </div>
+{%block bodysection%}
+<div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
+		<img class="logocss" src="{{asset('assets/img/logowhite.png')}}" style="width: 70px; height:80px"></i>
 </div>
-<button onclick="location.href='{{ path('app_offre') }}'" style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">Retour</button>
-{% endblock %}
+
+<h2 class="fw-bolder">Ajouter une offre</h2>
+<p class="lead mb-0">Veuillez remplir ces champs</p></div>
+<div class="row gx-5 justify-content-center">
+<div class="col-lg-6">
+
+<div >
+
+
+{#<div class="row gx-5 justify-content-center">
+<div class="col-lg-6">#}
+
+
+
+{{ form_start(form,{'attr': {'novalidate': 'novalidate', 'id': 'contactForm'}} ) }}
+
+ 
+<label class="fw-bolder">
+		{{ form_label (form.poste, 'Poste')  }}
+	</label>
+	{{ form_widget (form.poste, {'attr': {'class': "form-control mb-3"}})  }}
+	<p class="lead mb-0 invalid-form-field">{{ form_errors (form.poste)  }}</p>
+ 
+
+ <label class="fw-bolder">
+		{{ form_label (form.description, 'Description')  }}
+	</label>
+	{{ form_widget (form.description, {'attr': {'class': "form-control mb-3"}})  }}
+	<p class="lead mb-0 invalid-form-field">{{ form_errors (form.description)  }}</p>
+
+<label class="fw-bolder">
+		{{ form_label (form.lieu, 'Lieu')  }}
+	</label>
+	{{ form_widget (form.lieu, {'attr': {'class': "form-control mb-3"}})  }}
+	<p class="lead mb-0 invalid-form-field">{{ form_errors (form.lieu)  }}</p>
+
+<label class="fw-bolder">
+		{{ form_label (form.entreprise, 'Entreprise')  }}
+	</label>
+	{{ form_widget (form.entreprise, {'attr': {'class': "form-control mb-3"}})  }}
+	<p class="lead mb-0 invalid-form-field">{{ form_errors (form.entreprise)  }}</p>
+
+<label class="fw-bolder">
+		{{ form_label (form.specialite, 'Spécialité')  }}
+	</label>
+	{{ form_widget (form.specialite, {'attr': {'class': "form-control mb-3"}})  }}
+	<p class="lead mb-0 invalid-form-field">{{ form_errors (form.specialite)  }}</p>
+
+<label class="fw-bolder">
+		{{ form_label (form.dateexpiration, 'Date d\'expiration')  }}
+	</label>
+	{{ form_widget (form.dateexpiration, {'attr': {'class': "form-control mb-3"}})  }}
+	<p class="lead mb-0 invalid-form-field">{{ form_errors (form.dateexpiration)  }}</p>
+
+<label class="fw-bolder">
+		{{ form_label (form.idtype, 'Type d\'offre')  }}
+	</label>
+	{{ form_widget (form.idtype, {'attr': {'class': "form-control mb-3"}})  }}
+	<p class="lead mb-0 invalid-form-field">{{ form_errors (form.idtype)  }}</p>
+
+<label class="fw-bolder">
+		{{ form_label (form.idrecruteur, 'Identifiant Recruteur')  }}
+	</label>
+	{{ form_widget (form.idrecruteur, {'attr': {'class': "form-control mb-3"}})  }}
+	<p class="lead mb-0 invalid-form-field">{{ form_errors (form.idrecruteur)  }}</p>
+
+
+ <div class="d-grid"><button class="btn btn-primary btn-lg>{{ form_widget (form.save)  }} </button></div>
+{{ form_end (form)  }}
+</div>
+</div>
+{%endblock%}

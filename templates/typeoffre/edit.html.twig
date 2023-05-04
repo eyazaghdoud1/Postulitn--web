@@ -1,29 +1,47 @@
 {% extends 'baseback.html.twig' %}
-{% block title %}Modifier un type d'offre{% endblock %}
+{% block css %}
+	<link href="{{asset('css/back.css')}}" rel="stylesheet">
+	<link href="{{asset('css/form.css')}}" rel="stylesheet">
 
-{% block content %}
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header text-center">
-                        <h4>Modifier un type d'offre</h4>
-                    </div>
-                    <div class="card-body">
-                        {{ include('typeoffre/_form.html.twig', {'button_label': 'Update'}) }}
-                    </div>
-                    <div class="card-footer text-right">
-                        <a class="btn btn-success btn-sm" href="{{ path('app_typeoffre_index') }}">Retour à la liste</a>
+{% endblock %}
+{%block content%}
+<div class="container px-5 my-5 px-5">
+	<div class="text-center mb-5">
+		<div class="feature rounded-3 mb-3">
+			<img class="logocss" src="{{asset('assets/img/logo1.png')}}" style="width: 70px; height:80px">
+		</div>
+		<h2 class="fw-bolder">Ajouter un type d'offre</h2>
+
+	</div>
+
+	<div class="row gx-5 justify-content-center">
+
+		<div class="col-lg-6">
+
+			<div>
+
+				{{ form_start(form,{'attr': {'novalidate': 'novalidate', 'id': 'contactForm'}}
+				) }}
+
+
+				<label class="fw-bolder">
+					{{ form_label (form.description, 'Description')  }}
+				</label>
+				{{ form_widget (form.description, {'attr': {'class': "form-control mb-3"}})  }}
+				<p class="lead mb-0 invalid-form-field">{{ form_errors (form.description)  }}</p>
+
+			</div>
+
+			<div class="d-grid">{{ form_widget (form.save, {'attr': {'class': "btn btn-primary btn-lg"}})  }}
+			</div>
+
+			{{ form_end (form)  }}
+<div class="card-footer text-right">
+                        <a class="btn btn-sm" href="{{ path('app_typeoffre_index') }}">Retour à la liste</a>
                         {{ include('typeoffre/_delete_form.html.twig') }}
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-{% endblock %}
+            
+		</div>
+	</div>
 
-
-
-
-
-
+</div></div>{%endblock%}
