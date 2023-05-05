@@ -13,6 +13,8 @@ use App\Repository\UtilisateurRepository;
 use App\Form\UtilisateurType;
 use Doctrine\ORM\EntityManagerInterface;
 use MercurySeries\FlashyBundle\FlashyNotifier;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -113,11 +115,13 @@ class UtilisateurController extends AbstractController
 
 
     #[Route('/connexion', name: 'login')]
-    public function login(UtilisateurRepository $userRepository, UserPasswordEncoderInterface $userPasswordEncoder,  Request $req, EntityManagerInterface $entityManager, SessionInterface $session): Response
+    public function login(UtilisateurRepository $userRepository, UserPasswordEncoderInterface $userPasswordEncoder,  
+    Request $req, EntityManagerInterface $entityManager, SessionInterface $session, KernelBrowser $client): Response
     {
         $error = '';
         $form = $this->createForm(LoginFormType::class);
         $form->handleRequest($req);
+        $session = $client->getContainer()->get('session');
         if ($form->isSubmitted() && $form->isValid()) {
 
             // Récupérer l'utilisateur correspondant à l'e-mail entré
@@ -128,9 +132,11 @@ class UtilisateurController extends AbstractController
             // Vérifier si le mot de passe entré correspond à celui stocké dans la base de données
             if ($user != null && $userPasswordEncoder->isPasswordValid($user, $plainPassword)) {
                 $session->set('user', $user);
+                $session->save();
                 /* dump($this->session->get('user', $user));
                 die();*/
-
+                $cookie = new Cookie($session->getName(), $session->getId());
+                $client->getCookieJar()->set($cookie);
                 // Authentification réussie, redirection
                 if ($session->get('user')->getIdrole()->getDescription() == 'Administrateur') {
 

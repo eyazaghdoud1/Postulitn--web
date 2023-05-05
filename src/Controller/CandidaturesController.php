@@ -288,7 +288,7 @@ class CandidaturesController extends AbstractController
          'de l\'entreprise '.$c->getIdoffre()->getEntreprise().' a été acceptée.' ;
         /* sending an email to the candidat */
         $mailer->sendEmail($to, $subject, $content);
-        return $this->redirectToRoute('readCandidatures');} else {
+        return $this->redirectToRoute('readCandidatures', ['idoffre'=>$c->getIdoffre()->getIdoffre()]);} else {
             return $this->render('notfound.html.twig');
         }
     }
@@ -316,7 +316,7 @@ class CandidaturesController extends AbstractController
         'de l\'entreprise '.$c->getIdoffre()->getEntreprise().' a été refusée. Bonne continuation.' ;
        /* sending an email to the candidat */
        $mailer->sendEmail($to, $subject, $content);
-        return $this->redirectToRoute('readCandidatures');} else {
+        return $this->redirectToRoute('readCandidatures', ['idoffre'=>$c->getIdoffre()->getIdoffre()]);} else {
             return $this->render('notfound.html.twig');
         }
     }

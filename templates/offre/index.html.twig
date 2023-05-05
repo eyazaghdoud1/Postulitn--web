@@ -1,6 +1,8 @@
 {% extends 'basefront.html.twig' %}
 
 {% block bodysection %}
+{# {{dump(app.session.get('user'))}}#} 
+
   <div class="container my-5">
     <h1 class="text-center mb-5">Vos offres d'emploi</h1>
     <div class="row justify-content-center">
@@ -51,5 +53,5 @@
     </div>
       <button class="btn btn-primary" onclick="location.href='{{ path('createOffre') }}'">Créer une offre</button>
 
-  </div>
+  </div> 
 {% endblock %}

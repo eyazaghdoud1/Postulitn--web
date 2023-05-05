@@ -6,7 +6,7 @@
 parameters:
     # account for user 
     twilio.sid: 'AC8ad7d8957eb7bf1ff6618633e704aeec'
-    twilio.auth_token: '1f0f1a97ad26f033ea2e4483f7fb78c5'
+    twilio.auth_token: '1c12d1c5addd3b83ffed61684f51ec34'
     twilio.from_number: '+16203496432'
     # account for candidatures and entretiens
     twilio_number: '+16315199904'
