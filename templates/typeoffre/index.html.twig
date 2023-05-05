@@ -2,23 +2,25 @@
 
 
                 {%  block content%}
+                <div class="container px-5 my-5 px-5 " style="min-height: 70% !important;" >
 <h1>
 	Les types d'offre d'offres
 </h1>
 <a class="btn btn-primary mb-3"  href="{{path('app_typeoffre_new')}}">Ajouter un type</a> 
 
-   <table class="table">
+   <table class="table table-striped">
     <thead>
         <tr>
-            <th>Idtype</th>
+          
             <th>Description</th>
             <th>Actions</th>
+            
         </tr>
     </thead>
     <tbody>
         {% for typeoffre in typeoffres %}
         <tr>
-            <td>{{ typeoffre.idtype }}</td>
+          
             <td>{{ typeoffre.description }}</td>
             <td>
                 <button class="btn btn-primary btn-sm" onclick="window.location='{{ path('app_typeoffre_show', {'idtype': typeoffre.idtype}) }}'">Voir</button>
@@ -32,4 +34,5 @@
         {% endfor %}
     </tbody>
 </table>
+</div>
 {% endblock %}

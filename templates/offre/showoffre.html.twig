@@ -1,35 +1,97 @@
 {% extends 'basefront.html.twig' %}
 
 {% block bodysection %}
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 mx-auto" style="margin-top:90px">
-                <div class="card my-5">
-                    <div class="card-header">
-                        <h2 class="text-center">{{ offre.poste }}</h2>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">{{ offre.description }}</p>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item"><strong>Lieu: </strong>{{ offre.lieu }}</li>
-                            <li class="list-group-item"><strong>Entreprise: </strong>{{ offre.entreprise }}</li>
-                            <li class="list-group-item"><strong>Type Offre: </strong>{{ offre.typeDescription }}</li>
-                            <li class="list-group-item"><strong>Spécialité: </strong>{{ offre.specialite }}</li>
-                            <li class="list-group-item"><strong>Date d'expiration: </strong>{{ offre.dateexpiration|date('Y-m-d') }}</li>
-                        </ul>
-                    </div>
-                    <div class="card-footer text-right">
-                        <a href="{{ path('readCandidatures', {'idoffre': offre.idoffre} ) }}" class="btn btn-sm btn-outline-secondary">Candidatures</a>
+<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+	<link
+	href="{{asset('css/commentaire.css')}}" rel="stylesheet"/>
 
 
-                        <a href="{{ path('delete', {'id': offre.idoffre}) }}" class="btn btn-danger btn-sm mr-2">Supprimer</a>
-                        <a href="{{ path('update', {'id': offre.idoffre}) }}" class="btn btn-primary btn-sm">Modifier</a>
-                        <a href="{{ path('app_offre') }}" class="btn btn-secondary btn-sm ml-2">Retour</a>
-                    </div>
-                </div>
-            </div>
-            
-          
-        </div>
+	<!-- Logoicon-->
+	<link
+	rel="icon" type="image/x-icon" href="{{asset('assets/logo.ico')}}"/>
+	<!-- Bootstrap icons-->
+	<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet"/>
+	<!-- Core theme CSS (includes Bootstrap)-->
+	<div
+		style="margin-top: -50px !important; width: 90% !important; margin-left: auto !important;margin-right: auto !important;">
+		<!-- job post company Start -->
+		<div  style="margin-top: -50 px !important; 90% !important">
+			<div >
+				<div
+					>
+					<!-- Left Content -->
+					<div 
+						>
+						<!-- job single -->
+						<div class="single-job-items mb-50" >
+							<div class="job-items" >
+								
+								<div class="job-tittle" style="margin-top: -50 px !important;">
+									<h2 class="text-center" style="margin-bottom:20px ;">{{ offre.poste }}</h2> 
+									<ul>
+										<li>
+											<strong>Lieu:
+											</strong>
+											{{ offre.lieu }}</li>
+										<li>
+											<strong>Entreprise:
+											</strong>
+											{{ offre.entreprise }}</li>
+										<li>
+											<strong>Type Offre:
+											</strong>
+											{{ offre.typeDescription }}</li>
+										<li>
+											<strong>Spécialité:
+											</strong>
+											{{ offre.specialite }}</li>
+										<li  style="margin-bottom:20px ;">
+											<strong>Date d'expiration:
+											</strong>
+											{{ offre.dateexpiration|date('Y-m-d') }}</li>
+									</div>
+                                    <a style="margin-left: auto !important;margin-right: auto !important; margin-top: 10px !important;" href="{{ path('readCandidatures', {'idoffre': offre.idoffre} ) }}"  class="btn1 btn-primary btn-sm shadow-none">Voir les candidatures</a>
+
+                                   
+								</div>
+							</div>
+						</div>
+                     <hr style="height: 2px !important; background-color:black !important; margin-top: -50px !important;">
+
+						<div class="job-post-details">
+							<div
+								class="post-details1 mb-50">
+								<!-- Small Section Tittle -->
+								<div class="small-section-tittle">
+									<h4>Description de l'offre</h4>
+
+									<p>
+										{{offre.description}}
+									</p>
+								</div>
+							</div>
+						</div>
+						<div >
+                       
+                        <hr style="height: 2px !important; background-color:black !important;">
+                        <div class="small-section-tittle">
+									<h4>Gérer votre offre </h4>
+
+							<a href="{{ path('delete', {'id': offre.idoffre}) }}" class="btn btn-danger btn-sm mr-2">Supprimer</a>
+							<a href="{{ path('update', {'id': offre.idoffre}) }}" class="btn btn-primary btn-sm">Modifier</a>
+							<a href="{{ path('app_offre') }}" class="btn btn-secondary btn-sm ml-2">Retour</a>
+                            </div>
+                      <hr style="height: 3px !important; background-color:black !important;">
+						
+                        </div>
+
+					</div>
+				</div>
+
+
+			</div>
+		</div>
     </div>
+
 {% endblock %}

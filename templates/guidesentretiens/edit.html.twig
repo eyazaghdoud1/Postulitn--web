@@ -1,12 +1,22 @@
 {% extends 'baseback.html.twig' %}
 
-{% block title %}Edit Guidesentretiens{% endblock %}
 
 {% block content %}
-<div class="container">
-<h1>Modifier guide d'entretien</h1>
+<link href="{{asset('css/form.css')}}" rel="stylesheet">
+<div class="container px-5 my-5 px-5" style="height:70% !important;">
+	<div class="row gx-5 justify-content-center">
+    
+		<div class="col-lg-6">
+<div class="text-center mb-5">
+		<div class="feature rounded-3 mb-3">
+			<img class="logocss" src="{{asset('assets/img/logo1.png')}}" style="width: 70px; height:80px">
+		</div>
+		<h2 class="fw-bolder">Modifier guide d'entretien</h2>
 
-<div class="col-md-6">
+	</div>
+
+
+<div >
 {{ form_start(form) }}
 {{ form_errors(form) }}
 
@@ -30,7 +40,10 @@
             <a href="{{ path('app_guidesentretiens_index') }}" class="btn btn-default">annuler</a>
             {{ form_end(form) }}
         </div>
-    </div>
+
+		</div>
+	</div>
+	</div>
 
     
 </div>

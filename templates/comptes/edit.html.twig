@@ -9,11 +9,36 @@
 		<img class="logocss" src="{{asset('assets/img/logowhite.png')}}" style="width: 70px; height:80px"></i>
 </div>
 
- <h2 class="fw-bolder">Créer votre compte !</h2>
+ <h2 class="fw-bolder">Modifier votre compte !</h2>
 <p class="lead mb-0">Veuillez remplir ces champs</p></div>
         <div class="row justify-content-center my-5">
             <div class="col-md-6">
-        {{ form_start(form) }}
+
+            <form id="contactForm" method="post" enctype="multipart/form-data">
+<label class="fw-bolder" >Photo</label>
+    <input class="form-control" type="file" name="photo" id="photo"   oninvalid="this.setCustomValidity('Veuillez sélectionner votre photo.')" oninput="this.setCustomValidity('')"><br><br>
+<label class="fw-bolder" >Diplome</label>
+<input class="form-control" type="text" name="dimplome" id="diplome" required oninvalid="this.setCustomValidity('Veuillez remplir ce champ.')" oninput="this.setCustomValidity('')"><br><br>
+
+<label class="fw-bolder" >Date diplome</label>
+<input class="form-control" type="date" name="datedimplome" id="datediplome" required oninvalid="this.setCustomValidity('Veuillez remplir ce champ.')" oninput="this.setCustomValidity('')"><br><br>
+
+<label class="fw-bolder" >Entreprise</label>
+<input class="form-control" type="text" name="entreprise" id="entreprise" required oninvalid="this.setCustomValidity('Veuillez remplir ce champ.')" oninput="this.setCustomValidity('')"><br><br>
+
+<label class="fw-bolder" >Expérience</label>
+<input class="form-control" type="text" name="experience" id="experience" required oninvalid="this.setCustomValidity('Veuillez remplir ce champ.')" oninput="this.setCustomValidity('')"><br><br>
+
+<label class="fw-bolder" >Domaine</label>
+<input class="form-control" type="text" name="domaine" id="domaine" required oninvalid="this.setCustomValidity('Veuillez remplir ce champ.')" oninput="this.setCustomValidity('')"><br><br>
+
+<label class="fw-bolder" >Poste</label>
+<input class="form-control" type="text" name="poste" id="poste" required oninvalid="this.setCustomValidity('Veuillez remplir ce champ.')" oninput="this.setCustomValidity('')"><br><br>
+
+
+    <div class="d-grid"><button class="btn btn-primary btn-lg" type="submit">Enregistrer</button></div>
+</form>
+     {#   {{ form_start(form) }}
             {{ form_errors(form) }}
 
             <div class="form-group">
@@ -53,7 +78,7 @@
 
            <div class="d-grid"><button class="btn btn-primary btn-lg>{{ form_widget (form.save)  }} </button></div>
             <a href="{{ path('app_comptes_show1', {'idcompte': compte.idcompte}) }}" class="btn btn-default">Annuler</a>
-        {{ form_end(form) }}
+        {{ form_end(form) }}#}
     </div>
 </div>
 

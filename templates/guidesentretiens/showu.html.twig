@@ -1,107 +1,129 @@
 {% extends 'basefront.html.twig' %}
 
 
-
 {% block bodysection %}
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div >
-                    <div class="card-header"><h1 class="text-center">Guide d'entretien</h1></div>
-                    <div class="card-body">
-                 
-                        <div class="row">
-                            <div class="col-md-4 text-center">
-                              
-                               
-                            </div>
-                            <div class="col-md-4 text-center">
-                                <div class="my-3">
-                                    <h4 class="mb-0">Moyenne des  notes</h4>
-                                    <span>{{ guidesentretien.note }}</span>
-                                </div>
-                               
-                                <div class="my-3">
-                                    <h4 class="mb-0">Nombre de notes</h4>
-                                    <span>{{ guidesentretien.nombrenotes }}</span>
-                                </div>
-                                <form method="post" action="{{ path('app_guidesentretiens_set_note', {'idguide': guidesentretien.idguide}) }}">
-                                    <div class="form-group">
-                                        <label for="number-input">Choose a number between 0 and 10:</label>
-                                        <input type="number" id="number-input" name="note" min="0" max="10" class="form-control">
-                                    </div>
-                                    <div class="card-footer">
-                                        <button class="btn btn-primary" type="submit">Enregistrer</button>
-                                    </div>
-                                </form>
-
-                            </div>
-                            </div>
-                            <div class="col-md-4">
-                                <table class="table">
-                                    <tbody>
-                                        <tr>
-                                            <th>Domaine</th>
-                                            <td>{{ guidesentretien.domaine }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Spécialité</th>
-                                            <td>{{ guidesentretien.specialite }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Support</th>
-                                          
-
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                 <div class="my-3">
-    <iframe width="700" height="438" src="https://www.youtube.com/embed/AYtAhi-YE9U" title="Entretien d'embauche: bien se présenter en 2 minutes (exemple)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-</div>
-                                <div class="text-right">
-                                    <a href="{{ path('app_guidesentretiens_indexu') }}" class="btn btn-primary">Retour à la liste</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+	<div class="container px-5 my-5 px-5" style="margin-top: -50px !important;">
+		<div class="text-center ">
+			<div class="feature rounded-3 mb-3 bg-dark">
+				<img class="logocss" src="{{asset('assets/img/logowhite.png')}}" style="width: 70px; height:80px">
+			</div>
+		</div>	
     </div>
-    
-    <style>
-        .card-header h1 {
-            font-size: 2rem;
-        }
-        .card-body {
-            background-color: #f8f9fa;
-        }
-        .card-body img {
-            max-width: 100px;
-            margin-bottom: 1rem;
-        }
-        .card-body h4 {
-            font-size: 1.2rem;
-            margin-bottom: .5rem;
-        }
-        .card-body span {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #007bff;
-        }
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        th, td {
-            text-align: left;
-            padding: 8px;
-        }
-        tr:nth-child(even){background-color: #f2f2f2}
-        th {
-            background-color: #4CAF50;
-            color: black;
-        }
-        </style>
-{% endblock %}
+		<div class="container" style ="margin-top: -50px !important;">
+			<div class="row justify-content-center">
+				<div class="col-md-8">
+					<div>
+						<div class="card-header">
+							<table class="table">
+<h1 class="text-center text-dark">Guide d'entretien</h1>
+							
 
+							</div>
+
+							<div class="card-body">
+
+								<div>
+
+									<div>
+										<span class="my-3" style="display:flex !important;">
+											<div>
+												<h4 class="mb-0">Moyenne des notes</h4>
+												{{ guidesentretien.note|number_format(1) }}
+											</div>
+											<div style="margin-left: 300px !important;">
+
+												<h4 class="mb-0">Nombre de notes</h4>
+												{{ guidesentretien.nombrenotes }}
+											</div>
+
+
+										</span>
+
+
+									</div>
+								</div>
+								<div class="col-md-4">
+									<table class="table">
+										<tbody>
+											<tr>
+												<th>Domaine</th>
+												<td>{{ guidesentretien.domaine }}</td>
+											</tr>
+											<tr>
+												<th>Spécialité</th>
+												<td>{{ guidesentretien.specialite }}</td>
+											</tr>
+											<tr>
+												<th>Support</th>
+												<td></td>
+
+											</tr>
+										</tbody>
+									</table>
+									<div class="my-3">
+										<iframe width="700" height="438" src="https://www.youtube.com/embed/AYtAhi-YE9U" title="Entretien d'embauche: bien se présenter en 2 minutes (exemple)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+									</div>
+									<hr>
+									<form method="post" action="{{ path('app_guidesentretiens_set_note', {'idguide': guidesentretien.idguide}) }}">
+										<div class="form-group">
+											<label for="number-input" class="text-dark" style="font-weight: bold !important; font-size:17px !important;">Noter ce guide
+											</label>
+											<input type="number" id="number-input" name="note" min="0" max="10" class="form-control" required pattern="[0-9]|10">
+											<div class="invalid-feedback">
+												Veuillez entrer une note entre 0 et 10.
+											</div>
+										</div>
+										<div class="card-footer" style="margin-top: 20px !important;">
+											<button class="btn btn-primary" type="submit">Enregistrer</button>
+										</div>
+									</form>
+									<hr>
+									<div class="text-right" style="margin-top: 20px !important; display:flex !important;">
+										<a href="{{ path('app_guidesentretiens_indexu') }}" class="btn btn-primary">Retour à la liste</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<style>
+			.card-header h1 {
+				font-size: 2rem;
+			}
+			.card-body {
+				background-color: #f8f9fa;
+			}
+			.card-body img {
+				max-width: 100px;
+				margin-bottom: 1rem;
+			}
+			.card-body h4 {
+				font-size: 1.2rem;
+				margin-bottom: 0.5rem;
+			}
+			.card-body span {
+				font-size: 1.5rem;
+				font-weight: bold;
+				color: #007bff;
+			}
+			table {
+				border-collapse: collapse;
+				width: 100%;
+			}
+			th,
+			td {
+				text-align: left;
+				padding: 8px;
+			}
+			tr:nth-child(even) {
+				background-color: #f2f2f2
+			}
+			th {
+				background-color: #4CAF50;
+				color: black;
+			}
+		</style>
+	{% endblock %}

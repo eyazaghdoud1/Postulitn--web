@@ -18,8 +18,8 @@ class Comptes1Type extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        ->add('photo')
-           /* ->add('photo', FileType::class, [
+       // ->add('photo')
+            ->add('photo', FileType::class, [
                 
                 'required' => false,
                 'constraints' => [
@@ -33,7 +33,7 @@ class Comptes1Type extends AbstractType
                         'mimeTypesMessage' => 'Veuillez choisir une image',
                     ])
                 ],
-            ])*/
+            ])
             ->add('diplome', TextType::class, [
                 'attr' => [
                     'pattern' => '[A-Za-z]+',

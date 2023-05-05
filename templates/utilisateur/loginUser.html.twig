@@ -55,12 +55,12 @@
 								{{ form_widget (form.mdp, {'attr': {'class': "form-control mb-3"}})  }}
 								<p class="lead mb-0 invalid-form-field">{{ form_errors (form.mdp)  }}</p>
 								<button class="form-control btn btn-primary rounded submit px-3>
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																										{{ form_widget (form.save) }}
+									{{ form_widget (form.save) }}
 									
-																										{{form_end (form)}}
+																																			{{form_end (form)}}
 									
 									
-																										<div class=" form-group d-md-flex">
+																																			<div class=" form-group d-md-flex">
 
 									<div class="w-50 text-md-right" style="margin-top:20px;">
 										<a href="{{path('sendmail')}}">Mot de passe oublié ?</a>

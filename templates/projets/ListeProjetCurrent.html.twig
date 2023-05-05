@@ -19,6 +19,7 @@
 						<th>Thémes</th>
 						<th>Durée</th>
 						<th>Secteur</th>
+					
 
 					</tr>
 				</thead>
@@ -37,8 +38,9 @@
 								<a class="btn btn-primary" href="{{path('update_Projets',{'id':p.idProjet})}}">Modifier</a>
 							</td>
 							<td>
-							 <a class="btn btn-primary" href="{{path('detailsProjetRecruteur', {'id': p.idProjet})}}">Détails</a>
+							 <a class="btn" style="background-color:#353D62 !important; color: white !important;" href="{{path('detailsProjetRecruteur', {'id': p.idProjet})}}">Détails</a>
                              </td>
+							 
 
 						</tr>
 					{%endfor%}

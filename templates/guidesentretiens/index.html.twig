@@ -12,7 +12,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Idguide</th>
+               
                 <th>Domaine</th>
                 <th>Specialite</th>
                               
@@ -25,16 +25,16 @@
         <tbody>
             {% for guidesentretien in guidesentretiens %}
                 <tr>
-                    <td>{{ guidesentretien.idguide }}</td>
+                  
                     <td>{{ guidesentretien.domaine }}</td>
                     <td>{{ guidesentretien.specialite }}</td>
                   
-                    <td>{{ guidesentretien.note }}</td>
+                    <td>{{ guidesentretien.note|number_format(1) }}</td>
                     <td>{{ guidesentretien.nombrenotes }}</td>
                     <td>
                         <div style="display: flex;">
-                            <a href="{{ path('app_guidesentretiens_show', {'idguide': guidesentretien.idguide}) }}" class="btn btn-primary">Show</a>
-                            <a href="{{ path('app_guidesentretiens_edit', {'idguide': guidesentretien.idguide}) }}" class="btn btn-success" style="margin-left: 1em;">Edit</a>
+                            <a href="{{ path('app_guidesentretiens_show', {'idguide': guidesentretien.idguide}) }}" class="btn btn-primary">Voir</a>
+                            <a href="{{ path('app_guidesentretiens_edit', {'idguide': guidesentretien.idguide}) }}" class="btn btn-primary" style="margin-left: 1em;">Modifier</a>
                         </div>
                     </td>
                 </tr>

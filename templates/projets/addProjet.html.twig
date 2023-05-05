@@ -4,74 +4,88 @@
 <link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
 {%endblock%}
 {% block bodysection %}
-<div class="container px-5 my-5 px-5">
- <div class="text-center mb-5">
-<div class="feature rounded-3 mb-3">
-    <img class="logocss" src="{{asset('assets/img/logo1.png')}}" style="width: 70px; height:80px">
-</div><h2 class="fw-bolder">Ajouter un nouveau projet freelance</h2><p class="lead mb-0">Veuillez remplir ces champs</p>
+
+
+	<div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
+		<img class="logocss" src="{{asset('assets/img/logowhite.png')}}" style="width: 70px; height:80px"></i>
 </div>
 
-<div class="row gx-5 justify-content-center">
 
+<h2 class="fw-bolder">Ajouter un nouveau projet freelance</h2>
+<p class="lead mb-0">Veuillez remplir ces champs</p></div><div class="row gx-5 justify-content-center">
 <div class="col-lg-6">
 
-<div>
-        {{ form_start(form,{'attr': {'novalidate': 'novalidate', 'id': 'contactForm'}}
-        ) }}
-        <div class="form-floating mb-0">
-            <div>
-                {{ form_label (form.nom) }}
-            </div>
-            <div>{{ form_widget (form.nom) }}
-            </div>
-            <li class='invalid-form-field'>{{ form_errors (form.nom) }}</li>
-        </div>
-        <div class="form-floating mb-0">
-            <div>{{ form_label (form.theme) }}
-            </div>
-            <div>{{ form_widget (form.theme) }}
-            </div>
-            <li class='invalid-form-field'>{{ form_errors (form.theme) }}</li>
-        </div>
-        <div class="form-floating mb-0">
-            <div>{{ form_label (form.description) }}
-            </div>
-            <div>{{ form_widget (form.description) }}
-            </div>
-            <li class='invalid-form-field'>{{ form_errors (form.description) }}</li>
-        </div>
-        <div class="form-floating mb-0">
-            <div>{{ form_label (form.duree) }}
-            </div>
-            <div>{{ form_widget (form.duree) }}
-            </div>
-            <li class='invalid-form-field'>{{ form_errors (form.duree) }}</li>
-        </div>
-        <div class="form-floating mb-0">
-            <div>{{ form_label (form.datedebut, "Date de début") }}
-            </div>
-            <div>{{ form_widget (form.datedebut) }}
-            </div>
-            <li class='invalid-form-field'>{{ form_errors (form.datedebut) }}</li>
-        </div>
-        <div class="form-floating mb-0">
-            <div>{{ form_label (form.datefin, "Date de fin") }}
-            </div>
-            <div>{{ form_widget (form.datefin) }}
-            </div>
-            <li class='invalid-form-field'>{{ form_errors (form.datefin) }}</li>
-        </div>
-        <div class="form-floating mb-0">
-            <div>{{ form_label (form.idsecteur, 'Secteur') }}
-            </div>
-            <div>{{ form_widget (form.idsecteur) }}
-            </div>
-            <li class='invalid-form-field'>{{ form_errors (form.idsecteur) }}</li>
-        </div>
-        <div>
 
-            {{ form_widget(form.save, {'label': 'Save', 'attr': {'class': 'btn btn-primary btn-lg'}}) }}
-        </div>
-    </div>
-    {{ form_end (form) }}
-</div>{% endblock %}
+	<div>
+		{{ form_start(form,{'attr': {'novalidate': 'novalidate', 'id': 'contactForm'}}
+		) }}
+	
+			 <label class="fw-bolder">
+				{{ form_label (form.nom) }}
+			</label>
+			<div class="form-control mb-3" >
+            <div> {{ form_widget (form.nom) }} </div>
+			<p class="lead mb-0">{{ form_errors (form.nom) }}</p>
+            </div>
+		
+	
+			 <label class="fw-bolder">{{ form_label (form.theme) }}
+			</label>
+            <div class="form-control mb-3" >
+			<div>{{ form_widget (form.theme) }}
+			</div>
+			<p class="lead mb-0">{{ form_errors (form.theme) }}</p>
+		    </div>
+           
+		
+			 <label class="fw-bolder">{{ form_label (form.description) }}
+			</label>
+			<div class="form-control mb-3" >
+            <div>{{ form_widget (form.description) }}
+			</div>
+			<p class="lead mb-0">{{ form_errors (form.description) }}</p>
+		  </div>
+
+
+	
+			 <label class="fw-bolder">{{ form_label (form.duree) }}
+			</label>
+            <div class="form-control mb-3" >
+			<div>{{ form_widget (form.duree) }}
+			</div>
+			<p class="lead mb-0">{{ form_errors (form.duree) }}</p>
+		</div>
+
+		
+			 <label class="fw-bolder">{{ form_label (form.datedebut, "Date de début") }}
+			</label>
+            <div class="form-control mb-3" >
+			<div>{{ form_widget (form.datedebut) }}
+			</div>
+			<p class="lead mb-0">{{ form_errors (form.datedebut) }}</p>
+		</div>
+		
+			 <label class="fw-bolder">{{ form_label (form.datefin, "Date de fin") }}
+			</label>
+            <div class="form-control mb-3" >
+			<div>{{ form_widget (form.datefin) }}
+			</div>
+			<p class="lead mb-0">{{ form_errors (form.datefin) }}</p>
+		</div>
+		
+			 <label class="fw-bolder">{{ form_label (form.idsecteur, 'Secteur') }}
+			</label>
+             <div class="form-control mb-3" >
+			<div>{{ form_widget (form.idsecteur) }}
+			</div>
+			<p class="lead mb-0">{{ form_errors (form.idsecteur) }}</p>
+		</div>
+		 <div class="d-grid">
+
+			{{ form_widget(form.save, {'label': 'Save', 'attr': {'class': 'btn btn-primary btn-lg'}}) }}
+		</div>
+
+	{{ form_end (form) }}
+</div>
+</div>
+{% endblock %}

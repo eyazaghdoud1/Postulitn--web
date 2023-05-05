@@ -41,6 +41,9 @@ class ComptesController extends AbstractController
         $form->handleRequest($request);
       
         if ($form->isSubmitted() && $form->isValid()) {
+            $file = $form->get('photo')->getData();
+            $file->move("C:\\xampp\\htdocs\\postulitn\\images", $file->getClientOriginalName());
+            $compte->setPhoto($file->getClientOriginalName());
          
             $em=$doctrine->getManager();
             $em->persist($compte);
@@ -109,13 +112,15 @@ class ComptesController extends AbstractController
         ]);
     }
 
-    #[Route('/{idcompte}/edit', name: 'app_comptes_edit', methods: ['GET', 'POST'])]
+   /* #[Route('/{idcompte}/edit', name: 'app_comptes_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Comptes $compte, ComptesRepository $comptesRepository): Response
     {
         $form = $this->createForm(Comptes1Type::class, $compte);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+          
+
             $comptesRepository->save($compte, true);
 
             return $this->redirectToRoute('app_comptes_show1', ['idcompte' => $compte->getIdcompte()], Response::HTTP_SEE_OTHER);
@@ -124,6 +129,31 @@ class ComptesController extends AbstractController
         return $this->renderForm('comptes/edit.html.twig', [
             'compte' => $compte,
             'form' => $form,
+        ]);
+    }*/
+    #[Route('/{idcompte}/edit', name: 'app_comptes_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, ComptesRepository $comptesRepository, $idcompte): Response
+    {
+        $compte=$comptesRepository->find($idcompte);
+        if ($request->isMethod('POST')) {
+            $file = $request->files->get('photo');
+            $file->move("C:\\xampp\\htdocs\\postulitn\\images", $file->getClientOriginalName());
+            $compte->setPhoto($file->getClientOriginalName());
+            $compte->setDiplome($request->request->get('diplome'));
+            $compte->setDatediplome($request->request->get('datediplome'));
+            $compte->setEntreprise($request->request->get('entreprise'));
+            $compte->setDomaine($request->request->get('domaine'));
+            $compte->setPoste($request->request->get('poste'));
+            $compte->setExperience($request->request->get('experience'));
+
+            $comptesRepository->save($compte, true);
+
+            return $this->redirectToRoute('app_comptes_show1', ['idcompte' => $compte->getIdcompte()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('comptes/edit.html.twig', [
+            'compte' => $compte,
+           
         ]);
     }
 

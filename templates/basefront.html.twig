@@ -31,15 +31,15 @@
                         <li class="nav-item"><a class="nav-link" href="{{path('candidaturesCand')}}">Candidatures</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{path('app_projets1')}}">Projets freelance</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{path('entretiensCandidat')}}">Entretiens</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{path('app_guidesentretiens_indexu')}}">Guides d'entretiens</a></li>
+                        <li class="nav-item"><a class="nav-link" style="margin-right: 100px !important;" href="{{path('app_guidesentretiens_indexu')}}">Guides d'entretiens</a></li>
                 {% else %}
 
                 
                         <li class="nav-item"><a class="nav-link" href="{{path('app_offre')}}">Offres</a></li>
                        
-                        <li class="nav-item"><a class="nav-link" href="{{path('readEntretiens')}}">Entretiens</a></li>
+                        <li class="nav-item" style="margin-right: 200px !important;"><a class="nav-link" style="margin-right: 600px !important;" href="{{path('readEntretiens')}}" >Entretiens</a></li>
                 {% endif%}
-                        <li class="nav-item"><a class="nav-link rightnav"  href="{{path('app_comptes_show1')}}">Compte</a></li>
+                        <li class="nav-item"><a class="nav-link rightnav"  style="margin-right: 50px !important;" href="{{path('app_comptes_show1')}}">Compte</a></li>
                         <li class="nav-item"><a class="nav-link btn btn-outline-light btn-lg px-4"  href="{{path('logout')}}">Logout</a></li>
                 
                     </ul>
@@ -54,7 +54,7 @@
             <div class="container px-5 my-5 px-5">
                 <div class="text-center mb-5">
                   {%block bodysection%}
-                    <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-envelope"></i></div>
+                   {# <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-envelope"></i></div>
                     <h2 class="fw-bolder">Get in touch</h2>
                     <p class="lead mb-0">We'd love to hear from you</p>
                 </div>
@@ -115,7 +115,7 @@
                         </form>
                     </div>
                     
-    
+    #}
                     {%endblock%}
                     
                 </div>

@@ -1,10 +1,15 @@
 {% extends 'basefront.html.twig' %}
 
-{% block title %}Guidesentretiens index{% endblock %}
+
 
 {% block bodysection %}
-    <h1>Guides d'entretiens </h1>
-
+   
+<div class="container px-5 my-5 px-5" style="margin-top: -50px !important;">
+ <div class="text-center mb-5">
+<div class="feature rounded-3 mb-3 bg-dark">
+    <img class="logocss" src="{{asset('assets/img/logowhite.png')}}" style="width: 70px; height:80px">
+</div><h2 class="fw-bolder">Guides d'entretiens</h2><p class="lead mb-0">Vos guides pour réussir vos entretiens !</p>
+</div>
     <table class="table">
         <thead>
             <tr>
@@ -14,7 +19,7 @@
                                 
 
                 <th>Note</th>
-                <th>Nombrenotes</th>
+                <th>Nombre de notes</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -25,12 +30,11 @@
                     <td>{{ guidesentretien.domaine }}</td>
                     <td>{{ guidesentretien.specialite }}</td>
                  
-                    <td>{{ guidesentretien.note }}</td>
+                    <td>{{ guidesentretien.note|number_format(1) }}</td>
                     <td>{{ guidesentretien.nombrenotes }}</td>
                     <td>
-                        <div style="display: flex;">
-                            <a href="{{ path('app_guidesentretiens_showu', {'idguide': guidesentretien.idguide}) }}" class="btn btn-primary">afficher</a>
-                        </div>
+                            <a class="btn" style="background-color:#353D62 !important; color: white !important;" href="{{ path('app_guidesentretiens_showu', {'idguide': guidesentretien.idguide}) }}">Afficher</a>
+                       
                     </td>
                 </tr>
             {% else %}
