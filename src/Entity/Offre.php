@@ -6,6 +6,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\OffreRepository;
 use DateTime;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Component\Validator\Constraints\Expression;
 
@@ -25,6 +26,7 @@ class Offre
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name:'idOffre', type:'integer', nullable:false)]
+    #[Groups(["public","candidatures", "entretiens"])]
     private ?int $idoffre = null;
 
     /*
@@ -34,6 +36,7 @@ class Offre
      * @ORM\Column(name="poste", type="string", length=254, nullable=false)
      */
     #[ORM\Column(length:254, nullable:false)]
+    #[Groups(["public","candidatures", "entretiens"])]
     private ?string $poste = null;
 
     /*
@@ -43,6 +46,7 @@ class Offre
      * @ORM\Column(name="description", type="string", length=254, nullable=false)
      */
     #[ORM\Column(length:254, nullable:false)]
+    #[Groups(["public","candidatures", "entretiens"])]
     private ?string $description = null;
 
     /*
@@ -52,6 +56,7 @@ class Offre
      * @ORM\Column(name="lieu", type="string", length=254, nullable=false)
      */
     #[ORM\Column(length:254, nullable:false)]
+    #[Groups(["public","candidatures", "entretiens"])]
     private ?string $lieu = null;
 
     /*
@@ -61,6 +66,7 @@ class Offre
      * @ORM\Column(name="entreprise", type="string", length=254, nullable=false)
      */
     #[ORM\Column(length:254, nullable:false)]
+    #[Groups(["public","candidatures", "entretiens"])]
     private ?string $entreprise = null;
 
     /*
@@ -70,6 +76,7 @@ class Offre
      * @ORM\Column(name="specialite", type="string", length=254, nullable=false)
      */
     #[ORM\Column(length:254, nullable:false)]
+    #[Groups(["public","candidatures", "entretiens"])]
     private ?string $specialite = null;
 
     /*
@@ -86,6 +93,7 @@ class Offre
 
 
     #[ORM\Column(nullable:false)]
+    #[Groups(["public","candidatures", "entretiens"])]
     private ?DateTime $dateexpiration;
 
     /*
@@ -99,6 +107,7 @@ class Offre
      */
     #[ORM\ManyToOne(targetEntity: Typeoffre::class)]
     #[ORM\JoinColumn(name: 'idtype', referencedColumnName: 'idtype')]
+    #[Groups(["public","candidatures", "entretiens"])]
     private ?Typeoffre $idtype = null; 
 
     /*
@@ -112,6 +121,7 @@ class Offre
      */
     #[ORM\ManyToOne(targetEntity: Utilisateur::class)]
     #[ORM\JoinColumn(name: 'idrecruteur', referencedColumnName: 'id')]
+    #[Groups(["public","candidatures", "entretiens"])]
     private ?Utilisateur $idrecruteur = null;
 
     public function getIdoffre(): ?int

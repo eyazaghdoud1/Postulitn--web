@@ -102,6 +102,7 @@ TypeoffreRepository $torepo, UtilisateurRepository $userrepo, SessionInterface $
 {
     $projets = new Projets();   
     //$idresponsabla = setIdResponsable(id);
+    $projets->setNote(0);
     $form = $this->createForm(ProjetsType::class,$projets);
     $form->handleRequest($req);
     if($form->isSubmitted() && $form->isValid()){

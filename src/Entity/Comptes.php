@@ -8,6 +8,7 @@ use App\Repository\ComptesRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -25,6 +26,7 @@ class Comptes
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name:'idcompte', type:'integer',nullable:false)]
+    #[Groups(["comptes"])]
     private ?int $idcompte = null;
 
     /*
@@ -36,6 +38,7 @@ class Comptes
      */
     
     #[ORM\Column(length:200, nullable:true)]
+    #[Groups(["comptes"])]
     private ?string $photo = null;
 
     /*
@@ -46,6 +49,7 @@ class Comptes
      * @Assert\NotBlank
      */
     #[ORM\Column(length:50, nullable:true)]
+    #[Groups(["comptes"])]
     private ?string $diplome = null;
 
     /*
@@ -56,6 +60,7 @@ class Comptes
      * @Assert\NotBlank
      */
     #[ORM\Column(nullable:true)]
+    #[Groups(["comptes"])]
     private ?DateTime $datediplome = null;
 
     /*
@@ -66,6 +71,7 @@ class Comptes
      * @Assert\NotBlank
      */
     #[ORM\Column(length:50, nullable:true)]
+    #[Groups(["comptes"])]
     private ?string $entreprise = null;
 
     /*
@@ -76,6 +82,7 @@ class Comptes
      * @Assert\NotBlank
      */
     #[ORM\Column(length:50, nullable:true)]
+    #[Groups(["comptes"])]
     private ?string $experience = null;
 
     /*
@@ -86,6 +93,7 @@ class Comptes
      * @Assert\NotBlank
      */
     #[ORM\Column(length:200, nullable:false)]
+    #[Groups(["comptes"])]
     private ?string $domaine = null;
 
     /*
@@ -96,6 +104,7 @@ class Comptes
      * @Assert\NotBlank
      */
     #[ORM\Column(length:200, nullable:true)]
+    #[Groups(["comptes"])]
     private ?string $poste = null;
 
     /*
@@ -109,6 +118,7 @@ class Comptes
      */
     #[ORM\ManyToOne(targetEntity: Utilisateur::class)]
     #[ORM\JoinColumn(name: 'idUtilisateur', referencedColumnName: 'id')]
+    #[Groups(["comptes"])]
     private ?Utilisateur $idutilisateur = null;
 
     public function getIdcompte(): ?int

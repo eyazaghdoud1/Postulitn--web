@@ -156,7 +156,21 @@ class ComptesController extends AbstractController
            
         ]);
     }
+    #[Route('delete/{idcompte}', name: 'deleteCompte')]
+    public function deletecompte(ManagerRegistry $doctrine,$idcompte,
+     ComptesRepository $comptesRepository, UtilisateurRepository $userrepo): Response
+    {
+       $compte = $comptesRepository->find($idcompte);
+       $user= $userrepo->find($compte->getIdutilisateur()->getId());
+        $em = $doctrine->getManager();
+        $em->remove( $compte);
+        $em->remove($user); 
+        $em->flush();
+           
+        
 
+        return $this->redirectToRoute('app_candidatures');
+    }
 
     #[Route('/{idcompte}', name: 'app_comptes_delete', methods: ['POST'])]
     public function delete(Request $request, Comptes $compte, ComptesRepository $comptesRepository): Response

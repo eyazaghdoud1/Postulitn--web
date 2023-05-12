@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 use App\Repository\CandidaturesRepository;
 use DateTime;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -24,6 +25,7 @@ class Candidatures
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name:'id', type:'integer',nullable:false)]
+    #[Groups(["candidatures", "entretiens"])]
     private ?int $id = null;
 
     /*
@@ -34,6 +36,7 @@ class Candidatures
      */
     #[ORM\Column(length:100, nullable:false)]
     #[Assert\NotBlank(message:"Vous devez insérer votre CV.")]
+    #[Groups(["candidatures", "entretiens"])]
     private ?string $cv = null;
 
     /*
@@ -44,6 +47,7 @@ class Candidatures
      */
     #[ORM\Column(length:100, nullable:false)]
     #[Assert\NotBlank(message:"Vous devez insérer votre lettre de motivation.")]
+    #[Groups(["candidatures", "entretiens"])]
     private ?string $lettre = null;
 
     /*
@@ -53,6 +57,7 @@ class Candidatures
      * @ORM\Column(name="date", type="date", nullable=true)
      */
     #[ORM\Column(nullable:true)]
+    #[Groups(["candidatures", "entretiens"])]
     private ?DateTime $date = null;
 
     /*
@@ -62,6 +67,7 @@ class Candidatures
      * @ORM\Column(name="etat", type="string", length=50, nullable=true)
      */
     #[ORM\Column(length:50, nullable:true)]
+    #[Groups(["candidatures", "entretiens"])]
     private ?string $etat = null;
 
     /*
@@ -76,6 +82,7 @@ class Candidatures
 
     #[ORM\ManyToOne(targetEntity: Utilisateur::class)]
     #[ORM\JoinColumn(name: 'idCandidat', referencedColumnName: 'id')]
+    #[Groups(["candidatures", "entretiens"])]
     private ?Utilisateur $idcandidat = null;
 
     /*
@@ -89,6 +96,7 @@ class Candidatures
      */
     #[ORM\ManyToOne(targetEntity: Offre::class)]
     #[ORM\JoinColumn(name: 'idOffre', referencedColumnName: 'idOffre')]
+    #[Groups(["candidatures", "entretiens"])]
     private ?Offre $idoffre = null;
 
     public function getId(): ?int

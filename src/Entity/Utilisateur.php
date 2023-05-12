@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 #use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 /**
@@ -30,6 +31,7 @@ class Utilisateur implements UserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
+    #[Groups(["utilisateurs","candidatures", "entretiens","comptes", 'public'])]
     private ?int $id = null;
 
     /*
@@ -40,6 +42,7 @@ class Utilisateur implements UserInterface
      */
     #[ORM\Column(length: 30, nullable: false)]
     #[Assert\NotBlank(message: "Il faut insérer un nom")]
+    #[Groups(["utilisateurs","candidatures", "entretiens", 'public'])]
     private ?string $nom = null;
 
     /*
@@ -50,6 +53,7 @@ class Utilisateur implements UserInterface
      */
     #[ORM\Column(length: 30, nullable: false)]
     #[Assert\NotBlank(message: "Il faut insérer un prénom")]
+    #[Groups(["utilisateurs","candidatures", "entretiens", 'public'])]
     private ?string $prenom = null;
 
     /*
@@ -61,6 +65,7 @@ class Utilisateur implements UserInterface
     #[ORM\Column(length: 50, nullable: false)]
     #[Assert\NotBlank(message: "Il faut insérer un email")]
     #[Assert\Email(message: "L'email '{{ value }}' n'est pas valide ")]
+    #[Groups(["utilisateurs","candidatures", "entretiens", 'public'])]
     private ?string $email = null;
 
     /*
@@ -73,6 +78,7 @@ class Utilisateur implements UserInterface
     #[Assert\NotBlank(message: "Il faut insérer un numéro de téléphone")]
     #[Assert\Length(min: 8, minMessage: "Le numéro de téléphone doit contenir 8 chiffres")]
     #[Assert\Length(max: 8, maxMessage: "Le numéro de téléphone doit contenir 8 chiffres")]
+    #[Groups(["utilisateurs","candidatures", "entretiens", 'public'])]
     private ?string $tel = null;
 
     /*
@@ -83,6 +89,7 @@ class Utilisateur implements UserInterface
      */
     #[ORM\Column(length: 50, nullable: false)]
     #[Assert\NotBlank(message: "Il faut insérer une adresse")]
+    #[Groups(["utilisateurs","candidatures", "entretiens", "comptes", 'public'])]
     private ?string $adresse = null;
 
     /*
@@ -93,6 +100,7 @@ class Utilisateur implements UserInterface
      */
     #[ORM\Column(length: 100, nullable: false)]
     #[Assert\NotBlank(message: "Il faut insérer un mot de passe ! ")]
+    #[Groups(["utilisateurs", 'public'])]
     private ?string $mdp = null;
 
     /*
@@ -103,6 +111,7 @@ class Utilisateur implements UserInterface
      */
     #[ORM\Column(nullable: false)]
     //#[Assert\DateTime(message: "Il faut insérer une date de naissance")]
+    #[Groups(["utilisateurs", 'public'])]
     private ?DateTime $datenaissance = null;
 
     /*
@@ -112,6 +121,7 @@ class Utilisateur implements UserInterface
      * @ORM\Column(name="salt", type="string", length=1000, nullable=false)
      */
     #[ORM\Column(length: 1000, nullable: false)]
+    #[Groups(["utilisateurs", 'public'])]
     private ?string $salt = null;
 
 
@@ -127,6 +137,7 @@ class Utilisateur implements UserInterface
     #[ORM\ManyToOne(targetEntity: Role::class)]
     #[ORM\JoinColumn(name: 'idRole', referencedColumnName: 'idRole')]
     #[Assert\NotBlank(message: "Il faut insérer un rôle")]
+    #[Groups(["utilisateurs", 'public'])]
     private ?Role $idrole = null;
 
     /*
@@ -136,6 +147,7 @@ class Utilisateur implements UserInterface
      * @ORM\Column(name="code", type="string", length=20, nullable=false)
      */
     #[ORM\Column(length: 20, nullable: false)]
+    #[Groups(["utilisateurs", 'public'])]
     private ?string $code = null;
 
     public function getId(): ?int

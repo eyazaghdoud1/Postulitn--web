@@ -7,8 +7,7 @@ use App\Repository\GuidesentretiensRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
-
-
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: GuidesentretiensRepository::class)]
 class Guidesentretiens
@@ -25,6 +24,7 @@ class Guidesentretiens
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name:'idGuide', type:'integer', nullable:false)]
+    #[Groups(["guides"])]
     private ?int $idguide = null;
 
     /*
@@ -39,6 +39,7 @@ class Guidesentretiens
      * )
      */
     #[ORM\Column(length:30, nullable:false)]
+    #[Groups(["guides"])]
     private ?string $domaine = null;
 
     /*
@@ -49,6 +50,7 @@ class Guidesentretiens
      *  @Assert\NotBlank
      */
     #[ORM\Column(length:30, nullable:false)]
+    #[Groups(["guides"])]
     private ?string $specialite = null;
 
    /*
@@ -59,6 +61,7 @@ class Guidesentretiens
     *  @Assert\NotBlank
     */
    #[ORM\Column(length:200, nullable:false)]
+   #[Groups(["guides"])]
    private ?string $support = null;
 
         
@@ -69,6 +72,7 @@ class Guidesentretiens
      * @ORM\Column(name="note", type="float", precision=10, scale=0, nullable=false)
      */
     #[ORM\Column(nullable:false)]
+    #[Groups(["guides"])]
     private float $note = 0.0;
 
     /*
@@ -78,6 +82,7 @@ class Guidesentretiens
      * @ORM\Column(name="nombreNotes", type="integer", nullable=false)
      */
     #[ORM\Column(nullable:false)]
+    #[Groups(["guides"])]
     private int $nombrenotes = 0;
 
     public function getIdguide(): ?int

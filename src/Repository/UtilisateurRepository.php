@@ -57,12 +57,23 @@ class UtilisateurRepository extends ServiceEntityRepository
 
     public function findOneByEmail($email): ?Utilisateur
     {
-        return $this->findOneBy(['email' => $email]);
+       // return $this->findOneBy(['email' => $email]);
+       $querybuilder = $this -> createQueryBuilder('u')
+        ->join('u.idrole', 'r') 
+        ->addSelect('r') 
+        ->where('u.email= :email')
+        ->setParameter('email',$email);
+        return $query = $querybuilder->getQuery()->getSingleResult();
     }
 
     public function findOneByMdp($mdp): ?Utilisateur
     {
         return $this->findOneBy(['mdp' => $mdp]);
+    }
+
+    public function findOneByRole($idRole): ?Utilisateur
+    {
+        return $this->findOneBy(['idrole' => $idRole]);
     }
 
     public function findOneByEmailAndMdp($email, $mdp): ?Utilisateur

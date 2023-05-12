@@ -6,6 +6,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\QuizscoresRepository;
 use DateTime;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: QuizscoresRepository::class)]
 class Quizscores
@@ -21,6 +22,7 @@ class Quizscores
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name:'id', type:'integer', nullable:false)]
+    #[Groups(["quiz"])]
     private ?int $id = null;
 
     /*
@@ -30,6 +32,7 @@ class Quizscores
      * @ORM\Column(name="score", type="integer", nullable=false)
      */
     #[ORM\Column(nullable:false)]
+    #[Groups(["quiz"])]
     private ?int $score = null;
 
     /*
@@ -39,6 +42,7 @@ class Quizscores
      * @ORM\Column(name="date", type="date", nullable=true)
      */
     #[ORM\Column(nullable:true)]
+    #[Groups(["quiz"])]
     private ?DateTime $date = null;
 
     /*
@@ -52,6 +56,7 @@ class Quizscores
      */
     #[ORM\ManyToOne(targetEntity: Quiz::class)]
     #[ORM\JoinColumn(name: 'idQuiz', referencedColumnName: 'id')]
+    #[Groups(["quiz"])]
     private ?Quiz $idquiz = null;
 
     /*
@@ -65,6 +70,7 @@ class Quizscores
      */
     #[ORM\ManyToOne(targetEntity: Utilisateur::class)]
     #[ORM\JoinColumn(name: 'idCandidat', referencedColumnName: 'id')]
+    #[Groups(["quiz"])]
     private ?Utilisateur $idcandidat = null;
 
     public function getId(): ?int

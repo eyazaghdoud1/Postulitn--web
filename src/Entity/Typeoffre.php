@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\TypeoffreRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: TypeoffreRepository::class)]
 class Typeoffre
@@ -19,6 +20,7 @@ class Typeoffre
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name:'idtype', type:'integer',nullable:false)]
+    #[Groups(["public"])]
     private ?int $idtype = null;
 
     /*
@@ -28,6 +30,7 @@ class Typeoffre
      * @ORM\Column(name="description", type="string", length=254, nullable=false)
      */
     #[ORM\Column(length:254, nullable:false)]
+    #[Groups(["public"])]
     private ?string $description = null;
 
     public function getIdtype(): ?int

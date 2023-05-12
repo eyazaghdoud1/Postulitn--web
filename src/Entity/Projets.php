@@ -6,6 +6,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ProjetsRepository;
 use DateTime;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -29,6 +30,7 @@ class Projets
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name:'idProjet', type:'integer', nullable:false)]
+    #[Groups(["public"])]
     private ?int $idprojet = null;
 
     /*
@@ -41,6 +43,7 @@ class Projets
 
     #[ORM\Column(length:254,nullable:false)]
     #[Assert\NotBlank(message:"Vous devez insérer le théme de votre projet.")]
+    #[Groups(["public"])]
     private ?string $theme = null;
 
     /*
@@ -51,6 +54,7 @@ class Projets
      */
     #[ORM\Column(length:254, nullable:false)]
     #[Assert\NotBlank(message:"Vous devez insérer la description de votre projet.")]
+    #[Groups(["public"])]
     private ?string $description = null;
 
     /*
@@ -62,6 +66,7 @@ class Projets
      */
     #[ORM\Column(nullable:false)]
     #[Assert\NotBlank(message:"Vous devez insérer la durée de votre projet.")]
+    #[Groups(["public"])]
     private ?int $duree = null;
 
     /*
@@ -72,6 +77,7 @@ class Projets
      */
     #[ORM\Column(nullable:false)]
     #[Assert\NotBlank(message:"Vous devez insérer la date de début de votre projet.")]
+    #[Groups(["public"])]
     private ?DateTime $datedebut;
 
     /*
@@ -82,6 +88,7 @@ class Projets
      */
     #[ORM\Column(nullable:false)]
     #[Assert\NotBlank(message:"Vous devez insérer la date de fin de votre projet.")]
+    #[Groups(["public"])]
     private ?DateTime $datefin;
 
     /*
@@ -92,6 +99,7 @@ class Projets
      */
     #[ORM\Column(length:254, nullable:false)]
     #[Assert\NotBlank(message:"Vous devez insérer le poste vacant de votre projet.")]
+    #[Groups(["public"])]
     private ?string $nom = null;
 
     /*
@@ -99,10 +107,11 @@ class Projets
      * @var int
      *
      * @ORM\Column(name="note", type="integer", nullable=false)
-     
+     */
     #[ORM\Column(nullable:false)]
+    #[Groups(["public"])]
     private ?int $note = null;
-*/
+
     /*
     /**
      * @var \Secteurs
@@ -114,6 +123,7 @@ class Projets
      */
     #[ORM\ManyToOne(targetEntity: Secteurs::class)]
     #[ORM\JoinColumn(name: 'idSecteur', referencedColumnName: 'idSecteur')]
+    #[Groups(["public"])]
     private ?Secteurs $idsecteur = null;
 
     /*
@@ -127,6 +137,7 @@ class Projets
      */
     #[ORM\ManyToOne(targetEntity: Utilisateur::class)]
     #[ORM\JoinColumn(name: 'idResponsable', referencedColumnName: 'id')]
+    #[Groups(["public"])]
     private ?Utilisateur $idresponsable = null;
 
     public function getIdprojet(): ?int

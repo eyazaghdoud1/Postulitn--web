@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\QuizRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
@@ -21,6 +22,7 @@ class Quiz
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name:'id', type:'integer',nullable:false)]
+    #[Groups(["quiz"])]
     private ?int $id = null;
 
     /*
@@ -32,6 +34,7 @@ class Quiz
 
     #[ORM\Column(length:100, nullable:false)]
     #[Assert\NotBlank(message:"Vous devez indiquer le secteur du quiz.")]
+    #[Groups(["quiz"])]
     private ?string $secteur = null;
 
     /*
@@ -42,6 +45,7 @@ class Quiz
      */
     #[ORM\Column(length:100, nullable:false)]
     #[Assert\NotBlank(message:"Vous devez indiquer la spécialité du quiz.")]
+    #[Groups(["quiz"])]
     private ?string $specialite = null;
 
     /*
@@ -56,6 +60,7 @@ class Quiz
         min: 5,
         minMessage: "Le nom du secteur doit contenir au moins {{ limit }} caractères.",
     )]
+    #[Groups(["quiz"])]
     private ?string $nom = null;
 
 

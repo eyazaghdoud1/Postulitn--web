@@ -6,6 +6,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\EntretiensRepository;
 use DateTime;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EntretiensRepository::class)]
@@ -22,6 +23,7 @@ class Entretiens
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name:'id', type:'integer', nullable:false)]
+    #[Groups(["entretiens"])]
     private ?int $id = null;
 
     /*
@@ -31,6 +33,7 @@ class Entretiens
      * @ORM\Column(name="type", type="string", length=10, nullable=true)
      */
     #[ORM\Column(length:10, nullable:true)]
+    #[Groups(["entretiens"])]
     private ?string $type = null;
 
     /*
@@ -42,6 +45,7 @@ class Entretiens
     #[ORM\Column(nullable:true)]
     #[Assert\NotBlank(message:"Vous devez spécifier la date de l'entretien.")]
     #[Assert\GreaterThan('today', message:"La date de l'entretien doit succéder la date d'aujourd'hui.")]
+    #[Groups(["entretiens"])]
     private ?DateTime $date = null ;
 
     /*
@@ -52,6 +56,7 @@ class Entretiens
      */
     #[ORM\Column(length:10, nullable:false)]
     #[Assert\NotBlank(message:"Vous devez spécifier l'horaire' de l'entretien.")]
+    #[Groups(["entretiens"])]
     private ?String $heure = null;
 
     /*
@@ -62,6 +67,7 @@ class Entretiens
      */
     #[ORM\Column(length:50, nullable:false)]
     #[Assert\NotBlank(message:"Si l'entretien est par téléphone, veuillez indiquer 'none'.")]
+    #[Groups(["entretiens"])]
     private ?string $lieu = null;
 
     /*
@@ -75,6 +81,7 @@ class Entretiens
      */
     #[ORM\ManyToOne(targetEntity: Candidatures::class)]
     #[ORM\JoinColumn(name: 'idCandidature', referencedColumnName: 'id')]
+    #[Groups(["entretiens"])]
     private ?Candidatures $idcandidature = null;
 
     /*
@@ -88,6 +95,7 @@ class Entretiens
      */
     #[ORM\ManyToOne(targetEntity: Guidesentretiens::class)]
     #[ORM\JoinColumn(name: 'idGuide', referencedColumnName: 'idGuide')]
+    #[Groups(["entretiens"])]
     private ?Guidesentretiens $idguide = null;
 
     public function getId(): ?int

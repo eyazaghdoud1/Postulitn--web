@@ -9,6 +9,7 @@ use App\Form\SecteursType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: SecteursRepository::class)]
 class Secteurs
@@ -24,6 +25,7 @@ class Secteurs
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name:'idSecteur', type:'integer', nullable:false)]
+    #[Groups(['public'])]
     private ?int $idsecteur = null;
 
     /*
@@ -35,6 +37,7 @@ class Secteurs
      */
     #[ORM\Column(length:254, nullable:false)]
     #[Assert\NotBlank(message:"Vous devez insérer le nom du nouveau secteur.")]
+    #[Groups(['public'])]
     /*#[Assert\NotBlank(message:"Le secteur existe deja !")]*/
     private ?string $description = null;
 

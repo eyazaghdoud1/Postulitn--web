@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\QuizquestionsRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
@@ -21,6 +22,7 @@ class Quizquestions
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name:'id', type:'integer', nullable:false)]
+    #[Groups(["quiz"])]
     private ?int $id = null;
 
     /*
@@ -35,6 +37,7 @@ class Quizquestions
         min: 5,
         minMessage: "Une option doit contenir au moins {{ limit }} caractères.",
     )]
+    #[Groups(["quiz"])]
     private ?string $question = null;
 
     /*
@@ -51,6 +54,7 @@ class Quizquestions
         minMessage: "Une option doit contenir au moins {{ limit }} caractères.",
         maxMessage: "Une option ne peut contenir que {{ limit }} caractères.",
     )]
+    #[Groups(["quiz"])]
     private ?string $option1 = null;
 
     /*
@@ -67,6 +71,7 @@ class Quizquestions
         minMessage: "Une option doit contenir au moins {{ limit }} caractères.",
         maxMessage: "Une option ne peut contenir que {{ limit }} caractères.",
     )]
+    #[Groups(["quiz"])]
     private ?string $option2 = null;
 
     /*
@@ -83,6 +88,7 @@ class Quizquestions
         minMessage: "Une option doit contenir au moins {{ limit }} caractères.",
         maxMessage: "Une option ne peut contenir que {{ limit }} caractères.",
     )]
+    #[Groups(["quiz"])]
     private ?string $option3 = null;
 
     /*
@@ -92,6 +98,7 @@ class Quizquestions
      * @ORM\Column(name="reponse", type="string", length=100, nullable=false)
      */
     #[ORM\Column(length:100)]
+    #[Groups(["quiz"])]
     private ?string $reponse = null;
 
     /*
@@ -105,6 +112,7 @@ class Quizquestions
      */
     #[ORM\ManyToOne(targetEntity: Quiz::class)]
     #[ORM\JoinColumn(name: 'idQuiz', referencedColumnName: 'id')]
+    #[Groups(["quiz"])]
     private ?Quiz $idquiz = null;
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)

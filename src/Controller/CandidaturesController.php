@@ -177,8 +177,7 @@ class CandidaturesController extends AbstractController
     public function  updateCandidature(ManagerRegistry $doctrine, Request $request,  $id,
      CandidaturesRepository $repo, FlashyNotifier $flashy, SessionInterface $session): Response
     {
-        if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()=='Candidat' &&
-        $session->get('user')->getId()== $repo->find($id)->getId()){
+        if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()=='Candidat' ){
         $candidature = $repo->find($id);
         if ($request->isMethod('POST')) {
             $filecv = $request->files->get('cv');
@@ -212,8 +211,7 @@ class CandidaturesController extends AbstractController
       FlashyNotifier $flashy,
       MailerService $mailer, SessionInterface $session): Response
     {
-        if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()=='Candidat' &&
-        $session->get('user')->getId()== $repo->find($id)->getId()){
+        if ($session->get('user') && $session->get('user')->getIdrole()->getDescription()=='Candidat' ){
         $objet = $repo->find($id);
         /* setting the email data */
         $to = $objet->getIdoffre()->getIdrecruteur()->getEmail();

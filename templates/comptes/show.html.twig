@@ -184,6 +184,18 @@
                   </div>
                    <div class="col-sm-12">
                       <a class="btn btn-primary " href="{{ path('app_comptes_edit', {'idcompte': compte.idcompte}) }}" class="btn btn-primary"> Modifier</a>
+                      <a class="btn btn-danger" id="delete" href="{{ path('deleteCompte', {'idcompte': compte.idcompte}) }}" class="btn btn-danger">Désactiver mon compte</a>
+                      <script>
+    // add a click listener to the "Désactiver mon compte" link
+    document.querySelector('#delete').addEventListener('click', function(event) {
+      // show a confirmation dialog
+      if (!confirm('Voulez-vous vraiment désactiver votre compte ?')) {
+        // if the user clicks "Cancel" in the confirmation dialog, prevent the link from being executed
+        event.preventDefault();
+      }
+    });
+  </script>
+
                     </div>
                   
                   </div>

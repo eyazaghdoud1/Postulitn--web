@@ -91,7 +91,7 @@ class EntretiensController extends AbstractController
             $twilio_phone_number =  $this->getParameter('twilio_number');
             $receiver_phone_number = '+216' . $entretien->getIdcandidature()->getIdcandidat()->getTel();;
 
-            $client = new Client($account_sid, $auth_token);
+            /*$client = new Client($account_sid, $auth_token);
 
             $client->messages->create(
                 $receiver_phone_number,
@@ -100,7 +100,7 @@ class EntretiensController extends AbstractController
                     "body" => "~1"
                     //"body" => "Un entretien a été modifié."
                 )
-            );
+            );*/
 
             /* setting the email data */
             $to = $entretien->getIdcandidature()->getIdcandidat()->getEmail();
@@ -113,7 +113,7 @@ class EntretiensController extends AbstractController
                 . 'Type : ' . $entretien->getType() . ' / '
                 . 'Lieu : " ' . $entretien->getLieu();;
             /* sending the email  */
-            $mailer->sendEmail($to, $subject, $content);
+           // $mailer->sendEmail($to, $subject, $content);
 
             //return new Response('Ok');
             /* setting the email data */
@@ -322,16 +322,16 @@ class EntretiensController extends AbstractController
             $receiver_phone_number = '+216' . $entretien->getIdcandidature()->getIdcandidat()->getTel();
 
 
-            $client = new Client($account_sid, $auth_token);
+           // $client = new Client($account_sid, $auth_token);
 
-            $client->messages->create(
+          /*  $client->messages->create(
                 $receiver_phone_number,
                 array(
                     "from" => $twilio_phone_number,
                     "body" => "+1"
                     //"body" => "Un entretien a été planifié."
                 )
-            );
+            );*/
             /* setting the email data */
             $to = $entretien->getIdcandidature()->getIdcandidat()->getEmail();
             $subject = 'Nouvel entretien';
@@ -343,7 +343,7 @@ class EntretiensController extends AbstractController
                 . 'Type : ' . $entretien->getType() . ' / '
                 . 'Lieu : " ' . $entretien->getLieu();
             /* sending the email  */
-            $mailer->sendEmail($to, $subject, $content);
+            //$mailer->sendEmail($to, $subject, $content);
             // notif
             $flashy->success('Le candidat a été notifié de l\'ajout de l\'entretien.');
             return $this->redirectToRoute('readEntretiens');
@@ -391,6 +391,7 @@ class EntretiensController extends AbstractController
             $twilio_phone_number =  $this->getParameter('twilio_number');
             $receiver_phone_number = '+216' . $entretien->getIdcandidature()->getIdcandidat()->getTel();;
 
+            /*
             $client = new Client($account_sid, $auth_token);
 
             $client->messages->create(
@@ -401,7 +402,7 @@ class EntretiensController extends AbstractController
                     //"body" => "Un entretien a été modifié."
                 )
             );
-
+*/
             /* setting the email data */
             $to = $entretien->getIdcandidature()->getIdcandidat()->getEmail();
             $subject = 'Modification d\'entretien';
@@ -413,7 +414,7 @@ class EntretiensController extends AbstractController
                 . 'Type : ' . $entretien->getType() . ' / '
                 . 'Lieu : " ' . $entretien->getLieu();;
             /* sending the email  */
-            $mailer->sendEmail($to, $subject, $content);
+            //$mailer->sendEmail($to, $subject, $content);
             // notif
             $flashy->success('Le candidat a été notifié de la modification de l\'entretien.');
 
@@ -457,11 +458,11 @@ class EntretiensController extends AbstractController
         $em->flush();
 
         /* sending an email to the candidat */
-        $mailer->sendEmail($to, $subject, $content);
+        //$mailer->sendEmail($to, $subject, $content);
 
         /* sending a message to "candidat" once "recruteur" deletes a meeting  */
 
-        $account_sid = $this->getParameter('twilio_account_sid');
+      /*  $account_sid = $this->getParameter('twilio_account_sid');
         $auth_token =  $this->getParameter('twilio_auth_token');
         $twilio_phone_number =  $this->getParameter('twilio_number');
         $receiver_phone_number = '+216' . $phone_number;
@@ -476,6 +477,7 @@ class EntretiensController extends AbstractController
                 // "body" => "Un entretien a été annulé."
             )
         );
+        */
         // notif
         $flashy->warning('Le candidat a été notifié de l\'annulation de son entretien.');
 
